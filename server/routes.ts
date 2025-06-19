@@ -106,6 +106,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/content-stats", async (req, res) => {
+    try {
+      const allWords = await storage.getWords(300);
+      
+      // Chapter breakdown
+      const chapterStats = [
+        { id: 1, name: "Al-Fatiha", arabicName: "الفاتحة", words: allWords.filter(w => w.chapter === 1).length, verses: 7 },
+        { id: 2, name: "Al-Baqarah", arabicName: "البقرة", words: allWords.filter(w => w.chapter === 2).length, verses: 286 },
+        { id: 36, name: "Yasin", arabicName: "يس", words: allWords.filter(w => w.chapter === 36).length, verses: 83 },
+        { id: 55, name: "Ar-Rahman", arabicName: "الرحمن", words: allWords.filter(w => w.chapter === 55).length, verses: 78 },
+        { id: 67, name: "Al-Mulk", arabicName: "الملك", words: allWords.filter(w => w.chapter === 67).length, verses: 30 },
+        { id: 112, name: "Al-Ikhlas", arabicName: "الإخلاص", words: allWords.filter(w => w.chapter === 112).length, verses: 4 },
+        { id: 113, name: "Al-Falaq", arabicName: "الفلق", words: allWords.filter(w => w.chapter === 113).length, verses: 5 },
+        { id: 114, name: "An-Nas", arabicName: "الناس", words: allWords.filter(w => w.chapter === 114).length, verses: 6 }
+      ];
+      
+      // Overall stats
+      const totalWords = allWords.length;
+      const totalFrequency = allWords.reduce((sum, word) => sum + (word.frequency || 0), 0);
+      const categories = Array.from(new Set(allWords.map(w => w.category))).length;
+      
+      res.json({
+        totalWords,
+        totalFrequency,
+        categories,
+        chapterBreakdown: chapterStats.filter(ch => ch.words > 0)
+      });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to fetch content stats", error: error.message });
+    }
+  });
+
   app.get("/api/words/chapter/:chapterId", async (req, res) => {
     try {
       const chapterId = parseInt(req.params.chapterId);

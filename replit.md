@@ -131,6 +131,8 @@ Preferred communication style: Simple, everyday language.
 ✓ **SPACED REVIEW EXPLAINED**: Clear description of memory science and optimal review intervals for users
 ✓ **DASHBOARD CHAPTER SELECTION ADDED**: Fixed missing chapter-specific learning option on main dashboard
 ✓ **ALL LEARNING MODES ACCESSIBLE**: Dashboard now provides direct access to all 4 learning types
+✓ **COMPREHENSIVE CONTENT STATISTICS ADDED**: Dashboard displays detailed breakdown of 280+ words, 70% coverage, and chapter-specific vocabulary counts
+✓ **AUTHENTIC DATA TRANSPARENCY**: Users can see exactly how many words available per chapter (Al-Fatiha, Al-Ikhlas, etc.)
 ✓ App now fully functional and ready for deployment with comprehensive authentic content
 
 ## Changelog

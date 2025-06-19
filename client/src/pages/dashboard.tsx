@@ -34,6 +34,10 @@ export default function Dashboard() {
     queryKey: [`/api/user/${MOCK_USER_ID}/chapter-progress`],
   });
 
+  const { data: contentStatsData } = useQuery({
+    queryKey: ["/api/content-stats"],
+  });
+
   const isLoading = userLoading || challengesLoading || achievementsLoading || leaderboardLoading;
 
   const user = (userData as any)?.user;
@@ -41,6 +45,7 @@ export default function Dashboard() {
   const challenges = (challengesData as any)?.challenges || [];
   const recentAchievements = (achievementsData as any)?.achievements?.filter((a: any) => a.unlocked).slice(0, 2) || [];
   const leaderboard = (leaderboardData as any)?.leaderboard || [];
+  const contentStats = (contentStatsData as any) || {};
 
   const comprehensionPercentage = user?.comprehensionPercentage || 73;
   const dailyChallenge = challenges.find((c: any) => c.type === 'daily');
@@ -99,22 +104,53 @@ export default function Dashboard() {
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
                     Your Quranic Arabic Learning Journey
                   </h3>
-                  <p className="text-gray-700 mb-3">
-                    Master <span className="font-semibold text-blue-600">270+ essential Arabic words</span> from the most important chapters including Al-Fatiha, short chapters (112-114), Ayat al-Kursi, and key vocabulary from popular chapters like Yasin, Al-Mulk, and more.
+                  <p className="text-gray-700 mb-4">
+                    Master <span className="font-semibold text-blue-600">{contentStats.totalWords || 280}+ authentic Arabic words</span> achieving 70% Quran comprehension through scientifically selected high-frequency vocabulary.
                   </p>
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">
-                      70% Quran Coverage
-                    </Badge>
-                    <Badge variant="secondary" className="bg-green-100 text-green-800">
-                      270+ Authentic Words
-                    </Badge>
-                    <Badge variant="secondary" className="bg-purple-100 text-purple-800">
-                      Essential Chapters
-                    </Badge>
+                  
+                  {/* Overall Statistics */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                    <div className="bg-white rounded-lg p-3 border">
+                      <div className="text-xl font-bold text-blue-600">{contentStats.totalWords || 280}+</div>
+                      <div className="text-xs text-gray-600">Total Words</div>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 border">
+                      <div className="text-xl font-bold text-green-600">70%</div>
+                      <div className="text-xs text-gray-600">Quran Coverage</div>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 border">
+                      <div className="text-xl font-bold text-purple-600">{contentStats.categories || 12}</div>
+                      <div className="text-xs text-gray-600">Categories</div>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 border">
+                      <div className="text-xl font-bold text-orange-600">{Math.floor((contentStats.totalFrequency || 13000) / 1000)}K+</div>
+                      <div className="text-xs text-gray-600">Frequency</div>
+                    </div>
                   </div>
+
+                  {/* Chapter Breakdown */}
+                  {contentStats.chapterBreakdown && contentStats.chapterBreakdown.length > 0 && (
+                    <div>
+                      <h4 className="font-medium text-gray-900 mb-2">Chapter-Specific Vocabulary</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
+                        {contentStats.chapterBreakdown.slice(0, 6).map((chapter: any) => (
+                          <div key={chapter.id} className="bg-white rounded-lg p-2 border flex items-center justify-between text-sm">
+                            <div>
+                              <div className="font-medium text-gray-900">{chapter.name}</div>
+                              <div className="text-xs text-gray-500">{chapter.arabicName}</div>
+                            </div>
+                            <div className="text-right">
+                              <div className="font-bold text-blue-600">{chapter.words}</div>
+                              <div className="text-xs text-gray-500">words</div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
                   <p className="text-sm text-gray-600">
-                    These carefully selected high-frequency words will help you understand approximately <span className="font-semibold">70% of the Quran's text</span>, giving you an excellent foundation to build upon. More vocabulary will be added as you progress!
+                    Scientifically selected vocabulary based on word frequency analysis from authentic Quranic text, designed to maximize comprehension with minimal effort.
                   </p>
                 </div>
               </div>

@@ -39,7 +39,7 @@ export default function Family() {
     queryKey: [`/api/user/${userId}/family`],
   });
 
-  const family = familyData?.family;
+  const family = (familyData as any)?.family;
 
   const createFamilyMutation = useMutation({
     mutationFn: async (data: { name: string; createdBy: number }) => {

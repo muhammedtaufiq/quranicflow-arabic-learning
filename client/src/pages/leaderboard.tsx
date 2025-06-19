@@ -10,7 +10,7 @@ export default function Leaderboard() {
     queryKey: ["/api/leaderboard?limit=50"],
   });
 
-  const leaderboard = leaderboardData?.leaderboard || [];
+  const leaderboard = (leaderboardData as any)?.leaderboard || [];
 
   if (isLoading) {
     return (

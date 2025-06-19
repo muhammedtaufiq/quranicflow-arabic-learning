@@ -34,13 +34,13 @@ export default function Profile() {
     queryKey: ["/api/leaderboard?limit=100"],
   });
 
-  const user = userData?.user;
-  const stats = userData?.stats;
-  const achievements = achievementsData?.achievements || [];
-  const leaderboard = leaderboardData?.leaderboard || [];
+  const user = (userData as any)?.user;
+  const stats = (userData as any)?.stats;
+  const achievements = (achievementsData as any)?.achievements || [];
+  const leaderboard = (leaderboardData as any)?.leaderboard || [];
   
-  const unlockedAchievements = achievements.filter(a => a.unlocked);
-  const userRank = leaderboard.findIndex(u => u.id === MOCK_USER_ID) + 1;
+  const unlockedAchievements = achievements.filter((a: any) => a.unlocked);
+  const userRank = leaderboard.findIndex((u: any) => u.id === MOCK_USER_ID) + 1;
   
   const comprehensionPercentage = user?.comprehensionPercentage || 73;
   const levelProgress = ((user?.xp || 0) % 1000) / 1000 * 100;

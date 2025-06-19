@@ -485,23 +485,23 @@ export class MemStorage implements IStorage {
       // Difficulty 3 continued
       { id: 45, arabic: "رَزَقْنَاهُمْ", transliteration: "razaqnahum", meaning: "We provided them", frequency: 20, difficulty: 3, category: "verbs", chapter: null, verse: null, rootWord: "ر ز ق", examples: ["ومما رزقناهم ينفقون"] },
       { id: 46, arabic: "أُنزِلَ", transliteration: "unzila", meaning: "was revealed", frequency: 35, difficulty: 3, category: "verbs", chapter: null, verse: null, rootWord: "ن ز ل", examples: ["وما أنزل إليك"] },
-      { id: 33, arabic: "الْآخِرَةِ", transliteration: "al-akhirah", meaning: "the hereafter", frequency: 115, difficulty: 3, category: "concepts", rootWord: "ا خ ر", examples: ["وبالآخرة هم يوقنون"] },
-      { id: 34, arabic: "يُوقِنُونَ", transliteration: "yuqinun", meaning: "they are certain", frequency: 15, difficulty: 3, category: "verbs", rootWord: "ي ق ن", examples: ["وبالآخرة هم يوقنون"] },
-      { id: 35, arabic: "هُدًى", transliteration: "hudan", meaning: "guidance", frequency: 80, difficulty: 3, category: "concepts", rootWord: "ه د ي", examples: ["هدى للمتقين"] },
+      { id: 33, arabic: "الْآخِرَةِ", transliteration: "al-akhirah", meaning: "the hereafter", frequency: 115, difficulty: 3, category: "concepts", chapter: null, verse: null, rootWord: "ا خ ر", examples: ["وبالآخرة هم يوقنون"] },
+      { id: 34, arabic: "يُوقِنُونَ", transliteration: "yuqinun", meaning: "they are certain", frequency: 15, difficulty: 3, category: "verbs", chapter: null, verse: null, rootWord: "ي ق ن", examples: ["وبالآخرة هم يوقنون"] },
+      { id: 35, arabic: "هُدًى", transliteration: "hudan", meaning: "guidance", frequency: 80, difficulty: 3, category: "concepts", chapter: null, verse: null, rootWord: "ه د ي", examples: ["هدى للمتقين"] },
 
       // Difficulty 4 - Advanced vocabulary
-      { id: 36, arabic: "الْمُفْلِحُونَ", transliteration: "al-muflihun", meaning: "the successful", frequency: 40, difficulty: 4, category: "believers", rootWord: "ف ل ح", examples: ["أولئك هم المفلحون"] },
-      { id: 37, arabic: "يُخَادِعُونَ", transliteration: "yukhadiun", meaning: "they deceive", frequency: 5, difficulty: 4, category: "verbs", rootWord: "خ د ع", examples: ["يخادعون الله"] },
-      { id: 38, arabic: "الْمُنَافِقِينَ", transliteration: "al-munafiqeen", meaning: "the hypocrites", frequency: 30, difficulty: 4, category: "people", rootWord: "ن ف ق", examples: ["ومن الناس من يقول آمنا"] },
-      { id: 39, arabic: "يَشْعُرُونَ", transliteration: "yash'urun", meaning: "they perceive", frequency: 15, difficulty: 4, category: "verbs", rootWord: "ش ع ر", examples: ["وما يشعرون"] },
-      { id: 40, arabic: "مَرَضٌ", transliteration: "maradun", meaning: "disease", frequency: 20, difficulty: 4, category: "concepts", rootWord: "م ر ض", examples: ["في قلوبهم مرض"] },
+      { id: 36, arabic: "الْمُفْلِحُونَ", transliteration: "al-muflihun", meaning: "the successful", frequency: 40, difficulty: 4, category: "believers", chapter: null, verse: null, rootWord: "ف ل ح", examples: ["أولئك هم المفلحون"] },
+      { id: 37, arabic: "يُخَادِعُونَ", transliteration: "yukhadiun", meaning: "they deceive", frequency: 5, difficulty: 4, category: "verbs", chapter: null, verse: null, rootWord: "خ د ع", examples: ["يخادعون الله"] },
+      { id: 38, arabic: "الْمُنَافِقِينَ", transliteration: "al-munafiqeen", meaning: "the hypocrites", frequency: 30, difficulty: 4, category: "people", chapter: null, verse: null, rootWord: "ن ف ق", examples: ["ومن الناس من يقول آمنا"] },
+      { id: 39, arabic: "يَشْعُرُونَ", transliteration: "yash'urun", meaning: "they perceive", frequency: 15, difficulty: 4, category: "verbs", chapter: null, verse: null, rootWord: "ش ع ر", examples: ["وما يشعرون"] },
+      { id: 40, arabic: "مَرَضٌ", transliteration: "maradun", meaning: "disease", frequency: 20, difficulty: 4, category: "concepts", chapter: null, verse: null, rootWord: "م ر ض", examples: ["في قلوبهم مرض"] },
 
       // Difficulty 5 - Most advanced
-      { id: 41, arabic: "يَسْتَهْزِئُونَ", transliteration: "yastahziun", meaning: "they mock", frequency: 8, difficulty: 5, category: "verbs", rootWord: "ه ز ا", examples: ["الله يستهزئ بهم"] },
-      { id: 42, arabic: "طُغْيَانِهِمْ", transliteration: "tughyanihim", meaning: "their transgression", frequency: 10, difficulty: 5, category: "concepts", rootWord: "ط غ ي", examples: ["في طغيانهم يعمهون"] },
-      { id: 43, arabic: "يَعْمَهُونَ", transliteration: "ya'mahun", meaning: "they wander blindly", frequency: 6, difficulty: 5, category: "verbs", rootWord: "ع م ه", examples: ["في طغيانهم يعمهون"] },
-      { id: 44, arabic: "اشْتَرَوُا", transliteration: "ishtaraw", meaning: "they bought", frequency: 12, difficulty: 5, category: "verbs", rootWord: "ش ر ي", examples: ["اشتروا الضلالة بالهدى"] },
-      { id: 45, arabic: "الضَّلَالَةَ", transliteration: "ad-dalalah", meaning: "misguidance", frequency: 25, difficulty: 5, category: "concepts", rootWord: "ض ل ل", examples: ["اشتروا الضلالة بالهدى"] }
+      { id: 41, arabic: "يَسْتَهْزِئُونَ", transliteration: "yastahziun", meaning: "they mock", frequency: 8, difficulty: 5, category: "verbs", chapter: null, verse: null, rootWord: "ه ز ا", examples: ["الله يستهزئ بهم"] },
+      { id: 42, arabic: "طُغْيَانِهِمْ", transliteration: "tughyanihim", meaning: "their transgression", frequency: 10, difficulty: 5, category: "concepts", chapter: null, verse: null, rootWord: "ط غ ي", examples: ["في طغيانهم يعمهون"] },
+      { id: 43, arabic: "يَعْمَهُونَ", transliteration: "ya'mahun", meaning: "they wander blindly", frequency: 6, difficulty: 5, category: "verbs", chapter: null, verse: null, rootWord: "ع م ه", examples: ["في طغيانهم يعمهون"] },
+      { id: 44, arabic: "اشْتَرَوُا", transliteration: "ishtaraw", meaning: "they bought", frequency: 12, difficulty: 5, category: "verbs", chapter: null, verse: null, rootWord: "ش ر ي", examples: ["اشتروا الضلالة بالهدى"] },
+      { id: 45, arabic: "الضَّلَالَةَ", transliteration: "ad-dalalah", meaning: "misguidance", frequency: 25, difficulty: 5, category: "concepts", chapter: null, verse: null, rootWord: "ض ل ل", examples: ["اشتروا الضلالة بالهدى"] }
     ];
 
     sampleWords.forEach(word => {
@@ -578,6 +578,8 @@ export class MemStorage implements IStorage {
       frequency: insertWord.frequency || 1,
       difficulty: insertWord.difficulty || 1,
       category: insertWord.category || "general",
+      chapter: insertWord.chapter || null,
+      verse: insertWord.verse || null,
       rootWord: insertWord.rootWord || null,
       examples: Array.isArray(insertWord.examples) ? insertWord.examples as string[] : null,
     };

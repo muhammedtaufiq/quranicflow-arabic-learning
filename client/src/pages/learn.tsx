@@ -91,7 +91,7 @@ export default function Learn() {
   }
 
   if (isLearning && selectedType) {
-    const words = selectedType === 'review' ? reviewData?.words : wordsData?.words;
+    const words = selectedType === 'review' ? (reviewData as any)?.words : (wordsData as any)?.words;
     
     return (
       <div className="min-h-screen bg-gray-50 safe-area-pb md:pb-0">

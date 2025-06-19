@@ -36,15 +36,15 @@ export default function Dashboard() {
 
   const isLoading = userLoading || challengesLoading || achievementsLoading || leaderboardLoading;
 
-  const user = userData?.user;
-  const stats = userData?.stats;
-  const challenges = challengesData?.challenges || [];
-  const recentAchievements = achievementsData?.achievements?.filter(a => a.unlocked).slice(0, 2) || [];
-  const leaderboard = leaderboardData?.leaderboard || [];
+  const user = (userData as any)?.user;
+  const stats = (userData as any)?.stats;
+  const challenges = (challengesData as any)?.challenges || [];
+  const recentAchievements = (achievementsData as any)?.achievements?.filter((a: any) => a.unlocked).slice(0, 2) || [];
+  const leaderboard = (leaderboardData as any)?.leaderboard || [];
 
   const comprehensionPercentage = user?.comprehensionPercentage || 73;
-  const dailyChallenge = challenges.find(c => c.type === 'daily');
-  const weeklyChallenge = challenges.find(c => c.type === 'weekly');
+  const dailyChallenge = challenges.find((c: any) => c.type === 'daily');
+  const weeklyChallenge = challenges.find((c: any) => c.type === 'weekly');
 
   if (isLoading) {
     return (
@@ -128,7 +128,7 @@ export default function Dashboard() {
             {/* Quran Progress Chart */}
             <div className="mb-8">
               <QuranProgressChart 
-                userProgress={chapterProgressData?.chapterProgress || {}}
+                userProgress={(chapterProgressData as any)?.chapterProgress || {}}
                 onChapterSelect={(chapterNumber) => {
                   window.location.href = `/learn?chapter=${chapterNumber}`;
                 }}
@@ -245,7 +245,7 @@ export default function Dashboard() {
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Achievements</h3>
                 
                 <div className="space-y-3">
-                  {recentAchievements.map((achievement) => (
+                  {recentAchievements.map((achievement: any) => (
                     <AchievementBadge
                       key={achievement.id}
                       icon={achievement.icon}
@@ -278,7 +278,7 @@ export default function Dashboard() {
                 </div>
                 
                 <div className="space-y-3">
-                  {leaderboard.map((player, index) => (
+                  {leaderboard.map((player: any, index: number) => (
                     <div key={player.id} className="flex items-center space-x-3">
                       <div className="w-6 h-6 flex items-center justify-center">
                         {index === 0 ? (

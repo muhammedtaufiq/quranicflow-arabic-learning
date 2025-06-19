@@ -13,9 +13,9 @@ export default function Achievements() {
     queryKey: [`/api/user/${MOCK_USER_ID}/achievements`],
   });
 
-  const achievements = achievementsData?.achievements || [];
-  const unlockedAchievements = achievements.filter(a => a.unlocked);
-  const lockedAchievements = achievements.filter(a => !a.unlocked);
+  const achievements = (achievementsData as any)?.achievements || [];
+  const unlockedAchievements = achievements.filter((a: any) => a.unlocked);
+  const lockedAchievements = achievements.filter((a: any) => !a.unlocked);
 
   const getAchievementIcon = (type: string, icon: string) => {
     switch (type) {
@@ -35,7 +35,7 @@ export default function Achievements() {
   const stats = {
     totalAchievements: achievements.length,
     unlockedCount: unlockedAchievements.length,
-    totalXpFromAchievements: unlockedAchievements.reduce((sum, a) => sum + a.xpReward, 0),
+    totalXpFromAchievements: unlockedAchievements.reduce((sum: number, a: any) => sum + a.xpReward, 0),
   };
 
   return (
@@ -93,7 +93,7 @@ export default function Achievements() {
           
           {unlockedAchievements.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {unlockedAchievements.map((achievement) => (
+              {unlockedAchievements.map((achievement: any) => (
                 <Card key={achievement.id} className="border-2 border-accent/20 bg-gradient-to-br from-accent/5 to-accent/10">
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between mb-3">
@@ -134,7 +134,7 @@ export default function Achievements() {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {lockedAchievements.map((achievement) => (
+            {lockedAchievements.map((achievement: any) => (
               <Card key={achievement.id} className="opacity-60 border-dashed">
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-3">

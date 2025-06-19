@@ -153,7 +153,10 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-primary hover:bg-primary/90">
+                  <Button 
+                    className="w-full bg-primary hover:bg-primary/90"
+                    onClick={() => window.location.href = '/learn?type=daily'}
+                  >
                     Continue Challenge
                   </Button>
                 </CardContent>

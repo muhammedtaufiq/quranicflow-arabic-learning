@@ -129,6 +129,8 @@ Preferred communication style: Simple, everyday language.
 ✓ **SENTENCE STRUCTURE NAVIGATION FIXED**: Grammar learning mode now works with authentic Arabic sentence patterns
 ✓ **VOCABULARY EXPANDED**: Added 280+ authentic Quranic words (exceeding 270 target) with complete coverage
 ✓ **SPACED REVIEW EXPLAINED**: Clear description of memory science and optimal review intervals for users
+✓ **DASHBOARD CHAPTER SELECTION ADDED**: Fixed missing chapter-specific learning option on main dashboard
+✓ **ALL LEARNING MODES ACCESSIBLE**: Dashboard now provides direct access to all 4 learning types
 ✓ App now fully functional and ready for deployment with comprehensive authentic content
 
 ## Changelog

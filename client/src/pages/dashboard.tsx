@@ -198,6 +198,17 @@ export default function Dashboard() {
               />
               
               <LearningCard
+                icon={<div className="text-accent text-xl">📖</div>}
+                title="Chapter Learning"
+                description="Study specific Quranic chapters (Al-Fatiha, Al-Ikhlas, etc.)"
+                duration="~15 minutes"
+                xpReward={75}
+                badge="Chapters"
+                badgeColor="yellow"
+                href="/learn?type=chapters"
+              />
+              
+              <LearningCard
                 icon={<div className="text-accent text-xl">🔄</div>}
                 title="Spaced Review"
                 description="Review 12 words due for practice"
@@ -207,7 +218,6 @@ export default function Dashboard() {
                 badgeColor="purple"
                 href="/learn?type=review"
               />
-              
 
             </div>
           </div>

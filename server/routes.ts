@@ -216,6 +216,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Daily challenge route
+  app.get("/api/user/:userId/daily-challenge", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      
+      // Get user's current level to determine appropriate difficulty
+      const user = await storage.getUser(userId);
+      const userLevel = user?.level || 1;
+      
+      // Calculate difficulty based on user level (1-5 scale)
+      const difficulty = Math.min(Math.ceil(userLevel / 2), 5);
+      
+      // Get words appropriate for daily challenge (mix of new and review)
+      const newWords = await storage.getWords(5, difficulty);
+      const reviewWords = await storage.getUserWordsForReview(userId);
+      
+      // Combine new words with review words, prioritizing review
+      const challengeWords = [
+        ...reviewWords.slice(0, 3), // Up to 3 review words
+        ...newWords.slice(0, 7 - reviewWords.slice(0, 3).length) // Fill remaining with new words
+      ];
+      
+      res.json({ words: challengeWords });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get daily challenge", error: error.message });
+    }
+  });
+
   // Achievements routes
   app.get("/api/achievements", async (req, res) => {
     try {

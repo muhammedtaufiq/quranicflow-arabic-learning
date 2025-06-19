@@ -30,7 +30,23 @@ export default function Learn() {
     enabled: selectedType === 'review' || typeFromUrl === 'review'
   });
 
+  const { data: dailyChallengeData } = useQuery({
+    queryKey: [`/api/user/${MOCK_USER_ID}/daily-challenge`],
+    enabled: selectedType === 'daily' || typeFromUrl === 'daily'
+  });
+
   const learningTypes = [
+    {
+      id: 'daily',
+      title: 'Daily Word Challenge',
+      description: 'Automated daily learning path - no chapter selection needed',
+      icon: <Trophy className="w-6 h-6 text-orange-600" />,
+      badge: 'Daily Challenge',
+      badgeColor: 'bg-orange-100 text-orange-800',
+      xpReward: 60,
+      duration: '~12 minutes',
+      recommended: true
+    },
     {
       id: 'words',
       title: 'Word Discovery',
@@ -42,24 +58,14 @@ export default function Learn() {
       duration: '~10 minutes'
     },
     {
-      id: 'grammar',
-      title: 'Grammar Practice',
-      description: 'Master Arabic sentence structure and syntax',
-      icon: <Trophy className="w-6 h-6 text-secondary" />,
-      badge: 'Grammar',
+      id: 'chapters',
+      title: 'Chapter-Specific Learning',
+      description: 'Choose specific Quranic chapters to study (Al-Fatiha, short chapters, etc.)',
+      icon: <BookOpen className="w-6 h-6 text-accent" />,
+      badge: 'Chapters',
       badgeColor: 'bg-blue-100 text-blue-800',
       xpReward: 75,
       duration: '~15 minutes'
-    },
-    {
-      id: 'verses',
-      title: 'Quranic Verses',
-      description: 'Understand verses word by word',
-      icon: <BookOpen className="w-6 h-6 text-accent" />,
-      badge: 'Verses',
-      badgeColor: 'bg-yellow-100 text-yellow-800',
-      xpReward: 100,
-      duration: '~20 minutes'
     },
     {
       id: 'review',
@@ -74,8 +80,14 @@ export default function Learn() {
   ];
 
   const handleStartLearning = (type: string) => {
-    setSelectedType(type);
-    setIsLearning(true);
+    if (type === 'chapters') {
+      // Show chapter selection interface instead of immediately starting
+      setSelectedType(type);
+      setIsLearning(false);
+    } else {
+      setSelectedType(type);
+      setIsLearning(true);
+    }
   };
 
   const handleBackToSelection = () => {
@@ -84,14 +96,108 @@ export default function Learn() {
     navigate('/learn');
   };
 
+  // Chapter selection data
+  const availableChapters = [
+    { id: 1, name: "Al-Fatiha", arabicName: "الفاتحة", verses: 7, difficulty: 1, description: "The Opening - Foundation of prayer" },
+    { id: 2, name: "Al-Baqarah", arabicName: "البقرة", verses: 286, difficulty: 5, description: "The Cow - Includes Ayat al-Kursi" },
+    { id: 112, name: "Al-Ikhlas", arabicName: "الإخلاص", verses: 4, difficulty: 1, description: "The Sincerity - Pure monotheism" },
+    { id: 113, name: "Al-Falaq", arabicName: "الفلق", verses: 5, difficulty: 1, description: "The Daybreak - Protection prayer" },
+    { id: 114, name: "An-Nas", arabicName: "الناس", verses: 6, difficulty: 1, description: "Mankind - Protection prayer" },
+    { id: 36, name: "Yasin", arabicName: "يس", verses: 83, difficulty: 4, description: "Heart of the Quran" },
+    { id: 67, name: "Al-Mulk", arabicName: "الملك", verses: 30, difficulty: 3, description: "The Sovereignty" },
+    { id: 55, name: "Ar-Rahman", arabicName: "الرحمن", verses: 78, difficulty: 3, description: "The Beneficent" }
+  ];
+
+  const handleChapterSelect = (chapterId: number) => {
+    setIsLearning(true);
+    // Update the query to include the selected chapter
+    navigate(`/learn?type=chapters&chapter=${chapterId}`);
+  };
+
   // Auto-start if type is specified in URL
   if (typeFromUrl && !selectedType && !isLearning) {
     setSelectedType(typeFromUrl);
-    setIsLearning(true);
+    if (typeFromUrl !== 'chapters') {
+      setIsLearning(true);
+    }
+  }
+
+  // Show chapter selection interface
+  if (selectedType === 'chapters' && !isLearning) {
+    return (
+      <div className="min-h-screen bg-gray-50 safe-area-pb md:pb-0">
+        <NavigationHeader />
+        
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="mb-8">
+            <Button
+              onClick={() => setSelectedType(null)}
+              variant="ghost"
+              className="mb-4"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Learning Options
+            </Button>
+            
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">Choose a Quranic Chapter</h1>
+            <p className="text-gray-600">Select a specific chapter to focus your learning on its vocabulary and verses</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {availableChapters.map((chapter) => (
+              <Card key={chapter.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="text-2xl font-bold text-primary">
+                      {chapter.id}
+                    </div>
+                    <Badge className={`
+                      ${chapter.difficulty <= 2 ? 'bg-green-100 text-green-800' : ''}
+                      ${chapter.difficulty === 3 ? 'bg-yellow-100 text-yellow-800' : ''}
+                      ${chapter.difficulty >= 4 ? 'bg-red-100 text-red-800' : ''}
+                    `}>
+                      Level {chapter.difficulty}
+                    </Badge>
+                  </div>
+                  
+                  <h3 className="font-semibold text-gray-900 mb-1">{chapter.name}</h3>
+                  <h4 className="text-lg text-gray-700 mb-2" dir="rtl">{chapter.arabicName}</h4>
+                  <p className="text-sm text-gray-600 mb-3">{chapter.description}</p>
+                  
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs text-gray-500">{chapter.verses} verses</span>
+                    <div className="flex items-center space-x-1 text-accent">
+                      <BookOpen className="w-3 h-3" />
+                      <span className="text-xs">Chapter Study</span>
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={() => handleChapterSelect(chapter.id)}
+                    className="w-full bg-primary hover:bg-primary/90"
+                  >
+                    Study This Chapter
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </main>
+
+        <BottomNavigation currentPage="learn" />
+      </div>
+    );
   }
 
   if (isLearning && selectedType) {
-    const words = selectedType === 'review' ? (reviewData as any)?.words : (wordsData as any)?.words;
+    let words;
+    if (selectedType === 'review') {
+      words = (reviewData as any)?.words;
+    } else if (selectedType === 'daily') {
+      words = (dailyChallengeData as any)?.words;
+    } else {
+      words = (wordsData as any)?.words;
+    }
     
     return (
       <div className="min-h-screen bg-gray-50 safe-area-pb md:pb-0">
@@ -134,10 +240,22 @@ export default function Learn() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
           {learningTypes.map((type) => (
-            <Card key={type.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+            <Card key={type.id} className={`hover:shadow-lg transition-shadow cursor-pointer ${
+              type.recommended ? 'border-2 border-orange-200 bg-gradient-to-br from-orange-50 to-yellow-50' : ''
+            }`}>
               <CardContent className="p-6">
+                {type.recommended && (
+                  <div className="mb-3">
+                    <Badge className="bg-orange-500 text-white">
+                      ⭐ Recommended
+                    </Badge>
+                  </div>
+                )}
+                
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                    type.recommended ? 'bg-orange-100' : 'bg-gray-50'
+                  }`}>
                     {type.icon}
                   </div>
                   <Badge className={type.badgeColor}>
@@ -157,9 +275,13 @@ export default function Learn() {
 
                 <Button
                   onClick={() => handleStartLearning(type.id)}
-                  className="w-full bg-primary hover:bg-primary/90"
+                  className={`w-full ${
+                    type.recommended 
+                      ? 'bg-orange-600 hover:bg-orange-700 text-white' 
+                      : 'bg-primary hover:bg-primary/90'
+                  }`}
                 >
-                  Start Learning
+                  {type.recommended ? 'Start Daily Challenge' : 'Start Learning'}
                 </Button>
               </CardContent>
             </Card>

@@ -36,6 +36,19 @@ export default function Dashboard() {
 
   const isLoading = userLoading || challengesLoading || achievementsLoading || leaderboardLoading;
 
+  // Debug logging
+  console.log('Dashboard loading states:', {
+    userLoading,
+    challengesLoading, 
+    achievementsLoading,
+    leaderboardLoading,
+    isLoading,
+    userData: !!userData,
+    challengesData: !!challengesData,
+    achievementsData: !!achievementsData,
+    leaderboardData: !!leaderboardData
+  });
+
   const user = (userData as any)?.user;
   const stats = (userData as any)?.stats;
   const challenges = (challengesData as any)?.challenges || [];

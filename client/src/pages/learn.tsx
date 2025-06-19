@@ -42,6 +42,11 @@ export default function Learn() {
     enabled: selectedType === 'chapters' && !!chapterFromUrl
   });
 
+  const { data: grammarData } = useQuery({
+    queryKey: ["/api/grammar-patterns"],
+    enabled: selectedType === 'grammar' || typeFromUrl === 'grammar'
+  });
+
   const learningTypes = [
     {
       id: 'daily',
@@ -75,9 +80,19 @@ export default function Learn() {
       duration: '~15 minutes'
     },
     {
+      id: 'grammar',
+      title: 'Sentence Structure',
+      description: 'Learn Arabic word order and grammar patterns from Quranic examples',
+      icon: <Trophy className="w-6 h-6 text-secondary" />,
+      badge: 'Grammar',
+      badgeColor: 'bg-orange-100 text-orange-800',
+      xpReward: 75,
+      duration: '~15 minutes'
+    },
+    {
       id: 'review',
       title: 'Spaced Review',
-      description: 'Review 15+ previously learned words using proven memory techniques',
+      description: 'Review words you learned before at scientifically optimal intervals to move them into long-term memory',
       icon: <RotateCcw className="w-6 h-6 text-purple-600" />,
       badge: 'Memory Science',
       badgeColor: 'bg-purple-100 text-purple-800',
@@ -213,6 +228,10 @@ export default function Learn() {
       // For chapters, use words from specific chapter
       words = (chapterWordsData as any)?.words;
       isDataLoading = !chapterWordsData && selectedType === 'chapters' && !!chapterFromUrl;
+    } else if (selectedType === 'grammar') {
+      // For grammar, use grammar pattern words
+      words = (grammarData as any)?.words;
+      isDataLoading = !grammarData && (selectedType === 'grammar' || typeFromUrl === 'grammar');
     } else {
       words = (wordsData as any)?.words;
       isDataLoading = !wordsData && (selectedType === 'words' || typeFromUrl === 'words');

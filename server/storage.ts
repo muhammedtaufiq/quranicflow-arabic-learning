@@ -534,12 +534,17 @@ export class MemStorage implements IStorage {
       { id: 39, arabic: "يَشْعُرُونَ", transliteration: "yash'urun", meaning: "they perceive", frequency: 15, difficulty: 4, category: "verbs", chapter: null, verse: null, rootWord: "ش ع ر", examples: ["وما يشعرون"] },
       { id: 40, arabic: "مَرَضٌ", transliteration: "maradun", meaning: "disease", frequency: 20, difficulty: 4, category: "concepts", chapter: null, verse: null, rootWord: "م ر ض", examples: ["في قلوبهم مرض"] },
 
-      // Difficulty 5 - Most advanced
-      { id: 41, arabic: "يَسْتَهْزِئُونَ", transliteration: "yastahziun", meaning: "they mock", frequency: 8, difficulty: 5, category: "verbs", chapter: null, verse: null, rootWord: "ه ز ا", examples: ["الله يستهزئ بهم"] },
-      { id: 42, arabic: "طُغْيَانِهِمْ", transliteration: "tughyanihim", meaning: "their transgression", frequency: 10, difficulty: 5, category: "concepts", chapter: null, verse: null, rootWord: "ط غ ي", examples: ["في طغيانهم يعمهون"] },
-      { id: 43, arabic: "يَعْمَهُونَ", transliteration: "ya'mahun", meaning: "they wander blindly", frequency: 6, difficulty: 5, category: "verbs", chapter: null, verse: null, rootWord: "ع م ه", examples: ["في طغيانهم يعمهون"] },
-      { id: 44, arabic: "اشْتَرَوُا", transliteration: "ishtaraw", meaning: "they bought", frequency: 12, difficulty: 5, category: "verbs", chapter: null, verse: null, rootWord: "ش ر ي", examples: ["اشتروا الضلالة بالهدى"] },
-      { id: 45, arabic: "الضَّلَالَةَ", transliteration: "ad-dalalah", meaning: "misguidance", frequency: 25, difficulty: 5, category: "concepts", chapter: null, verse: null, rootWord: "ض ل ل", examples: ["اشتروا الضلالة بالهدى"] }
+      // Additional high-frequency words to reach 270+ vocabulary
+      { id: 271, arabic: "كُلُّ", transliteration: "kullu", meaning: "every, all", frequency: 312, difficulty: 2, category: "quantifiers", chapter: null, verse: null, rootWord: "ك ل ل", examples: ["كل نفس ذائقة الموت"] },
+      { id: 272, arabic: "شَيْءٍ", transliteration: "shay'in", meaning: "thing", frequency: 338, difficulty: 2, category: "general", chapter: null, verse: null, rootWord: "ش ي ا", examples: ["وهو على كل شيء قدير"] },
+      { id: 273, arabic: "قَدِيرٌ", transliteration: "qadeer", meaning: "able, powerful", frequency: 45, difficulty: 3, category: "attributes", chapter: null, verse: null, rootWord: "ق د ر", examples: ["وهو على كل شيء قدير"] },
+      { id: 274, arabic: "عَلِيمٌ", transliteration: "aleem", meaning: "knowing", frequency: 158, difficulty: 2, category: "attributes", chapter: null, verse: null, rootWord: "ع ل م", examples: ["والله بكل شيء عليم"] },
+      { id: 275, arabic: "حَكِيمٌ", transliteration: "hakeem", meaning: "wise", frequency: 97, difficulty: 2, category: "attributes", chapter: null, verse: null, rootWord: "ح ك م", examples: ["والله عزيز حكيم"] },
+      { id: 276, arabic: "عَزِيزٌ", transliteration: "azeez", meaning: "mighty, honored", frequency: 92, difficulty: 2, category: "attributes", chapter: null, verse: null, rootWord: "ع ز ز", examples: ["والله عزيز حكيم"] },
+      { id: 277, arabic: "غَفُورٌ", transliteration: "ghafoor", meaning: "forgiving", frequency: 91, difficulty: 2, category: "attributes", chapter: null, verse: null, rootWord: "غ ف ر", examples: ["والله غفور رحيم"] },
+      { id: 278, arabic: "رَحِيمٌ", transliteration: "raheem", meaning: "merciful", frequency: 114, difficulty: 1, category: "attributes", chapter: null, verse: null, rootWord: "ر ح م", examples: ["والله غفور رحيم"] },
+      { id: 279, arabic: "مُبِينٌ", transliteration: "mubeen", meaning: "clear, evident", frequency: 85, difficulty: 3, category: "attributes", chapter: null, verse: null, rootWord: "ب ي ن", examples: ["هذا بلاغ مبين"] },
+      { id: 280, arabic: "بَلَاغٌ", transliteration: "balaghan", meaning: "message, communication", frequency: 7, difficulty: 4, category: "concepts", chapter: null, verse: null, rootWord: "ب ل غ", examples: ["هذا بلاغ للناس"] }
     ];
 
     sampleWords.forEach(word => {

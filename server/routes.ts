@@ -137,6 +137,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/grammar-patterns", async (req, res) => {
+    try {
+      // Get grammar-focused words that show sentence structure patterns
+      const allWords = await storage.getWords(50);
+      const grammarWords = allWords.filter(word => 
+        ['particles', 'pronouns', 'verbs'].includes(word.category) ||
+        word.rootWord === 'ف ع ل' || // verb patterns
+        word.arabic.includes('ال') || // definite article
+        word.meaning.includes('and') || word.meaning.includes('to') || word.meaning.includes('in')
+      ).slice(0, 10);
+      
+      res.json({ words: grammarWords });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get grammar patterns", error: error.message });
+    }
+  });
+
   app.post("/api/words/generate", async (req, res) => {
     try {
       const { difficulty = 1, category = "general", count = 5, excludeWords = [] } = req.body;

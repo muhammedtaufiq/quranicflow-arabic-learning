@@ -24,11 +24,25 @@
   --ring: hsl(20, 14.3%, 4.1%);
   --radius: 0.5rem;
   
+  /* Mobile safe area for bottom navigation */
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  
   /* Custom game colors */
   --success: hsl(158, 64%, 52%);
   --error: hsl(0, 84%, 60%);
   --warning: hsl(43, 96%, 56%);
   --info: hsl(217, 91%, 60%);
+}
+
+/* Safe area utilities for mobile navigation */
+.safe-area-pb {
+  padding-bottom: calc(6rem + var(--safe-area-inset-bottom, 0px));
+  margin-bottom: 1rem;
+}
+
+/* Bottom navigation safe spacing */
+.bottom-nav-safe {
+  bottom: var(--safe-area-inset-bottom, 0px);
 }
 
 .dark {

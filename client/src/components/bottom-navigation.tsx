@@ -48,7 +48,7 @@ export function BottomNavigation({ currentPage }: BottomNavigationProps) {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 bottom-nav-safe">
       <div className="grid grid-cols-5 h-16">
         {navItems.map((item) => {
           const Icon = item.icon;

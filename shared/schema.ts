@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, serial, integer, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -86,6 +86,59 @@ export const learningStreak = pgTable("learning_streak", {
   lastStreakDate: timestamp("last_streak_date").defaultNow(),
 });
 
+export const families = pgTable("families", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  inviteCode: text("invite_code").unique().notNull(),
+  createdBy: integer("created_by").notNull().references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const familyMembers = pgTable("family_members", {
+  id: serial("id").primaryKey(),
+  familyId: integer("family_id").notNull().references(() => families.id),
+  userId: integer("user_id").notNull().references(() => users.id),
+  role: text("role").default("member"), // admin, member
+  nickname: text("nickname"),
+  joinedAt: timestamp("joined_at").defaultNow(),
+});
+
+export const familyChallenges = pgTable("family_challenges", {
+  id: serial("id").primaryKey(),
+  familyId: integer("family_id").notNull().references(() => families.id),
+  title: text("title").notNull(),
+  description: text("description"),
+  targetType: text("target_type").notNull(), // words_learned, xp_gained, streak_days
+  targetValue: integer("target_value").notNull(),
+  xpReward: integer("xp_reward").default(0),
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date").notNull(),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const familyChallengeProgress = pgTable("family_challenge_progress", {
+  id: serial("id").primaryKey(),
+  challengeId: integer("challenge_id").notNull().references(() => familyChallenges.id),
+  userId: integer("user_id").notNull().references(() => users.id),
+  currentProgress: integer("current_progress").default(0),
+  isCompleted: boolean("is_completed").default(false),
+  completedAt: timestamp("completed_at"),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const dailyReminders = pgTable("daily_reminders", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  reminderTime: text("reminder_time").notNull(), // HH:MM format
+  isEnabled: boolean("is_enabled").default(true),
+  timezone: text("timezone").default("UTC"),
+  lastSentAt: timestamp("last_sent_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
@@ -124,6 +177,35 @@ export const insertLearningStreakSchema = createInsertSchema(learningStreak).omi
   lastStreakDate: true,
 });
 
+export const insertFamilySchema = createInsertSchema(families).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertFamilyMemberSchema = createInsertSchema(familyMembers).omit({
+  id: true,
+  joinedAt: true,
+});
+
+export const insertFamilyChallengeSchema = createInsertSchema(familyChallenges).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertFamilyChallengeProgressSchema = createInsertSchema(familyChallengeProgress).omit({
+  id: true,
+  completedAt: true,
+  updatedAt: true,
+});
+
+export const insertDailyReminderSchema = createInsertSchema(dailyReminders).omit({
+  id: true,
+  lastSentAt: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -148,3 +230,18 @@ export type InsertUserChallengeProgress = z.infer<typeof insertUserChallengeProg
 
 export type LearningStreak = typeof learningStreak.$inferSelect;
 export type InsertLearningStreak = z.infer<typeof insertLearningStreakSchema>;
+
+export type Family = typeof families.$inferSelect;
+export type InsertFamily = z.infer<typeof insertFamilySchema>;
+
+export type FamilyMember = typeof familyMembers.$inferSelect;
+export type InsertFamilyMember = z.infer<typeof insertFamilyMemberSchema>;
+
+export type FamilyChallenge = typeof familyChallenges.$inferSelect;
+export type InsertFamilyChallenge = z.infer<typeof insertFamilyChallengeSchema>;
+
+export type FamilyChallengeProgress = typeof familyChallengeProgress.$inferSelect;
+export type InsertFamilyChallengeProgress = z.infer<typeof insertFamilyChallengeProgressSchema>;
+
+export type DailyReminder = typeof dailyReminders.$inferSelect;
+export type InsertDailyReminder = z.infer<typeof insertDailyReminderSchema>;

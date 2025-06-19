@@ -1,13 +1,19 @@
 import {
   users, words, userWordProgress, achievements, userAchievements,
   challenges, userChallengeProgress, learningStreak,
+  families, familyMembers, familyChallenges, familyChallengeProgress, dailyReminders,
   type User, type InsertUser, type Word, type InsertWord,
   type UserWordProgress, type InsertUserWordProgress,
   type Achievement, type InsertAchievement,
   type UserAchievement, type InsertUserAchievement,
   type Challenge, type InsertChallenge,
   type UserChallengeProgress, type InsertUserChallengeProgress,
-  type LearningStreak, type InsertLearningStreak
+  type LearningStreak, type InsertLearningStreak,
+  type Family, type InsertFamily,
+  type FamilyMember, type InsertFamilyMember,
+  type FamilyChallenge, type InsertFamilyChallenge,
+  type FamilyChallengeProgress, type InsertFamilyChallengeProgress,
+  type DailyReminder, type InsertDailyReminder
 } from "@shared/schema";
 
 export interface IStorage {
@@ -49,6 +55,28 @@ export interface IStorage {
   
   // Leaderboard
   getLeaderboard(limit: number): Promise<User[]>;
+  
+  // Family operations
+  createFamily(family: InsertFamily): Promise<Family>;
+  getFamily(id: number): Promise<Family | undefined>;
+  getFamilyByInviteCode(inviteCode: string): Promise<Family | undefined>;
+  getFamilyMembers(familyId: number): Promise<FamilyMember[]>;
+  addFamilyMember(member: InsertFamilyMember): Promise<FamilyMember>;
+  updateFamilyMember(id: number, updates: Partial<FamilyMember>): Promise<FamilyMember | undefined>;
+  getUserFamily(userId: number): Promise<Family | undefined>;
+  
+  // Family challenges
+  createFamilyChallenge(challenge: InsertFamilyChallenge): Promise<FamilyChallenge>;
+  getFamilyChallenges(familyId: number): Promise<FamilyChallenge[]>;
+  getFamilyChallengeProgress(challengeId: number, userId: number): Promise<FamilyChallengeProgress | undefined>;
+  createFamilyChallengeProgress(progress: InsertFamilyChallengeProgress): Promise<FamilyChallengeProgress>;
+  updateFamilyChallengeProgress(id: number, updates: Partial<FamilyChallengeProgress>): Promise<FamilyChallengeProgress | undefined>;
+  
+  // Daily reminders
+  getUserReminder(userId: number): Promise<DailyReminder | undefined>;
+  createReminder(reminder: InsertDailyReminder): Promise<DailyReminder>;
+  updateReminder(id: number, updates: Partial<DailyReminder>): Promise<DailyReminder | undefined>;
+  getRemindersToSend(): Promise<DailyReminder[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -60,6 +88,11 @@ export class MemStorage implements IStorage {
   private challenges: Map<number, Challenge> = new Map();
   private userChallengeProgress: Map<number, UserChallengeProgress> = new Map();
   private learningStreaks: Map<number, LearningStreak> = new Map();
+  private families: Map<number, Family> = new Map();
+  private familyMembers: Map<number, FamilyMember> = new Map();
+  private familyChallenges: Map<number, FamilyChallenge> = new Map();
+  private familyChallengeProgress: Map<number, FamilyChallengeProgress> = new Map();
+  private dailyReminders: Map<number, DailyReminder> = new Map();
   
   private currentUserId = 1;
   private currentWordId = 1;
@@ -69,6 +102,11 @@ export class MemStorage implements IStorage {
   private currentChallengeId = 1;
   private currentChallengeProgressId = 1;
   private currentStreakId = 1;
+  private currentFamilyId = 1;
+  private currentFamilyMemberId = 1;
+  private currentFamilyChallengeId = 1;
+  private currentFamilyChallengeProgressId = 1;
+  private currentReminderId = 1;
 
   constructor() {
     this.initializeData();
@@ -399,6 +437,156 @@ export class MemStorage implements IStorage {
     return Array.from(this.users.values())
       .sort((a, b) => b.xp - a.xp)
       .slice(0, limit);
+  }
+
+  // Family operations
+  async createFamily(insertFamily: InsertFamily): Promise<Family> {
+    const family: Family = {
+      id: this.currentFamilyId++,
+      ...insertFamily,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    this.families.set(family.id, family);
+    return family;
+  }
+
+  async getFamily(id: number): Promise<Family | undefined> {
+    return this.families.get(id);
+  }
+
+  async getFamilyByInviteCode(inviteCode: string): Promise<Family | undefined> {
+    return Array.from(this.families.values()).find(f => f.inviteCode === inviteCode);
+  }
+
+  async getFamilyMembers(familyId: number): Promise<FamilyMember[]> {
+    return Array.from(this.familyMembers.values()).filter(m => m.familyId === familyId);
+  }
+
+  async addFamilyMember(insertMember: InsertFamilyMember): Promise<FamilyMember> {
+    const member: FamilyMember = {
+      id: this.currentFamilyMemberId++,
+      familyId: insertMember.familyId,
+      userId: insertMember.userId,
+      role: insertMember.role || "member",
+      nickname: insertMember.nickname || null,
+      joinedAt: new Date(),
+    };
+    this.familyMembers.set(member.id, member);
+    return member;
+  }
+
+  async updateFamilyMember(id: number, updates: Partial<FamilyMember>): Promise<FamilyMember | undefined> {
+    const member = this.familyMembers.get(id);
+    if (!member) return undefined;
+    
+    const updatedMember = { ...member, ...updates };
+    this.familyMembers.set(id, updatedMember);
+    return updatedMember;
+  }
+
+  async getUserFamily(userId: number): Promise<Family | undefined> {
+    const membership = Array.from(this.familyMembers.values()).find(m => m.userId === userId);
+    if (!membership) return undefined;
+    return this.families.get(membership.familyId);
+  }
+
+  // Family challenges
+  async createFamilyChallenge(insertChallenge: InsertFamilyChallenge): Promise<FamilyChallenge> {
+    const challenge: FamilyChallenge = {
+      id: this.currentFamilyChallengeId++,
+      familyId: insertChallenge.familyId,
+      title: insertChallenge.title,
+      description: insertChallenge.description || null,
+      targetType: insertChallenge.targetType,
+      targetValue: insertChallenge.targetValue,
+      xpReward: insertChallenge.xpReward || 0,
+      startDate: insertChallenge.startDate,
+      endDate: insertChallenge.endDate,
+      isActive: insertChallenge.isActive ?? true,
+      createdAt: new Date(),
+    };
+    this.familyChallenges.set(challenge.id, challenge);
+    return challenge;
+  }
+
+  async getFamilyChallenges(familyId: number): Promise<FamilyChallenge[]> {
+    return Array.from(this.familyChallenges.values()).filter(c => c.familyId === familyId);
+  }
+
+  async getFamilyChallengeProgress(challengeId: number, userId: number): Promise<FamilyChallengeProgress | undefined> {
+    return Array.from(this.familyChallengeProgress.values())
+      .find(p => p.challengeId === challengeId && p.userId === userId);
+  }
+
+  async createFamilyChallengeProgress(insertProgress: InsertFamilyChallengeProgress): Promise<FamilyChallengeProgress> {
+    const progress: FamilyChallengeProgress = {
+      id: this.currentFamilyChallengeProgressId++,
+      challengeId: insertProgress.challengeId,
+      userId: insertProgress.userId,
+      currentProgress: insertProgress.currentProgress || 0,
+      isCompleted: insertProgress.isCompleted || false,
+      completedAt: null,
+      updatedAt: new Date(),
+    };
+    this.familyChallengeProgress.set(progress.id, progress);
+    return progress;
+  }
+
+  async updateFamilyChallengeProgress(id: number, updates: Partial<FamilyChallengeProgress>): Promise<FamilyChallengeProgress | undefined> {
+    const progress = this.familyChallengeProgress.get(id);
+    if (!progress) return undefined;
+    
+    const updatedProgress = { 
+      ...progress, 
+      ...updates,
+      updatedAt: new Date(),
+      ...(updates.isCompleted && { completedAt: new Date() })
+    };
+    this.familyChallengeProgress.set(id, updatedProgress);
+    return updatedProgress;
+  }
+
+  // Daily reminders
+  async getUserReminder(userId: number): Promise<DailyReminder | undefined> {
+    return Array.from(this.dailyReminders.values()).find(r => r.userId === userId);
+  }
+
+  async createReminder(insertReminder: InsertDailyReminder): Promise<DailyReminder> {
+    const reminder: DailyReminder = {
+      id: this.currentReminderId++,
+      userId: insertReminder.userId,
+      reminderTime: insertReminder.reminderTime,
+      isEnabled: insertReminder.isEnabled ?? true,
+      timezone: insertReminder.timezone || "UTC",
+      lastSentAt: null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    this.dailyReminders.set(reminder.id, reminder);
+    return reminder;
+  }
+
+  async updateReminder(id: number, updates: Partial<DailyReminder>): Promise<DailyReminder | undefined> {
+    const reminder = this.dailyReminders.get(id);
+    if (!reminder) return undefined;
+    
+    const updatedReminder = { 
+      ...reminder, 
+      ...updates,
+      updatedAt: new Date(),
+    };
+    this.dailyReminders.set(id, updatedReminder);
+    return updatedReminder;
+  }
+
+  async getRemindersToSend(): Promise<DailyReminder[]> {
+    const now = new Date();
+    const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+    
+    return Array.from(this.dailyReminders.values())
+      .filter(r => r.isEnabled && r.reminderTime === currentTime && 
+        (!r.lastSentAt || r.lastSentAt.toDateString() !== now.toDateString()));
   }
 }
 

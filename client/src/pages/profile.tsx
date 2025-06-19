@@ -15,7 +15,8 @@ import {
   Star,
   Settings,
   BookOpen,
-  Target
+  Target,
+  Users
 } from "lucide-react";
 
 const MOCK_USER_ID = 1;
@@ -216,6 +217,47 @@ export default function Profile() {
                   </div>
                 </div>
               )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Family Learning Section */}
+        <Card className="mb-8">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900 flex items-center space-x-2">
+                <Users className="w-5 h-5" />
+                <span>Family Learning</span>
+              </h2>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => window.location.href = '/family'}
+              >
+                Manage Family
+              </Button>
+            </div>
+            
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                  <Users className="w-6 h-6 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-gray-900">
+                    Learn Arabic Together
+                  </p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    Create or join a family group to track progress together, set group challenges, and motivate each other in your Quranic Arabic journey.
+                  </p>
+                </div>
+                <Button 
+                  size="sm"
+                  onClick={() => window.location.href = '/family'}
+                >
+                  Get Started
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>

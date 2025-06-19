@@ -346,6 +346,168 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Family routes
+  app.post("/api/families", async (req, res) => {
+    try {
+      const { name, createdBy } = req.body;
+      const inviteCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+      
+      const family = await storage.createFamily({
+        name,
+        inviteCode,
+        createdBy
+      });
+
+      // Add creator as admin member
+      await storage.addFamilyMember({
+        familyId: family.id,
+        userId: createdBy,
+        role: "admin",
+        nickname: null
+      });
+
+      res.json({ family });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to create family", error: error.message });
+    }
+  });
+
+  app.post("/api/families/join", async (req, res) => {
+    try {
+      const { inviteCode, userId, nickname } = req.body;
+      
+      const family = await storage.getFamilyByInviteCode(inviteCode);
+      if (!family) {
+        return res.status(404).json({ message: "Family not found with this invite code" });
+      }
+
+      // Check if user is already a member
+      const existingMembers = await storage.getFamilyMembers(family.id);
+      if (existingMembers.some(m => m.userId === userId)) {
+        return res.status(400).json({ message: "You are already a member of this family" });
+      }
+
+      const member = await storage.addFamilyMember({
+        familyId: family.id,
+        userId,
+        role: "member",
+        nickname
+      });
+
+      res.json({ family, member });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to join family", error: error.message });
+    }
+  });
+
+  app.get("/api/user/:userId/family", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const family = await storage.getUserFamily(userId);
+      
+      if (!family) {
+        return res.json({ family: null });
+      }
+
+      const members = await storage.getFamilyMembers(family.id);
+      const memberDetails = await Promise.all(
+        members.map(async (member) => {
+          const user = await storage.getUser(member.userId);
+          return {
+            ...member,
+            user: user ? {
+              id: user.id,
+              displayName: user.displayName,
+              xp: user.xp,
+              level: user.level,
+              streakDays: user.streakDays
+            } : null
+          };
+        })
+      );
+
+      res.json({ 
+        family: {
+          ...family,
+          members: memberDetails
+        }
+      });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get family", error: error.message });
+    }
+  });
+
+  app.get("/api/family/:familyId/challenges", async (req, res) => {
+    try {
+      const familyId = parseInt(req.params.familyId);
+      const challenges = await storage.getFamilyChallenges(familyId);
+      res.json({ challenges });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get family challenges", error: error.message });
+    }
+  });
+
+  app.post("/api/family/:familyId/challenges", async (req, res) => {
+    try {
+      const familyId = parseInt(req.params.familyId);
+      const { title, description, targetType, targetValue, xpReward, startDate, endDate } = req.body;
+      
+      const challenge = await storage.createFamilyChallenge({
+        familyId,
+        title,
+        description,
+        targetType,
+        targetValue,
+        xpReward,
+        startDate: new Date(startDate),
+        endDate: new Date(endDate)
+      });
+
+      res.json({ challenge });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to create family challenge", error: error.message });
+    }
+  });
+
+  // Daily reminders routes
+  app.get("/api/user/:userId/reminder", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const reminder = await storage.getUserReminder(userId);
+      res.json({ reminder });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get reminder", error: error.message });
+    }
+  });
+
+  app.post("/api/user/:userId/reminder", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const { reminderTime, isEnabled, timezone } = req.body;
+      
+      const existingReminder = await storage.getUserReminder(userId);
+      
+      if (existingReminder) {
+        const updatedReminder = await storage.updateReminder(existingReminder.id, {
+          reminderTime,
+          isEnabled,
+          timezone
+        });
+        res.json({ reminder: updatedReminder });
+      } else {
+        const reminder = await storage.createReminder({
+          userId,
+          reminderTime,
+          isEnabled,
+          timezone
+        });
+        res.json({ reminder });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to save reminder", error: error.message });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

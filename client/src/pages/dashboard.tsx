@@ -198,18 +198,7 @@ export default function Dashboard() {
               />
               
               <LearningCard
-                icon={<div className="text-accent text-xl">📖</div>}
-                title="Surah Al-Fatiha"
-                description="Understand verse meanings word by word"
-                duration="~20 minutes"
-                xpReward={100}
-                badge="Verses"
-                badgeColor="yellow"
-                href="/learn?type=verses"
-              />
-              
-              <LearningCard
-                icon={<div className="text-purple-600 text-xl">🔄</div>}
+                icon={<div className="text-accent text-xl">🔄</div>}
                 title="Spaced Review"
                 description="Review 12 words due for practice"
                 duration="~8 minutes"
@@ -218,6 +207,8 @@ export default function Dashboard() {
                 badgeColor="purple"
                 href="/learn?type=review"
               />
+              
+
             </div>
           </div>
 

@@ -15,19 +15,12 @@ export default function Learn() {
   const [location, navigate] = useLocation();
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [isLearning, setIsLearning] = useState(false);
+  const [selectedChapterId, setSelectedChapterId] = useState<number | null>(null);
 
-  // Parse query parameters with useState to track changes
-  const [urlParams, setUrlParams] = useState(() => new URLSearchParams(location.split('?')[1] || ''));
-  const [typeFromUrl, setTypeFromUrl] = useState(() => urlParams.get('type'));
-  const [chapterFromUrl, setChapterFromUrl] = useState(() => urlParams.get('chapter'));
-
-  // Update URL params when location changes
-  useEffect(() => {
-    const newParams = new URLSearchParams(location.split('?')[1] || '');
-    setUrlParams(newParams);
-    setTypeFromUrl(newParams.get('type'));
-    setChapterFromUrl(newParams.get('chapter'));
-  }, [location]);
+  // Parse query parameters directly from location
+  const urlParams = new URLSearchParams(location.split('?')[1] || '');
+  const typeFromUrl = urlParams.get('type');
+  const chapterFromUrl = urlParams.get('chapter');
 
   const { data: wordsData } = useQuery({
     queryKey: ["/api/words?limit=10&difficulty=1"],
@@ -45,10 +38,12 @@ export default function Learn() {
   });
 
   // Get chapter from URL if chapter-specific learning
-  const { data: chapterWordsData } = useQuery({
-    queryKey: [`/api/words/chapter/${chapterFromUrl}`],
-    enabled: (selectedType === 'chapters' || typeFromUrl === 'chapters') && !!chapterFromUrl
+  const { data: chapterWordsData, isLoading: chapterWordsLoading } = useQuery({
+    queryKey: [`/api/words/chapter/${chapterFromUrl || selectedChapterId}`],
+    enabled: (selectedType === 'chapters' || typeFromUrl === 'chapters') && !!(chapterFromUrl || selectedChapterId)
   });
+
+
 
   const { data: grammarData } = useQuery({
     queryKey: ["/api/grammar-patterns"],
@@ -139,17 +134,17 @@ export default function Learn() {
   ];
 
   const handleChapterSelect = (chapterId: number) => {
-    // Update the query to include the selected chapter
+    // Set state directly to trigger the data query
+    setSelectedType('chapters');
+    setSelectedChapterId(chapterId);
+    setIsLearning(true);
+    // Update URL for proper routing
     navigate(`/learn?type=chapters&chapter=${chapterId}`);
-    // Force re-render and start learning
-    setTimeout(() => {
-      setIsLearning(true);
-    }, 100);
   };
 
   // Handle URL parameter changes with useEffect
   useEffect(() => {
-    if (typeFromUrl && !selectedType) {
+    if (typeFromUrl && typeFromUrl !== selectedType) {
       setSelectedType(typeFromUrl);
       if (typeFromUrl !== 'chapters') {
         setIsLearning(true);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavigationHeader } from "@/components/navigation-header";
 import { BottomNavigation } from "@/components/bottom-navigation";
 import { LearningSession } from "@/components/learning-session";
@@ -16,9 +16,18 @@ export default function Learn() {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [isLearning, setIsLearning] = useState(false);
 
-  // Parse query parameters
-  const urlParams = new URLSearchParams(location.split('?')[1] || '');
-  const typeFromUrl = urlParams.get('type');
+  // Parse query parameters with useState to track changes
+  const [urlParams, setUrlParams] = useState(() => new URLSearchParams(location.split('?')[1] || ''));
+  const [typeFromUrl, setTypeFromUrl] = useState(() => urlParams.get('type'));
+  const [chapterFromUrl, setChapterFromUrl] = useState(() => urlParams.get('chapter'));
+
+  // Update URL params when location changes
+  useEffect(() => {
+    const newParams = new URLSearchParams(location.split('?')[1] || '');
+    setUrlParams(newParams);
+    setTypeFromUrl(newParams.get('type'));
+    setChapterFromUrl(newParams.get('chapter'));
+  }, [location]);
 
   const { data: wordsData } = useQuery({
     queryKey: ["/api/words?limit=10&difficulty=1"],
@@ -36,10 +45,9 @@ export default function Learn() {
   });
 
   // Get chapter from URL if chapter-specific learning
-  const chapterFromUrl = urlParams.get('chapter');
   const { data: chapterWordsData } = useQuery({
     queryKey: [`/api/words/chapter/${chapterFromUrl}`],
-    enabled: selectedType === 'chapters' && !!chapterFromUrl
+    enabled: (selectedType === 'chapters' || typeFromUrl === 'chapters') && !!chapterFromUrl
   });
 
   const { data: grammarData } = useQuery({
@@ -131,21 +139,26 @@ export default function Learn() {
   ];
 
   const handleChapterSelect = (chapterId: number) => {
-    setIsLearning(true);
     // Update the query to include the selected chapter
     navigate(`/learn?type=chapters&chapter=${chapterId}`);
+    // Force re-render and start learning
+    setTimeout(() => {
+      setIsLearning(true);
+    }, 100);
   };
 
-  // Auto-start if type is specified in URL
-  if (typeFromUrl && !selectedType && !isLearning) {
-    setSelectedType(typeFromUrl);
-    if (typeFromUrl !== 'chapters') {
-      setIsLearning(true);
-    } else if (typeFromUrl === 'chapters' && chapterFromUrl) {
-      // If chapter is also specified in URL, start learning immediately
-      setIsLearning(true);
+  // Handle URL parameter changes with useEffect
+  useEffect(() => {
+    if (typeFromUrl && !selectedType) {
+      setSelectedType(typeFromUrl);
+      if (typeFromUrl !== 'chapters') {
+        setIsLearning(true);
+      } else if (typeFromUrl === 'chapters' && chapterFromUrl) {
+        // If chapter is also specified in URL, start learning immediately
+        setIsLearning(true);
+      }
     }
-  }
+  }, [typeFromUrl, chapterFromUrl, selectedType]);
 
   // Show chapter selection interface
   if (selectedType === 'chapters' && !isLearning) {
@@ -228,6 +241,8 @@ export default function Learn() {
       // For chapters, use words from specific chapter
       words = (chapterWordsData as any)?.words;
       isDataLoading = !chapterWordsData && selectedType === 'chapters' && !!chapterFromUrl;
+      
+
     } else if (selectedType === 'grammar') {
       // For grammar, use grammar pattern words
       words = (grammarData as any)?.words;

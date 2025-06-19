@@ -13,21 +13,23 @@ import { Flame, Star, Brain, Clock, Trophy, Medal, Crown, Calendar } from "lucid
 const MOCK_USER_ID = 1;
 
 export default function Dashboard() {
-  const { data: userData } = useQuery({
+  const { data: userData, isLoading: userLoading } = useQuery({
     queryKey: [`/api/user/${MOCK_USER_ID}`],
   });
 
-  const { data: challengesData } = useQuery({
+  const { data: challengesData, isLoading: challengesLoading } = useQuery({
     queryKey: [`/api/user/${MOCK_USER_ID}/challenges`],
   });
 
-  const { data: achievementsData } = useQuery({
+  const { data: achievementsData, isLoading: achievementsLoading } = useQuery({
     queryKey: [`/api/user/${MOCK_USER_ID}/achievements`],
   });
 
-  const { data: leaderboardData } = useQuery({
+  const { data: leaderboardData, isLoading: leaderboardLoading } = useQuery({
     queryKey: ["/api/leaderboard?limit=3"],
   });
+
+  const isLoading = userLoading || challengesLoading || achievementsLoading || leaderboardLoading;
 
   const user = userData?.user;
   const stats = userData?.stats;
@@ -38,6 +40,17 @@ export default function Dashboard() {
   const comprehensionPercentage = user?.comprehensionPercentage || 73;
   const dailyChallenge = challenges.find(c => c.type === 'daily');
   const weeklyChallenge = challenges.find(c => c.type === 'weekly');
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 pb-20 md:pb-0 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading your Arabic learning journey...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 md:pb-0">

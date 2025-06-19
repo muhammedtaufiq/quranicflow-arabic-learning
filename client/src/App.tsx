@@ -7,6 +7,7 @@ import Dashboard from "@/pages/dashboard";
 import Learn from "@/pages/learn";
 import Achievements from "@/pages/achievements";
 import Profile from "@/pages/profile";
+import Leaderboard from "@/pages/leaderboard";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -15,6 +16,7 @@ function Router() {
       <Route path="/" component={Dashboard} />
       <Route path="/learn" component={Learn} />
       <Route path="/achievements" component={Achievements} />
+      <Route path="/leaderboard" component={Leaderboard} />
       <Route path="/profile" component={Profile} />
       <Route component={NotFound} />
     </Switch>

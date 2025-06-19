@@ -3,6 +3,7 @@ import { BottomNavigation } from "@/components/bottom-navigation";
 import { LearningCard } from "@/components/learning-card";
 import { ProgressCircle } from "@/components/progress-circle";
 import { AchievementBadge } from "@/components/achievement-badge";
+import { QuranProgressChart } from "@/components/quran-progress-chart";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,10 @@ export default function Dashboard() {
 
   const { data: leaderboardData, isLoading: leaderboardLoading } = useQuery({
     queryKey: ["/api/leaderboard?limit=3"],
+  });
+
+  const { data: chapterProgressData } = useQuery({
+    queryKey: [`/api/user/${MOCK_USER_ID}/chapter-progress`],
   });
 
   const isLoading = userLoading || challengesLoading || achievementsLoading || leaderboardLoading;
@@ -119,6 +124,16 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
             )}
+
+            {/* Quran Progress Chart */}
+            <div className="mb-8">
+              <QuranProgressChart 
+                userProgress={chapterProgressData?.chapterProgress || {}}
+                onChapterSelect={(chapterNumber) => {
+                  window.location.href = `/learn?chapter=${chapterNumber}`;
+                }}
+              />
+            </div>
 
             {/* Learning Session Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

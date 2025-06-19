@@ -155,49 +155,69 @@ export class MemStorage implements IStorage {
 
     // Initialize comprehensive Arabic vocabulary database
     const sampleWords: Word[] = [
-      // Difficulty 1 - Most Essential Words
-      { id: 1, arabic: "اللَّهُ", transliteration: "Allah", meaning: "Allah (God)", frequency: 2697, difficulty: 1, category: "divine", rootWord: "ا ل ه", examples: ["قل هو الله أحد"] },
-      { id: 2, arabic: "الْحَمْدُ", transliteration: "al-hamdu", meaning: "praise, thanks", frequency: 100, difficulty: 1, category: "essential", rootWord: "ح م د", examples: ["الحمد لله رب العالمين"] },
-      { id: 3, arabic: "لِلَّهِ", transliteration: "lillahi", meaning: "to Allah", frequency: 95, difficulty: 1, category: "essential", rootWord: "ا ل ه", examples: ["الحمد لله"] },
-      { id: 4, arabic: "رَبِّ", transliteration: "rabbi", meaning: "Lord, Master", frequency: 90, difficulty: 1, category: "essential", rootWord: "ر ب ب", examples: ["رب العالمين"] },
-      { id: 5, arabic: "الرَّحْمَٰنِ", transliteration: "ar-rahman", meaning: "the Most Gracious", frequency: 80, difficulty: 1, category: "attributes", rootWord: "ر ح م", examples: ["بسم الله الرحمن الرحيم"] },
-      { id: 6, arabic: "الرَّحِيمِ", transliteration: "ar-raheem", meaning: "the Most Merciful", frequency: 79, difficulty: 1, category: "attributes", rootWord: "ر ح م", examples: ["بسم الله الرحمن الرحيم"] },
-      { id: 7, arabic: "فِي", transliteration: "fi", meaning: "in, on", frequency: 1221, difficulty: 1, category: "prepositions", rootWord: "ف ي ي", examples: ["في الأرض"] },
-      { id: 8, arabic: "مِن", transliteration: "min", meaning: "from, of", frequency: 1161, difficulty: 1, category: "prepositions", rootWord: "م ن ن", examples: ["من رب العالمين"] },
-      { id: 9, arabic: "إِلَىٰ", transliteration: "ila", meaning: "to, towards", frequency: 746, difficulty: 1, category: "prepositions", rootWord: "ا ل ي", examples: ["إلى الله"] },
-      { id: 10, arabic: "عَلَىٰ", transliteration: "ala", meaning: "on, upon", frequency: 666, difficulty: 1, category: "prepositions", rootWord: "ع ل ي", examples: ["على كل شيء قدير"] },
+      // Difficulty 1 - Most Essential Words (from Al-Fatiha)
+      { id: 1, arabic: "اللَّهُ", transliteration: "Allah", meaning: "Allah (God)", frequency: 2697, difficulty: 1, category: "divine", chapter: 1, verse: 1, rootWord: "ا ل ه", examples: ["قل هو الله أحد"] },
+      { id: 2, arabic: "الْحَمْدُ", transliteration: "al-hamdu", meaning: "praise, thanks", frequency: 100, difficulty: 1, category: "essential", chapter: 1, verse: 2, rootWord: "ح م د", examples: ["الحمد لله رب العالمين"] },
+      { id: 3, arabic: "رَبِّ", transliteration: "rabbi", meaning: "Lord, Master", frequency: 90, difficulty: 1, category: "essential", chapter: 1, verse: 2, rootWord: "ر ب ب", examples: ["رب العالمين"] },
+      { id: 4, arabic: "الْعَالَمِينَ", transliteration: "al-alameen", meaning: "the worlds", frequency: 73, difficulty: 2, category: "creation", chapter: 1, verse: 2, rootWord: "ع ل م", examples: ["رب العالمين"] },
+      { id: 5, arabic: "الرَّحْمَٰنِ", transliteration: "ar-Rahman", meaning: "the Most Gracious", frequency: 169, difficulty: 1, category: "attributes", chapter: 1, verse: 3, rootWord: "ر ح م", examples: ["الرحمن الرحيم"] },
+      { id: 6, arabic: "الرَّحِيمِ", transliteration: "ar-Raheem", meaning: "the Most Merciful", frequency: 113, difficulty: 1, category: "attributes", chapter: 1, verse: 3, rootWord: "ر ح م", examples: ["الرحمن الرحيم"] },
+      { id: 7, arabic: "مَالِكِ", transliteration: "maliki", meaning: "owner, master", frequency: 35, difficulty: 2, category: "authority", chapter: 1, verse: 4, rootWord: "م ل ك", examples: ["مالك يوم الدين"] },
+      { id: 8, arabic: "يَوْمِ", transliteration: "yawmi", meaning: "day", frequency: 405, difficulty: 1, category: "time", chapter: 1, verse: 4, rootWord: "ي و م", examples: ["يوم الدين"] },
+      { id: 9, arabic: "الدِّينِ", transliteration: "ad-deen", meaning: "judgment, religion", frequency: 92, difficulty: 2, category: "concept", chapter: 1, verse: 4, rootWord: "د ي ن", examples: ["يوم الدين"] },
+      { id: 10, arabic: "إِيَّاكَ", transliteration: "iyyaka", meaning: "You alone", frequency: 5, difficulty: 3, category: "pronoun", chapter: 1, verse: 5, rootWord: "ا ي ي", examples: ["إياك نعبد"] },
       
-      // Difficulty 1 continued - Basic particles and pronouns
-      { id: 11, arabic: "لَا", transliteration: "la", meaning: "no, not", frequency: 663, difficulty: 1, category: "particles", rootWord: "ل ا ا", examples: ["لا إله إلا الله"] },
-      { id: 12, arabic: "مَا", transliteration: "ma", meaning: "what, that which", frequency: 550, difficulty: 1, category: "pronouns", rootWord: "م ا ا", examples: ["ما في السماوات"] },
-      { id: 13, arabic: "هُوَ", transliteration: "huwa", meaning: "he, it", frequency: 520, difficulty: 1, category: "pronouns", rootWord: "ه و و", examples: ["قل هو الله أحد"] },
-      { id: 14, arabic: "الَّذِي", transliteration: "alladhi", meaning: "who, which", frequency: 450, difficulty: 1, category: "pronouns", rootWord: "ا ل ل", examples: ["الذي خلق"] },
-      { id: 15, arabic: "بِسْمِ", transliteration: "bismi", meaning: "in the name of", frequency: 114, difficulty: 1, category: "essential", rootWord: "س م و", examples: ["بسم الله الرحمن الرحيم"] },
+      // Ya-Sin (Chapter 36) - Popular chapter
+      { id: 11, arabic: "يس", transliteration: "Ya-Sin", meaning: "Ya-Sin", frequency: 1, difficulty: 2, category: "letters", chapter: 36, verse: 1, rootWord: "ي س", examples: ["يس"] },
+      { id: 12, arabic: "وَالْقُرْآنِ", transliteration: "wal-Quran", meaning: "and the Quran", frequency: 35, difficulty: 2, category: "scripture", chapter: 36, verse: 2, rootWord: "ق ر ا", examples: ["والقرآن الحكيم"] },
+      { id: 13, arabic: "الْحَكِيمِ", transliteration: "al-hakeem", meaning: "the Wise", frequency: 97, difficulty: 2, category: "attributes", chapter: 36, verse: 2, rootWord: "ح ك م", examples: ["القرآن الحكيم"] },
+      
+      // Al-Ikhlas (Chapter 112) - Short but fundamental
+      { id: 14, arabic: "قُلْ", transliteration: "qul", meaning: "say", frequency: 332, difficulty: 1, category: "command", chapter: 112, verse: 1, rootWord: "ق و ل", examples: ["قل هو الله أحد"] },
+      { id: 15, arabic: "هُوَ", transliteration: "huwa", meaning: "He", frequency: 1508, difficulty: 1, category: "pronoun", chapter: 112, verse: 1, rootWord: "ه و", examples: ["هو الله"] },
+      { id: 16, arabic: "أَحَدٌ", transliteration: "ahad", meaning: "One, Unique", frequency: 25, difficulty: 2, category: "number", chapter: 112, verse: 1, rootWord: "ا ح د", examples: ["الله أحد"] },
+      { id: 17, arabic: "الصَّمَدُ", transliteration: "as-samad", meaning: "the Eternal", frequency: 1, difficulty: 3, category: "attributes", chapter: 112, verse: 2, rootWord: "ص م د", examples: ["الله الصمد"] },
+      { id: 18, arabic: "لَمْ", transliteration: "lam", meaning: "did not", frequency: 272, difficulty: 2, category: "particles", chapter: 112, verse: 3, rootWord: "ل م", examples: ["لم يلد"] },
+      { id: 19, arabic: "يَلِدْ", transliteration: "yalid", meaning: "beget", frequency: 13, difficulty: 3, category: "verbs", chapter: 112, verse: 3, rootWord: "و ل د", examples: ["لم يلد"] },
+      { id: 20, arabic: "وَلَمْ", transliteration: "wa lam", meaning: "and did not", frequency: 45, difficulty: 2, category: "particles", chapter: 112, verse: 3, rootWord: "و ل م", examples: ["ولم يولد"] },
+      
+      // Al-Mulk (Chapter 67) - Popular chapter for memorization
+      { id: 21, arabic: "تَبَارَكَ", transliteration: "tabaraka", meaning: "blessed is", frequency: 10, difficulty: 3, category: "praise", chapter: 67, verse: 1, rootWord: "ب ر ك", examples: ["تبارك الذي"] },
+      { id: 22, arabic: "الَّذِي", transliteration: "alladhi", meaning: "who/which", frequency: 1464, difficulty: 1, category: "pronouns", chapter: 67, verse: 1, rootWord: "ا ل ت", examples: ["الذي بيده الملك"] },
+      { id: 23, arabic: "بِيَدِهِ", transliteration: "biyadihi", meaning: "in His hand", frequency: 12, difficulty: 2, category: "possession", chapter: 67, verse: 1, rootWord: "ي د", examples: ["بيده الملك"] },
+      { id: 24, arabic: "الْمُلْكُ", transliteration: "al-mulk", meaning: "the dominion", frequency: 48, difficulty: 2, category: "authority", chapter: 67, verse: 1, rootWord: "م ل ك", examples: ["بيده الملك"] },
+      
+      // General high-frequency words (from various chapters)
+      { id: 25, arabic: "لَا", transliteration: "la", meaning: "no, not", frequency: 663, difficulty: 1, category: "particles", chapter: null, verse: null, rootWord: "ل ا ا", examples: ["لا إله إلا الله"] },
+      { id: 26, arabic: "مَا", transliteration: "ma", meaning: "what, that which", frequency: 550, difficulty: 1, category: "pronouns", chapter: null, verse: null, rootWord: "م ا ا", examples: ["ما في السماوات"] },
+      { id: 27, arabic: "هُوَ", transliteration: "huwa", meaning: "he, it", frequency: 520, difficulty: 1, category: "pronouns", chapter: null, verse: null, rootWord: "ه و و", examples: ["قل هو الله أحد"] },
+      { id: 28, arabic: "الَّذِي", transliteration: "alladhi", meaning: "who, which", frequency: 450, difficulty: 1, category: "pronouns", chapter: null, verse: null, rootWord: "ا ل ل", examples: ["الذي خلق"] },
+      { id: 29, arabic: "بِسْمِ", transliteration: "bismi", meaning: "in the name of", frequency: 114, difficulty: 1, category: "essential", chapter: null, verse: null, rootWord: "س م و", examples: ["بسم الله الرحمن الرحيم"] },
 
       // Difficulty 2 - Common verbs and nouns
-      { id: 16, arabic: "كَانَ", transliteration: "kana", meaning: "was, were", frequency: 496, difficulty: 2, category: "verbs", rootWord: "ك و ن", examples: ["وكان الله غفوراً رحيماً"] },
-      { id: 17, arabic: "قَالَ", transliteration: "qala", meaning: "said, spoke", frequency: 432, difficulty: 2, category: "verbs", rootWord: "ق و ل", examples: ["قال رب اغفر لي"] },
-      { id: 18, arabic: "النَّاسِ", transliteration: "an-nas", meaning: "the people", frequency: 368, difficulty: 2, category: "nouns", rootWord: "ن و س", examples: ["رب الناس"] },
-      { id: 19, arabic: "الْعَالَمِينَ", transliteration: "al-alameen", meaning: "the worlds", frequency: 85, difficulty: 2, category: "essential", rootWord: "ع ل م", examples: ["رب العالمين"] },
-      { id: 20, arabic: "يَوْمِ", transliteration: "yawmi", meaning: "day", frequency: 320, difficulty: 2, category: "time", rootWord: "ي و م", examples: ["يوم الدين"] },
+      { id: 30, arabic: "كَانَ", transliteration: "kana", meaning: "was, were", frequency: 496, difficulty: 2, category: "verbs", chapter: null, verse: null, rootWord: "ك و ن", examples: ["وكان الله غفوراً رحيماً"] },
+      { id: 31, arabic: "قَالَ", transliteration: "qala", meaning: "said, spoke", frequency: 432, difficulty: 2, category: "verbs", chapter: null, verse: null, rootWord: "ق و ل", examples: ["قال رب اغفر لي"] },
+      { id: 32, arabic: "النَّاسِ", transliteration: "an-nas", meaning: "the people", frequency: 368, difficulty: 2, category: "nouns", chapter: 114, verse: 1, rootWord: "ن و س", examples: ["رب الناس"] },
+      { id: 33, arabic: "الْعَالَمِينَ", transliteration: "al-alameen", meaning: "the worlds", frequency: 85, difficulty: 2, category: "essential", chapter: 1, verse: 2, rootWord: "ع ل م", examples: ["رب العالمين"] },
+      { id: 34, arabic: "يَوْمِ", transliteration: "yawmi", meaning: "day", frequency: 320, difficulty: 2, category: "time", chapter: 1, verse: 4, rootWord: "ي و م", examples: ["يوم الدين"] },
       
       // Difficulty 2 continued - Important concepts
-      { id: 21, arabic: "خَلَقَ", transliteration: "khalaqa", meaning: "created", frequency: 150, difficulty: 2, category: "verbs", rootWord: "خ ل ق", examples: ["الذي خلق الإنسان"] },
-      { id: 22, arabic: "الْكِتَابِ", transliteration: "al-kitab", meaning: "the book", frequency: 260, difficulty: 2, category: "nouns", rootWord: "ك ت ب", examples: ["أهل الكتاب"] },
-      { id: 23, arabic: "آمَنُوا", transliteration: "amanu", meaning: "believed", frequency: 280, difficulty: 2, category: "verbs", rootWord: "ا م ن", examples: ["الذين آمنوا"] },
-      { id: 24, arabic: "الصَّلَاةَ", transliteration: "as-salat", meaning: "the prayer", frequency: 99, difficulty: 2, category: "worship", rootWord: "ص ل و", examples: ["أقيموا الصلاة"] },
-      { id: 25, arabic: "الزَّكَاةَ", transliteration: "az-zakat", meaning: "the charity", frequency: 30, difficulty: 2, category: "worship", rootWord: "ز ك و", examples: ["وآتوا الزكاة"] },
+      { id: 35, arabic: "خَلَقَ", transliteration: "khalaqa", meaning: "created", frequency: 150, difficulty: 2, category: "verbs", chapter: null, verse: null, rootWord: "خ ل ق", examples: ["الذي خلق الإنسان"] },
+      { id: 36, arabic: "الْكِتَابِ", transliteration: "al-kitab", meaning: "the book", frequency: 260, difficulty: 2, category: "nouns", chapter: null, verse: null, rootWord: "ك ت ب", examples: ["أهل الكتاب"] },
+      { id: 37, arabic: "آمَنُوا", transliteration: "amanu", meaning: "believed", frequency: 280, difficulty: 2, category: "verbs", chapter: null, verse: null, rootWord: "ا م ن", examples: ["الذين آمنوا"] },
+      { id: 38, arabic: "الصَّلَاةَ", transliteration: "as-salat", meaning: "the prayer", frequency: 99, difficulty: 2, category: "worship", chapter: null, verse: null, rootWord: "ص ل و", examples: ["أقيموا الصلاة"] },
+      { id: 39, arabic: "الزَّكَاةَ", transliteration: "az-zakat", meaning: "the charity", frequency: 30, difficulty: 2, category: "worship", chapter: null, verse: null, rootWord: "ز ك و", examples: ["وآتوا الزكاة"] },
 
       // Difficulty 3 - More complex words
-      { id: 26, arabic: "الْمُتَّقِينَ", transliteration: "al-muttaqeen", meaning: "the God-fearing", frequency: 70, difficulty: 3, category: "believers", rootWord: "و ق ي", examples: ["هدى للمتقين"] },
-      { id: 27, arabic: "الْغَيْبِ", transliteration: "al-ghayb", meaning: "the unseen", frequency: 60, difficulty: 3, category: "concepts", rootWord: "غ ي ب", examples: ["يؤمنون بالغيب"] },
-      { id: 28, arabic: "يُؤْمِنُونَ", transliteration: "yu'minun", meaning: "they believe", frequency: 40, difficulty: 3, category: "verbs", rootWord: "ا م ن", examples: ["يؤمنون بالغيب"] },
-      { id: 29, arabic: "يُقِيمُونَ", transliteration: "yuqeemun", meaning: "they establish", frequency: 30, difficulty: 3, category: "verbs", rootWord: "ق و م", examples: ["ويقيمون الصلاة"] },
-      { id: 30, arabic: "يُنفِقُونَ", transliteration: "yunfiqun", meaning: "they spend", frequency: 25, difficulty: 3, category: "verbs", rootWord: "ن ف ق", examples: ["ومما رزقناهم ينفقون"] },
+      { id: 40, arabic: "الْمُتَّقِينَ", transliteration: "al-muttaqeen", meaning: "the God-fearing", frequency: 70, difficulty: 3, category: "believers", chapter: null, verse: null, rootWord: "و ق ي", examples: ["هدى للمتقين"] },
+      { id: 41, arabic: "الْغَيْبِ", transliteration: "al-ghayb", meaning: "the unseen", frequency: 60, difficulty: 3, category: "concepts", chapter: null, verse: null, rootWord: "غ ي ب", examples: ["يؤمنون بالغيب"] },
+      { id: 42, arabic: "يُؤْمِنُونَ", transliteration: "yu'minun", meaning: "they believe", frequency: 40, difficulty: 3, category: "verbs", chapter: null, verse: null, rootWord: "ا م ن", examples: ["يؤمنون بالغيب"] },
+      { id: 43, arabic: "يُقِيمُونَ", transliteration: "yuqeemun", meaning: "they establish", frequency: 30, difficulty: 3, category: "verbs", chapter: null, verse: null, rootWord: "ق و م", examples: ["ويقيمون الصلاة"] },
+      { id: 44, arabic: "يُنفِقُونَ", transliteration: "yunfiqun", meaning: "they spend", frequency: 25, difficulty: 3, category: "verbs", chapter: null, verse: null, rootWord: "ن ف ق", examples: ["ومما رزقناهم ينفقون"] },
 
       // Difficulty 3 continued
-      { id: 31, arabic: "رَزَقْنَاهُمْ", transliteration: "razaqnahum", meaning: "We provided them", frequency: 20, difficulty: 3, category: "verbs", rootWord: "ر ز ق", examples: ["ومما رزقناهم ينفقون"] },
-      { id: 32, arabic: "أُنزِلَ", transliteration: "unzila", meaning: "was revealed", frequency: 35, difficulty: 3, category: "verbs", rootWord: "ن ز ل", examples: ["وما أنزل إليك"] },
+      { id: 45, arabic: "رَزَقْنَاهُمْ", transliteration: "razaqnahum", meaning: "We provided them", frequency: 20, difficulty: 3, category: "verbs", chapter: null, verse: null, rootWord: "ر ز ق", examples: ["ومما رزقناهم ينفقون"] },
+      { id: 46, arabic: "أُنزِلَ", transliteration: "unzila", meaning: "was revealed", frequency: 35, difficulty: 3, category: "verbs", chapter: null, verse: null, rootWord: "ن ز ل", examples: ["وما أنزل إليك"] },
       { id: 33, arabic: "الْآخِرَةِ", transliteration: "al-akhirah", meaning: "the hereafter", frequency: 115, difficulty: 3, category: "concepts", rootWord: "ا خ ر", examples: ["وبالآخرة هم يوقنون"] },
       { id: 34, arabic: "يُوقِنُونَ", transliteration: "yuqinun", meaning: "they are certain", frequency: 15, difficulty: 3, category: "verbs", rootWord: "ي ق ن", examples: ["وبالآخرة هم يوقنون"] },
       { id: 35, arabic: "هُدًى", transliteration: "hudan", meaning: "guidance", frequency: 80, difficulty: 3, category: "concepts", rootWord: "ه د ي", examples: ["هدى للمتقين"] },

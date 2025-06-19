@@ -24,6 +24,8 @@ export const words = pgTable("words", {
   frequency: integer("frequency").notNull().default(1),
   difficulty: integer("difficulty").notNull().default(1), // 1-5
   category: text("category").notNull().default("general"),
+  chapter: integer("chapter"), // Quran chapter (surah) number 1-114
+  verse: integer("verse"), // Verse number within the chapter
   rootWord: text("root_word"),
   examples: jsonb("examples").$type<string[]>().default([]),
 });

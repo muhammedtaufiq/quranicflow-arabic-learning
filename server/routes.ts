@@ -508,6 +508,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get user's chapter progress for the visual chart
+  app.get("/api/user/:userId/chapter-progress", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      
+      // For demonstration, return sample progress data
+      // In a real implementation, this would calculate from user's learned words
+      const chapterProgress = {
+        1: 100,   // Al-Fatiha completed
+        2: 45,    // Al-Baqarah 45% complete  
+        36: 100,  // Ya-Sin completed
+        67: 30,   // Al-Mulk 30% complete
+        112: 100, // Al-Ikhlas completed
+        113: 100, // Al-Falaq completed
+        114: 100  // An-Nas completed
+      };
+      
+      res.json({ chapterProgress });
+    } catch (error: any) {
+      console.error("Error fetching chapter progress:", error);
+      res.status(500).json({ message: "Failed to fetch chapter progress", error: error.message });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

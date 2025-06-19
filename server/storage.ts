@@ -150,7 +150,6 @@ export class MemStorage implements IStorage {
         isLearned: progress.masteryLevel > 0,
         lastReviewed: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
         nextReview: progress.nextReview,
-        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3), // 3 days ago
       };
       this.userWordProgress.set(id, wordProgress);
     });

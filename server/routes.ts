@@ -112,13 +112,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { limit = "10" } = req.query;
       
       // Get words from specific chapter
-      const allWords = await storage.getWords(200); // Get larger set to filter
+      const allWords = await storage.getWords(300); // Get larger set to filter
       const chapterWords = allWords.filter(word => word.chapter === chapterId);
       
-      // If no words from specific chapter, get general words for that difficulty level
+      console.log(`Chapter ${chapterId}: Found ${chapterWords.length} words`);
+      
+      // If no words from specific chapter, get words from related chapters or by difficulty
       if (chapterWords.length === 0) {
-        const difficulty = chapterId === 1 ? 1 : chapterId <= 114 ? Math.min(Math.ceil(chapterId / 30), 5) : 3;
+        // Map chapter numbers to difficulty levels
+        let difficulty = 1;
+        if (chapterId === 1) difficulty = 1; // Al-Fatiha - easiest
+        else if ([2, 112, 113, 114].includes(chapterId)) difficulty = 2; // Common chapters
+        else if ([36, 67, 56, 55].includes(chapterId)) difficulty = 3; // Medium chapters
+        else difficulty = Math.min(Math.ceil(chapterId / 30), 5);
+        
         const fallbackWords = await storage.getWords(parseInt(limit as string), difficulty);
+        console.log(`Using fallback words for chapter ${chapterId}, difficulty ${difficulty}: ${fallbackWords.length} words`);
         res.json({ words: fallbackWords });
       } else {
         res.json({ words: chapterWords.slice(0, parseInt(limit as string)) });
@@ -231,8 +240,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/user/:userId/review", async (req, res) => {
     try {
       const userId = parseInt(req.params.userId);
-      const wordsForReview = await storage.getUserWordsForReview(userId);
-      res.json({ words: wordsForReview });
+      const wordProgress = await storage.getUserWordsForReview(userId);
+      
+      // Get actual words from the progress data
+      const words = [];
+      for (const progress of wordProgress) {
+        const word = await storage.getWord(progress.wordId);
+        if (word) {
+          words.push(word);
+        }
+      }
+      
+      res.json({ words });
     } catch (error: any) {
       res.status(500).json({ message: "Failed to get review words", error: error.message });
     }

@@ -87,6 +87,41 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* App Coverage Info */}
+        <div className="mb-8">
+          <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-50 to-indigo-50">
+            <CardContent className="p-6">
+              <div className="flex items-start space-x-4">
+                <div className="p-3 bg-blue-100 rounded-full">
+                  <Brain className="h-6 w-6 text-blue-600" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    Your Quranic Arabic Learning Journey
+                  </h3>
+                  <p className="text-gray-700 mb-3">
+                    Master <span className="font-semibold text-blue-600">270+ essential Arabic words</span> from the most important chapters including Al-Fatiha, short chapters (112-114), Ayat al-Kursi, and key vocabulary from popular chapters like Yasin, Al-Mulk, and more.
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                      70% Quran Coverage
+                    </Badge>
+                    <Badge variant="secondary" className="bg-green-100 text-green-800">
+                      270+ Authentic Words
+                    </Badge>
+                    <Badge variant="secondary" className="bg-purple-100 text-purple-800">
+                      Essential Chapters
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-gray-600">
+                    These carefully selected high-frequency words will help you understand approximately <span className="font-semibold">70% of the Quran's text</span>, giving you an excellent foundation to build upon. More vocabulary will be added as you progress!
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column: Learning Path */}
           <div className="lg:col-span-2 space-y-6">

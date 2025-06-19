@@ -77,9 +77,9 @@ export default function Learn() {
     {
       id: 'review',
       title: 'Spaced Review',
-      description: 'Review words due for practice',
+      description: 'Review 15+ previously learned words using proven memory techniques',
       icon: <RotateCcw className="w-6 h-6 text-purple-600" />,
-      badge: 'Review',
+      badge: 'Memory Science',
       badgeColor: 'bg-purple-100 text-purple-800',
       xpReward: 40,
       duration: '~8 minutes'
@@ -125,6 +125,9 @@ export default function Learn() {
   if (typeFromUrl && !selectedType && !isLearning) {
     setSelectedType(typeFromUrl);
     if (typeFromUrl !== 'chapters') {
+      setIsLearning(true);
+    } else if (typeFromUrl === 'chapters' && chapterFromUrl) {
+      // If chapter is also specified in URL, start learning immediately
       setIsLearning(true);
     }
   }

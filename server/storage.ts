@@ -129,13 +129,25 @@ export class MemStorage implements IStorage {
     };
     this.users.set(1, demoUser);
 
-    // Initialize sample word progress for demo user (words due for review)
+    // Initialize comprehensive word progress for demo user (words due for review)
     const sampleProgress = [
-      { wordId: 1, masteryLevel: 1, correctAnswers: 3, totalAttempts: 5, nextReview: new Date(Date.now() - 1000 * 60 * 60) }, // 1 hour ago
-      { wordId: 2, masteryLevel: 2, correctAnswers: 5, totalAttempts: 7, nextReview: new Date(Date.now() - 1000 * 60 * 30) }, // 30 minutes ago
-      { wordId: 5, masteryLevel: 1, correctAnswers: 2, totalAttempts: 4, nextReview: new Date(Date.now() - 1000 * 60 * 60 * 2) }, // 2 hours ago
-      { wordId: 8, masteryLevel: 2, correctAnswers: 4, totalAttempts: 6, nextReview: new Date(Date.now() - 1000 * 60 * 45) }, // 45 minutes ago
-      { wordId: 12, masteryLevel: 1, correctAnswers: 1, totalAttempts: 3, nextReview: new Date(Date.now() - 1000 * 60 * 60 * 3) }, // 3 hours ago
+      // Recently learned words (due for review)
+      { wordId: 1, masteryLevel: 1, correctAnswers: 3, totalAttempts: 5, nextReview: new Date(Date.now() - 1000 * 60 * 60) },
+      { wordId: 2, masteryLevel: 2, correctAnswers: 5, totalAttempts: 7, nextReview: new Date(Date.now() - 1000 * 60 * 30) },
+      { wordId: 3, masteryLevel: 1, correctAnswers: 2, totalAttempts: 4, nextReview: new Date(Date.now() - 1000 * 60 * 60 * 2) },
+      { wordId: 4, masteryLevel: 2, correctAnswers: 4, totalAttempts: 6, nextReview: new Date(Date.now() - 1000 * 60 * 45) },
+      { wordId: 5, masteryLevel: 1, correctAnswers: 1, totalAttempts: 3, nextReview: new Date(Date.now() - 1000 * 60 * 60 * 3) },
+      { wordId: 6, masteryLevel: 2, correctAnswers: 6, totalAttempts: 8, nextReview: new Date(Date.now() - 1000 * 60 * 20) },
+      { wordId: 7, masteryLevel: 1, correctAnswers: 2, totalAttempts: 5, nextReview: new Date(Date.now() - 1000 * 60 * 90) },
+      { wordId: 8, masteryLevel: 2, correctAnswers: 7, totalAttempts: 9, nextReview: new Date(Date.now() - 1000 * 60 * 15) },
+      { wordId: 9, masteryLevel: 1, correctAnswers: 3, totalAttempts: 6, nextReview: new Date(Date.now() - 1000 * 60 * 120) },
+      { wordId: 10, masteryLevel: 2, correctAnswers: 5, totalAttempts: 7, nextReview: new Date(Date.now() - 1000 * 60 * 40) },
+      // Additional words for comprehensive review
+      { wordId: 11, masteryLevel: 1, correctAnswers: 4, totalAttempts: 7, nextReview: new Date(Date.now() - 1000 * 60 * 80) },
+      { wordId: 15, masteryLevel: 2, correctAnswers: 8, totalAttempts: 10, nextReview: new Date(Date.now() - 1000 * 60 * 25) },
+      { wordId: 18, masteryLevel: 1, correctAnswers: 2, totalAttempts: 4, nextReview: new Date(Date.now() - 1000 * 60 * 150) },
+      { wordId: 22, masteryLevel: 2, correctAnswers: 6, totalAttempts: 8, nextReview: new Date(Date.now() - 1000 * 60 * 35) },
+      { wordId: 25, masteryLevel: 1, correctAnswers: 3, totalAttempts: 5, nextReview: new Date(Date.now() - 1000 * 60 * 100) }
     ];
 
     sampleProgress.forEach((progress, index) => {

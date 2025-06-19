@@ -106,6 +106,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/words/chapter/:chapterId", async (req, res) => {
+    try {
+      const chapterId = parseInt(req.params.chapterId);
+      const { limit = "10" } = req.query;
+      
+      // Get words from specific chapter
+      const allWords = await storage.getWords(200); // Get larger set to filter
+      const chapterWords = allWords.filter(word => word.chapter === chapterId);
+      
+      // If no words from specific chapter, get general words for that difficulty level
+      if (chapterWords.length === 0) {
+        const difficulty = chapterId === 1 ? 1 : chapterId <= 114 ? Math.min(Math.ceil(chapterId / 30), 5) : 3;
+        const fallbackWords = await storage.getWords(parseInt(limit as string), difficulty);
+        res.json({ words: fallbackWords });
+      } else {
+        res.json({ words: chapterWords.slice(0, parseInt(limit as string)) });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get chapter words", error: error.message });
+    }
+  });
+
   app.post("/api/words/generate", async (req, res) => {
     try {
       const { difficulty = 1, category = "general", count = 5, excludeWords = [] } = req.body;

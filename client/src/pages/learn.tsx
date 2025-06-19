@@ -35,6 +35,13 @@ export default function Learn() {
     enabled: selectedType === 'daily' || typeFromUrl === 'daily'
   });
 
+  // Get chapter from URL if chapter-specific learning
+  const chapterFromUrl = urlParams.get('chapter');
+  const { data: chapterWordsData } = useQuery({
+    queryKey: [`/api/words/chapter/${chapterFromUrl}`],
+    enabled: selectedType === 'chapters' && !!chapterFromUrl
+  });
+
   const learningTypes = [
     {
       id: 'daily',
@@ -191,12 +198,54 @@ export default function Learn() {
 
   if (isLearning && selectedType) {
     let words;
+    let isDataLoading = false;
+    
     if (selectedType === 'review') {
       words = (reviewData as any)?.words;
+      isDataLoading = !reviewData && (selectedType === 'review' || typeFromUrl === 'review');
     } else if (selectedType === 'daily') {
       words = (dailyChallengeData as any)?.words;
+      isDataLoading = !dailyChallengeData && (selectedType === 'daily' || typeFromUrl === 'daily');
+    } else if (selectedType === 'chapters') {
+      // For chapters, use words from specific chapter
+      words = (chapterWordsData as any)?.words;
+      isDataLoading = !chapterWordsData && selectedType === 'chapters' && !!chapterFromUrl;
     } else {
       words = (wordsData as any)?.words;
+      isDataLoading = !wordsData && (selectedType === 'words' || typeFromUrl === 'words');
+    }
+    
+    // Show loading state while data is being fetched
+    if (isDataLoading) {
+      return (
+        <div className="min-h-screen bg-gray-50 safe-area-pb md:pb-0 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading learning session...</p>
+          </div>
+        </div>
+      );
+    }
+    
+    // If no words available, show empty state
+    if (!words || words.length === 0) {
+      return (
+        <div className="min-h-screen bg-gray-50 safe-area-pb md:pb-0 flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-6xl mb-4">📚</div>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">No Words Available</h2>
+            <p className="text-gray-600 mb-4">
+              {selectedType === 'review' 
+                ? "You don't have any words to review right now. Try learning some new words first!"
+                : "No words available for this learning session."
+              }
+            </p>
+            <Button onClick={handleBackToSelection} className="bg-primary hover:bg-primary/90">
+              Back to Learning Options
+            </Button>
+          </div>
+        </div>
+      );
     }
     
     return (

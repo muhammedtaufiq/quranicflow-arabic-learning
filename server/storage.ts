@@ -128,6 +128,33 @@ export class MemStorage implements IStorage {
       createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // 7 days ago
     };
     this.users.set(1, demoUser);
+
+    // Initialize sample word progress for demo user (words due for review)
+    const sampleProgress = [
+      { wordId: 1, masteryLevel: 1, correctAnswers: 3, totalAttempts: 5, nextReview: new Date(Date.now() - 1000 * 60 * 60) }, // 1 hour ago
+      { wordId: 2, masteryLevel: 2, correctAnswers: 5, totalAttempts: 7, nextReview: new Date(Date.now() - 1000 * 60 * 30) }, // 30 minutes ago
+      { wordId: 5, masteryLevel: 1, correctAnswers: 2, totalAttempts: 4, nextReview: new Date(Date.now() - 1000 * 60 * 60 * 2) }, // 2 hours ago
+      { wordId: 8, masteryLevel: 2, correctAnswers: 4, totalAttempts: 6, nextReview: new Date(Date.now() - 1000 * 60 * 45) }, // 45 minutes ago
+      { wordId: 12, masteryLevel: 1, correctAnswers: 1, totalAttempts: 3, nextReview: new Date(Date.now() - 1000 * 60 * 60 * 3) }, // 3 hours ago
+    ];
+
+    sampleProgress.forEach((progress, index) => {
+      const id = this.currentProgressId++;
+      const wordProgress: UserWordProgress = {
+        id,
+        userId: 1,
+        wordId: progress.wordId,
+        masteryLevel: progress.masteryLevel,
+        correctAnswers: progress.correctAnswers,
+        totalAttempts: progress.totalAttempts,
+        isLearned: progress.masteryLevel > 0,
+        lastReviewed: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
+        nextReview: progress.nextReview,
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3), // 3 days ago
+      };
+      this.userWordProgress.set(id, wordProgress);
+    });
+
     // Initialize default achievements
     const defaultAchievements: Achievement[] = [
       { id: 1, name: "First Steps", description: "Complete your first lesson", icon: "fas fa-baby", xpReward: 50, type: "words", requirement: 1 },

@@ -319,7 +319,8 @@ export default function Learn() {
           <p className="text-gray-600">Select a learning activity to continue your Quranic Arabic journey</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
+
           {learningTypes.map((type) => (
             <Card key={type.id} className={`hover:shadow-lg transition-shadow cursor-pointer ${
               type.recommended ? 'border-2 border-orange-200 bg-gradient-to-br from-orange-50 to-yellow-50' : ''

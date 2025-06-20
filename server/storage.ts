@@ -183,7 +183,65 @@ export class MemStorage implements IStorage {
       { id: 37, arabic: "عَلَى", transliteration: "ala", meaning: "On/Upon - Positional preposition", meaningUrdu: "پر - اوپر کا حرف جار", frequency: 1257, difficulty: 1, category: "prepositions", chapter: null, verse: null, rootWord: "ع ل و", examples: ["عَلَى الْأَرْضِ"] },
       { id: 38, arabic: "وَ", transliteration: "wa", meaning: "And - Coordinating conjunction", meaningUrdu: "اور - ربط کا حرف", frequency: 1508, difficulty: 1, category: "conjunctions", chapter: null, verse: null, rootWord: "و", examples: ["وَاللَّهُ"] },
       { id: 39, arabic: "مَا", transliteration: "ma", meaning: "What/That which - Interrogative particle", meaningUrdu: "کیا - سوالیہ حرف", frequency: 1177, difficulty: 2, category: "particles", chapter: null, verse: null, rootWord: "م ا", examples: ["مَا شَاءَ اللَّهُ"] },
-      { id: 40, arabic: "لَا", transliteration: "la", meaning: "No/Not - Negation particle", meaningUrdu: "نہیں - نفی کا حرف", frequency: 772, difficulty: 1, category: "particles", chapter: null, verse: null, rootWord: "ل ا", examples: ["لَا إِلَٰهَ إِلَّا اللَّهُ"] }
+      { id: 40, arabic: "لَا", transliteration: "la", meaning: "No/Not - Negation particle", meaningUrdu: "نہیں - نفی کا حرف", frequency: 772, difficulty: 1, category: "particles", chapter: null, verse: null, rootWord: "ل ا", examples: ["لَا إِلَٰهَ إِلَّا اللَّهُ"] },
+
+      // PHASE 2 EXPANSION - Additional high-frequency vocabulary for 45% comprehension
+      
+      // Essential pronouns and demonstratives (high frequency)
+      { id: 41, arabic: "هَذَا", transliteration: "haadhaa", meaning: "This (masculine) - Demonstrative pronoun for near objects", meaningUrdu: "یہ - قریبی اشارہ مذکر", frequency: 365, difficulty: 1, category: "pronouns", chapter: null, verse: null, rootWord: "ه ذ ا", examples: ["هَذَا الْكِتَابُ"] },
+      { id: 42, arabic: "هَذِهِ", transliteration: "haadhihi", meaning: "This (feminine) - Demonstrative pronoun for near objects", meaningUrdu: "یہ - قریبی اشارہ مؤنث", frequency: 180, difficulty: 1, category: "pronouns", chapter: null, verse: null, rootWord: "ه ذ ه", examples: ["هَذِهِ آيَاتُنَا"] },
+      { id: 43, arabic: "ذَلِكَ", transliteration: "dhaalika", meaning: "That (masculine) - Demonstrative pronoun for distant objects", meaningUrdu: "وہ - دور کا اشارہ مذکر", frequency: 432, difficulty: 1, category: "pronouns", chapter: null, verse: null, rootWord: "ذ ل ك", examples: ["ذَلِكَ الْكِتَابُ"] },
+      { id: 44, arabic: "تِلْكَ", transliteration: "tilka", meaning: "That (feminine) - Demonstrative pronoun for distant objects", meaningUrdu: "وہ - دور کا اشارہ مؤنث", frequency: 95, difficulty: 2, category: "pronouns", chapter: null, verse: null, rootWord: "ت ل ك", examples: ["تِلْكَ آيَاتُ اللَّهِ"] },
+      { id: 45, arabic: "أَنْتَ", transliteration: "anta", meaning: "You (masculine singular) - Second person pronoun", meaningUrdu: "تم/آپ - دوسرا شخص مذکر", frequency: 87, difficulty: 1, category: "pronouns", chapter: null, verse: null, rootWord: "ا ن ت", examples: ["أَنْتَ الْعَلِيمُ"] },
+      { id: 46, arabic: "أَنْتِ", transliteration: "anti", meaning: "You (feminine singular) - Second person pronoun", meaningUrdu: "تم - دوسرا شخص مؤنث", frequency: 12, difficulty: 2, category: "pronouns", chapter: null, verse: null, rootWord: "ا ن ت", examples: ["أَنْتِ أَعْلَمُ"] },
+      { id: 47, arabic: "هُمْ", transliteration: "hum", meaning: "They (masculine) - Third person plural pronoun", meaningUrdu: "وہ لوگ - تیسرا شخص جمع مذکر", frequency: 743, difficulty: 1, category: "pronouns", chapter: null, verse: null, rootWord: "ه م", examples: ["هُمُ الْمُفْلِحُونَ"] },
+      { id: 48, arabic: "هُنَّ", transliteration: "hunna", meaning: "They (feminine) - Third person plural pronoun", meaningUrdu: "وہ عورتیں - تیسرا شخص جمع مؤنث", frequency: 37, difficulty: 2, category: "pronouns", chapter: null, verse: null, rootWord: "ه ن", examples: ["هُنَّ أُمَّهَاتُكُمْ"] },
+      
+      // Essential verbs - being and existence
+      { id: 49, arabic: "كَانَ", transliteration: "kaana", meaning: "Was/used to be - Past tense of being", meaningUrdu: "تھا - ماضی کا صیغہ", frequency: 1358, difficulty: 1, category: "verbs", chapter: null, verse: null, rootWord: "ك و ن", examples: ["كَانَ اللَّهُ عَلِيماً"] },
+      { id: 50, arabic: "يَكُونُ", transliteration: "yakuunu", meaning: "Will be/becomes - Future tense of being", meaningUrdu: "ہوگا - مستقبل کا صیغہ", frequency: 378, difficulty: 2, category: "verbs", chapter: null, verse: null, rootWord: "ك و ن", examples: ["يَكُونُ لَهُ"] },
+      { id: 51, arabic: "كُونُوا", transliteration: "kuunuu", meaning: "Be! (plural) - Imperative form of being", meaningUrdu: "ہو جاؤ - امر کا صیغہ جمع", frequency: 42, difficulty: 2, category: "verbs", chapter: null, verse: null, rootWord: "ك و ن", examples: ["كُونُوا قَوَّامِينَ"] },
+      
+      // Core action verbs
+      { id: 52, arabic: "فَعَلَ", transliteration: "fa'ala", meaning: "Did/performed - Past tense action", meaningUrdu: "کیا - ماضی کا فعل", frequency: 156, difficulty: 2, category: "verbs", chapter: null, verse: null, rootWord: "ف ع ل", examples: ["فَعَلْتُم"] },
+      { id: 53, arabic: "يَفْعَلُ", transliteration: "yaf'alu", meaning: "Does/performs - Present tense action", meaningUrdu: "کرتا ہے - حال کا فعل", frequency: 234, difficulty: 2, category: "verbs", chapter: null, verse: null, rootWord: "ف ع ل", examples: ["يَفْعَلُ مَا يَشَاءُ"] },
+      { id: 54, arabic: "جَاءَ", transliteration: "jaa'a", meaning: "Came/brought - Past tense of coming", meaningUrdu: "آیا - آنے کا ماضی", frequency: 267, difficulty: 2, category: "verbs", chapter: null, verse: null, rootWord: "ج ي ا", examples: ["جَاءَ الْحَقُّ"] },
+      { id: 55, arabic: "يَجِيءُ", transliteration: "yajii'u", meaning: "Comes/brings - Present tense of coming", meaningUrdu: "آتا ہے - آنے کا حال", frequency: 89, difficulty: 2, category: "verbs", chapter: null, verse: null, rootWord: "ج ي ا", examples: ["يَجِيءُ بِالْحَقِّ"] },
+      { id: 56, arabic: "ذَهَبَ", transliteration: "dhahaba", meaning: "Went/departed - Past tense of going", meaningUrdu: "گیا - جانے کا ماضی", frequency: 43, difficulty: 2, category: "verbs", chapter: null, verse: null, rootWord: "ذ ه ب", examples: ["ذَهَبَ بِنُورِهِمْ"] },
+      
+      // Knowledge and understanding verbs
+      { id: 57, arabic: "عَلِمَ", transliteration: "alima", meaning: "Knew/learned - Past tense of knowing", meaningUrdu: "جانا - علم حاصل کرنا", frequency: 178, difficulty: 2, category: "verbs", chapter: null, verse: null, rootWord: "ع ل م", examples: ["عَلِمَ اللَّهُ"] },
+      { id: 58, arabic: "يَعْلَمُ", transliteration: "ya'lamu", meaning: "Knows - Present tense of knowing", meaningUrdu: "جانتا ہے - علم رکھنا", frequency: 763, difficulty: 1, category: "verbs", chapter: null, verse: null, rootWord: "ع ل م", examples: ["يَعْلَمُ مَا فِي قُلُوبِكُمْ"] },
+      { id: 59, arabic: "عَالِمٌ", transliteration: "aalim", meaning: "Knower/scholar - One who has knowledge", meaningUrdu: "جاننے والا - عالم", frequency: 45, difficulty: 2, category: "attributes", chapter: null, verse: null, rootWord: "ع ل م", examples: ["عَالِمُ الْغَيْبِ"] },
+      { id: 60, arabic: "عَلِيمٌ", transliteration: "aleem", meaning: "All-Knowing - Divine attribute of complete knowledge", meaningUrdu: "سب جاننے والا - خدا کی صفت", frequency: 158, difficulty: 1, category: "attributes", chapter: null, verse: null, rootWord: "ع ل م", examples: ["إِنَّ اللَّهَ عَلِيمٌ"] },
+
+      // Belief and faith
+      { id: 61, arabic: "آمَنَ", transliteration: "aamana", meaning: "Believed/had faith - Past tense of believing", meaningUrdu: "ایمان لایا - یقین کیا", frequency: 145, difficulty: 2, category: "verbs", chapter: null, verse: null, rootWord: "ا م ن", examples: ["آمَنَ بِاللَّهِ"] },
+      { id: 62, arabic: "يُؤْمِنُ", transliteration: "yu'minu", meaning: "Believes - Present tense of believing", meaningUrdu: "ایمان رکھتا ہے - یقین کرتا ہے", frequency: 67, difficulty: 2, category: "verbs", chapter: null, verse: null, rootWord: "ا م ن", examples: ["يُؤْمِنُ بِاللَّهِ"] },
+      { id: 63, arabic: "مُؤْمِنٌ", transliteration: "mu'min", meaning: "Believer - One who has faith", meaningUrdu: "مومن - ایمان والا", frequency: 89, difficulty: 2, category: "attributes", chapter: null, verse: null, rootWord: "ا م ن", examples: ["الْمُؤْمِنُونَ"] },
+      { id: 64, arabic: "إِيمَانٌ", transliteration: "eemaan", meaning: "Faith/belief - The state of believing", meaningUrdu: "ایمان - یقین اور عقیدہ", frequency: 45, difficulty: 2, category: "concepts", chapter: null, verse: null, rootWord: "ا م ن", examples: ["أَهْلُ الْإِيمَانِ"] },
+
+      // Essential locations and directions
+      { id: 65, arabic: "السَّمَاءُ", transliteration: "as-samaa'u", meaning: "The sky/heaven - The celestial realm", meaningUrdu: "آسمان - بلند مقام", frequency: 310, difficulty: 1, category: "creation", chapter: null, verse: null, rootWord: "س م و", examples: ["السَّمَاءُ وَالْأَرْضُ"] },
+      { id: 66, arabic: "الْأَرْضُ", transliteration: "al-ardu", meaning: "The earth/land - The terrestrial realm", meaningUrdu: "زمین - خشکی", frequency: 461, difficulty: 1, category: "creation", chapter: null, verse: null, rootWord: "ا ر ض", examples: ["فِي الْأَرْضِ"] },
+      { id: 67, arabic: "بَيْنَ", transliteration: "bayna", meaning: "Between/among - Spatial relationship", meaningUrdu: "درمیان - بیچ میں", frequency: 142, difficulty: 1, category: "prepositions", chapter: null, verse: null, rootWord: "ب ي ن", examples: ["بَيْنَ السَّمَاءِ وَالْأَرْضِ"] },
+      { id: 68, arabic: "فَوْقَ", transliteration: "fawqa", meaning: "Above/over - Positional preposition", meaningUrdu: "اوپر - بلندی پر", frequency: 28, difficulty: 2, category: "prepositions", chapter: null, verse: null, rootWord: "ف و ق", examples: ["فَوْقَ السَّمَوَاتِ"] },
+      { id: 69, arabic: "تَحْتَ", transliteration: "tahta", meaning: "Under/beneath - Positional preposition", meaningUrdu: "نیچے - تلے", frequency: 24, difficulty: 2, category: "prepositions", chapter: null, verse: null, rootWord: "ت ح ت", examples: ["تَحْتَ الشَّجَرَةِ"] },
+
+      // Time expressions
+      { id: 70, arabic: "قَبْلَ", transliteration: "qabla", meaning: "Before - Temporal preposition", meaningUrdu: "پہلے - سے قبل", frequency: 59, difficulty: 2, category: "time", chapter: null, verse: null, rootWord: "ق ب ل", examples: ["قَبْلَ أَنْ"] },
+      { id: 71, arabic: "بَعْدَ", transliteration: "ba'da", meaning: "After - Temporal preposition", meaningUrdu: "بعد میں - کے بعد", frequency: 119, difficulty: 2, category: "time", chapter: null, verse: null, rootWord: "ب ع د", examples: ["بَعْدَ ذَلِكَ"] },
+      { id: 72, arabic: "عِنْدَ", transliteration: "inda", meaning: "At/with - Locative preposition", meaningUrdu: "کے پاس - نزدیک", frequency: 174, difficulty: 2, category: "prepositions", chapter: null, verse: null, rootWord: "ع ن د", examples: ["عِنْدَ اللَّهِ"] },
+      { id: 73, arabic: "أَمْسِ", transliteration: "amsi", meaning: "Yesterday - Past time reference", meaningUrdu: "کل گزشتہ - بیتا ہوا دن", frequency: 3, difficulty: 3, category: "time", chapter: null, verse: null, rootWord: "ا م س", examples: ["كَأَنْ لَمْ يَكُنْ بِالْأَمْسِ"] },
+      { id: 74, arabic: "الْيَوْمَ", transliteration: "al-yawma", meaning: "Today - Present time reference", meaningUrdu: "آج - موجودہ دن", frequency: 67, difficulty: 1, category: "time", chapter: null, verse: null, rootWord: "ي و م", examples: ["الْيَوْمَ أَكْمَلْتُ"] },
+      { id: 75, arabic: "غَداً", transliteration: "ghadan", meaning: "Tomorrow - Future time reference", meaningUrdu: "کل آنے والا - آئندہ دن", frequency: 2, difficulty: 3, category: "time", chapter: null, verse: null, rootWord: "غ د و", examples: ["وَمَا تَدْرِي نَفْسٌ مَاذَا تَكْسِبُ غَداً"] },
+
+      // Essential numbers
+      { id: 76, arabic: "وَاحِدٌ", transliteration: "waahid", meaning: "One - Cardinal number", meaningUrdu: "ایک - تعداد", frequency: 78, difficulty: 1, category: "numbers", chapter: null, verse: null, rootWord: "و ح د", examples: ["إِلَهٌ وَاحِدٌ"] },
+      { id: 77, arabic: "اثْنَانِ", transliteration: "ithnaani", meaning: "Two - Cardinal number", meaningUrdu: "دو - جوڑا", frequency: 15, difficulty: 2, category: "numbers", chapter: null, verse: null, rootWord: "ث ن ي", examples: ["اثْنَانِ فَصَاعِداً"] },
+      { id: 78, arabic: "ثَلَاثَةٌ", transliteration: "thalaatha", meaning: "Three - Cardinal number", meaningUrdu: "تین - تعداد", frequency: 18, difficulty: 2, category: "numbers", chapter: null, verse: null, rootWord: "ث ل ث", examples: ["ثَلَاثَةُ أَيَّامٍ"] },
+      { id: 79, arabic: "أَرْبَعَةٌ", transliteration: "arba'a", meaning: "Four - Cardinal number", meaningUrdu: "چار - تعداد", frequency: 8, difficulty: 2, category: "numbers", chapter: null, verse: null, rootWord: "ر ب ع", examples: ["أَرْبَعَةُ أَشْهُرٍ"] },
+      { id: 80, arabic: "خَمْسَةٌ", transliteration: "khamsa", meaning: "Five - Cardinal number", meaningUrdu: "پانچ - تعداد", frequency: 4, difficulty: 2, category: "numbers", chapter: null, verse: null, rootWord: "خ م س", examples: ["خَمْسَةُ أَصْحَابٍ"] }
     ];
 
     sampleWords.forEach(word => {

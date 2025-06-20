@@ -137,6 +137,43 @@ export class MemStorage implements IStorage {
   }
 
   private initializeData() {
+    // Initialize daily challenges
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    const dailyChallenge = {
+      id: 1,
+      title: "Daily Arabic Practice",
+      description: "Learn 5 new Quranic words today",
+      type: "daily",
+      xpReward: 50,
+      requirement: 5,
+      startDate: today,
+      endDate: tomorrow,
+      isActive: true
+    };
+    
+    this.challenges.set(1, dailyChallenge);
+    
+    // Initialize weekly challenge
+    const weekEnd = new Date(today);
+    weekEnd.setDate(weekEnd.getDate() + 7);
+    
+    const weeklyChallenge = {
+      id: 2,
+      title: "Weekly Vocabulary Master",
+      description: "Master 25 words this week",
+      type: "weekly", 
+      xpReward: 200,
+      requirement: 25,
+      startDate: today,
+      endDate: weekEnd,
+      isActive: true
+    };
+    
+    this.challenges.set(2, weeklyChallenge);
+
     // Comprehensive vocabulary with complete Urdu translations from authoritative sources
     const sampleWords: Word[] = [
       // Al-Fatiha (الفاتحة) - Chapter 1 - Complete with verified Urdu translations

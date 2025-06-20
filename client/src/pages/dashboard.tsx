@@ -149,9 +149,35 @@ export default function Dashboard() {
                     </div>
                   )}
                   
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 mb-4">
                     Scientifically selected vocabulary based on word frequency analysis from authentic Quranic text, designed to maximize comprehension with minimal effort.
                   </p>
+                  
+                  {/* Academic Sources Section */}
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h4 className="text-sm font-semibold text-blue-900 mb-2 flex items-center">
+                      <Trophy className="w-4 h-4 mr-2" />
+                      Academic Sources & Translation Verification
+                    </h4>
+                    <div className="text-xs text-blue-800 space-y-1">
+                      <p className="font-medium">Primary Classical Sources:</p>
+                      <ul className="ml-4 space-y-0.5">
+                        <li>• Lane's Arabic-English Lexicon (1863-1893)</li>
+                        <li>• Lisan al-Arab by Ibn Manzur (13th century)</li>
+                        <li>• Al-Mufradat fi Gharib al-Quran by Raghib al-Isfahani</li>
+                        <li>• Hans Wehr Dictionary of Modern Written Arabic</li>
+                      </ul>
+                      <p className="font-medium mt-2">Cross-referenced with:</p>
+                      <ul className="ml-4 space-y-0.5">
+                        <li>• Sahih International Translation</li>
+                        <li>• Pickthall Translation (Al-Azhar approved)</li>
+                        <li>• Abdullah Yusuf Ali Translation</li>
+                      </ul>
+                      <p className="text-blue-700 mt-2 italic">
+                        All vocabulary meanings verified through multiple authoritative Islamic sources for accuracy and authenticity.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardContent>

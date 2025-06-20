@@ -137,6 +137,7 @@ Preferred communication style: Simple, everyday language.
 ✓ **SCHOLARLY SOURCE INTEGRATION**: All vocabulary now references Lane's Arabic-English Lexicon, Lisan al-Arab, Al-Mufradat fi Gharib al-Quran, Hans Wehr Dictionary
 ✓ **ACADEMIC CREDIBILITY**: Cross-referenced with Sahih International, Pickthall, and Yusuf Ali translations for accuracy verification
 ✓ **SOURCE DOCUMENTATION**: Created comprehensive vocabulary-sources.md documenting all authoritative references used
+✓ **TRANSPARENCY ON MAIN PAGE**: Added scholarly sources section to dashboard for community visibility and trust
 ✓ App now fully functional and ready for deployment with verified authentic content and academic integrity
 
 ## Changelog

@@ -14,6 +14,7 @@ interface Word {
   arabic: string;
   transliteration: string;
   meaning: string;
+  meaningUrdu?: string | null;
   difficulty: number;
   examples?: string[];
 }
@@ -41,6 +42,9 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
   const [lives, setLives] = useState(5);
   const [xpGained, setXpGained] = useState(0);
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [showUrduTranslations, setShowUrduTranslations] = useState(() => {
+    return localStorage.getItem('showUrduTranslations') === 'true';
+  });
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -204,9 +208,14 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
               <span className="font-arabic text-4xl text-gray-800 block mb-2" dir="rtl">
                 {currentQuestion.word.arabic}
               </span>
-              <span className="text-lg text-gray-600 italic">
+              <span className="text-lg text-gray-600 italic block mb-2">
                 {currentQuestion.word.transliteration}
               </span>
+              {showUrduTranslations && currentQuestion.word.meaningUrdu && (
+                <span className="text-sm text-blue-700 font-medium block" dir="rtl">
+                  {currentQuestion.word.meaningUrdu}
+                </span>
+              )}
             </motion.div>
           </div>
 

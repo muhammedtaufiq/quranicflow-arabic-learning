@@ -16,12 +16,19 @@ import {
   Settings,
   BookOpen,
   Target,
-  Users
+  Users,
+  Languages
 } from "lucide-react";
+import { useState } from "react";
+import { Switch } from "@/components/ui/switch";
 
 const MOCK_USER_ID = 1;
 
 export default function Profile() {
+  const [showUrduTranslations, setShowUrduTranslations] = useState(() => {
+    return localStorage.getItem('showUrduTranslations') === 'true';
+  });
+
   const { data: userData } = useQuery({
     queryKey: [`/api/user/${MOCK_USER_ID}`],
   });
@@ -33,6 +40,11 @@ export default function Profile() {
   const { data: leaderboardData } = useQuery({
     queryKey: ["/api/leaderboard?limit=100"],
   });
+
+  const handleUrduToggle = (checked: boolean) => {
+    setShowUrduTranslations(checked);
+    localStorage.setItem('showUrduTranslations', checked.toString());
+  };
 
   const user = (userData as any)?.user;
   const stats = (userData as any)?.stats;
@@ -167,6 +179,42 @@ export default function Profile() {
             </Card>
           ))}
         </div>
+
+        {/* Language Preferences */}
+        <Card className="mb-8">
+          <CardContent className="p-6">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+              <Languages className="w-5 h-5 mr-2 text-primary" />
+              Language Preferences
+            </h2>
+            
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-gray-900">
+                    Show Urdu Translations
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    Display Urdu meanings alongside English for supported vocabulary
+                  </p>
+                </div>
+                <Switch
+                  checked={showUrduTranslations}
+                  onCheckedChange={handleUrduToggle}
+                />
+              </div>
+              
+              {showUrduTranslations && (
+                <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <p className="text-xs text-blue-700">
+                    <strong>اردو ترجمہ فعال ہے</strong> - Urdu translations are now enabled for supported vocabulary words. 
+                    This feature helps Urdu-speaking learners better understand Quranic Arabic.
+                  </p>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Recent Activity */}
         <Card className="mb-8">

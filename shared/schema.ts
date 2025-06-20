@@ -21,6 +21,7 @@ export const words = pgTable("words", {
   arabic: text("arabic").notNull(),
   transliteration: text("transliteration").notNull(),
   meaning: text("meaning").notNull(),
+  meaningUrdu: text("meaning_urdu"),
   frequency: integer("frequency").notNull().default(1),
   difficulty: integer("difficulty").notNull().default(1), // 1-5
   category: text("category").notNull().default("general"),

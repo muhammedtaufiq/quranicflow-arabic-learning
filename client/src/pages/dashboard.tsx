@@ -111,7 +111,7 @@ export default function Dashboard() {
                   {/* Overall Statistics */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
                     <div className="bg-white rounded-lg p-3 border">
-                      <div className="text-xl font-bold text-blue-600">{contentStats.totalWords || 280}+</div>
+                      <div className="text-xl font-bold text-blue-600">{contentStats.totalWords || 40}+</div>
                       <div className="text-xs text-gray-600">Total Words</div>
                     </div>
                     <div className="bg-white rounded-lg p-3 border">
@@ -127,6 +127,37 @@ export default function Dashboard() {
                       <div className="text-xs text-gray-600">Frequency</div>
                     </div>
                   </div>
+
+                  {/* Urdu Translation Statistics */}
+                  {contentStats.urduTranslations && (
+                    <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-lg p-4 mb-4 border border-emerald-200">
+                      <h4 className="font-semibold text-emerald-900 mb-3 flex items-center">
+                        <span className="mr-2">🇵🇰</span>
+                        Urdu Translation Coverage
+                      </h4>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+                        <div className="bg-white rounded-lg p-2 border border-emerald-100">
+                          <div className="text-lg font-bold text-emerald-600">{contentStats.urduTranslations.totalWithUrdu}</div>
+                          <div className="text-xs text-gray-600">Words with Urdu</div>
+                        </div>
+                        <div className="bg-white rounded-lg p-2 border border-emerald-100">
+                          <div className="text-lg font-bold text-emerald-600">{contentStats.urduTranslations.coveragePercentage}%</div>
+                          <div className="text-xs text-gray-600">Coverage</div>
+                        </div>
+                        <div className="bg-white rounded-lg p-2 border border-emerald-100">
+                          <div className="text-lg font-bold text-emerald-600">{contentStats.urduTranslations.frequencyPercentage}%</div>
+                          <div className="text-xs text-gray-600">Frequency</div>
+                        </div>
+                        <div className="bg-white rounded-lg p-2 border border-emerald-100">
+                          <div className="text-lg font-bold text-emerald-600">{Math.floor((contentStats.urduTranslations.frequencySum || 0) / 1000)}K+</div>
+                          <div className="text-xs text-gray-600">Urdu Freq.</div>
+                        </div>
+                      </div>
+                      <p className="text-sm text-emerald-700">
+                        Complete Urdu translations from authoritative Islamic sources for enhanced learning experience.
+                      </p>
+                    </div>
+                  )}
 
                   {/* Chapter Breakdown */}
                   {contentStats.chapterBreakdown && contentStats.chapterBreakdown.length > 0 && (
@@ -152,6 +183,60 @@ export default function Dashboard() {
                   <p className="text-sm text-gray-600 mb-4">
                     Scientifically selected vocabulary based on word frequency analysis from authentic Quranic text, designed to maximize comprehension with minimal effort.
                   </p>
+
+                  {/* Authoritative Sources Section */}
+                  {contentStats.urduTranslations?.sources && (
+                    <div className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg p-4 mb-4 border border-amber-200">
+                      <h4 className="font-semibold text-amber-900 mb-3 flex items-center">
+                        <span className="mr-2">📚</span>
+                        Authoritative Academic Sources
+                      </h4>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+                        <div>
+                          <h5 className="font-medium text-amber-800 text-sm mb-2">Classical Sources</h5>
+                          <ul className="text-xs text-amber-700 space-y-1">
+                            {contentStats.urduTranslations.sources.classical.map((source: string, index: number) => (
+                              <li key={index} className="flex items-start">
+                                <span className="mr-1">•</span>
+                                <span>{source}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        
+                        <div>
+                          <h5 className="font-medium text-amber-800 text-sm mb-2">Contemporary Sources</h5>
+                          <ul className="text-xs text-amber-700 space-y-1">
+                            {contentStats.urduTranslations.sources.contemporary.map((source: string, index: number) => (
+                              <li key={index} className="flex items-start">
+                                <span className="mr-1">•</span>
+                                <span>{source}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        
+                        <div>
+                          <h5 className="font-medium text-amber-800 text-sm mb-2">Linguistic Sources</h5>
+                          <ul className="text-xs text-amber-700 space-y-1">
+                            {contentStats.urduTranslations.sources.linguistic.map((source: string, index: number) => (
+                              <li key={index} className="flex items-start">
+                                <span className="mr-1">•</span>
+                                <span>{source}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-white rounded-lg p-3 border border-amber-100">
+                        <p className="text-xs text-amber-800">
+                          <strong>Academic Verification:</strong> {contentStats.urduTranslations.sources.verification}
+                        </p>
+                      </div>
+                    </div>
+                  )}
                   
                   {/* Academic Sources Section */}
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">

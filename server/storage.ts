@@ -146,9 +146,24 @@ export class MemStorage implements IStorage {
       { id: 4, arabic: "الْعَالَمِينَ", transliteration: "al-'aalameen", meaning: "All the worlds/realms", meaningUrdu: "تمام جہان", frequency: 73, difficulty: 2, category: "creation", chapter: 1, verse: 2, rootWord: "ع ل م", examples: ["رَبِّ الْعَالَمِينَ"] },
       { id: 5, arabic: "الرَّحْمَٰنِ", transliteration: "ar-Rahmaan", meaning: "The Most Gracious", meaningUrdu: "رحمٰن", frequency: 169, difficulty: 1, category: "attributes", chapter: 1, verse: 3, rootWord: "ر ح م", examples: ["الرَّحْمَٰنِ الرَّحِيمِ"] },
       
-      // More vocabulary without Urdu translations for now
-      { id: 6, arabic: "قُلْ", transliteration: "qul", meaning: "Say/Speak - Command form", meaningUrdu: null, frequency: 332, difficulty: 1, category: "command", chapter: 112, verse: 1, rootWord: "ق و ل", examples: ["قُلْ هُوَ اللَّهُ أَحَدٌ"] },
-      { id: 7, arabic: "هُوَ", transliteration: "huwa", meaning: "He/It - Third person pronoun", meaningUrdu: null, frequency: 1508, difficulty: 1, category: "pronoun", chapter: 112, verse: 1, rootWord: "ه و", examples: ["هُوَ اللَّهُ أَحَدٌ"] }
+      // Al-Ikhlas (Chapter 112) with Urdu translations
+      { id: 6, arabic: "قُلْ", transliteration: "qul", meaning: "Say/Speak - Command form", meaningUrdu: "کہیے - امری صیغہ", frequency: 332, difficulty: 1, category: "command", chapter: 112, verse: 1, rootWord: "ق و ل", examples: ["قُلْ هُوَ اللَّهُ أَحَدٌ"] },
+      { id: 7, arabic: "هُوَ", transliteration: "huwa", meaning: "He/It - Third person pronoun", meaningUrdu: "وہ - مذکر ضمیر", frequency: 1508, difficulty: 1, category: "pronoun", chapter: 112, verse: 1, rootWord: "ه و", examples: ["هُوَ اللَّهُ أَحَدٌ"] },
+      { id: 8, arabic: "أَحَدٌ", transliteration: "ahad", meaning: "One/Unique - Emphasizing absolute unity", meaningUrdu: "ایک/واحد - مطلق وحدانیت", frequency: 25, difficulty: 2, category: "number", chapter: 112, verse: 1, rootWord: "ا ح د", examples: ["اللَّهُ أَحَدٌ"] },
+      { id: 9, arabic: "الصَّمَدُ", transliteration: "as-samad", meaning: "The Eternal/Self-Sufficient", meaningUrdu: "بے نیاز/لازوال", frequency: 1, difficulty: 3, category: "attributes", chapter: 112, verse: 2, rootWord: "ص م د", examples: ["اللَّهُ الصَّمَدُ"] },
+      { id: 10, arabic: "لَمْ", transliteration: "lam", meaning: "Did not/Never - Negation particle", meaningUrdu: "نہیں - نفی کا حرف", frequency: 23, difficulty: 2, category: "particles", chapter: 112, verse: 3, rootWord: "ل م", examples: ["لَمْ يَلِدْ"] },
+      { id: 11, arabic: "يَلِدْ", transliteration: "yalid", meaning: "Beget/Give birth", meaningUrdu: "جنے/پیدا کرے", frequency: 7, difficulty: 3, category: "verbs", chapter: 112, verse: 3, rootWord: "و ل د", examples: ["لَمْ يَلِدْ"] },
+      { id: 12, arabic: "يُولَدْ", transliteration: "yulad", meaning: "Be born", meaningUrdu: "پیدا ہو", frequency: 5, difficulty: 3, category: "verbs", chapter: 112, verse: 3, rootWord: "و ل د", examples: ["وَلَمْ يُولَدْ"] },
+      { id: 13, arabic: "كُفُوًا", transliteration: "kufuwan", meaning: "Equal/Equivalent", meaningUrdu: "برابر/ہمسر", frequency: 1, difficulty: 4, category: "adjectives", chapter: 112, verse: 4, rootWord: "ك ف و", examples: ["كُفُوًا أَحَدٌ"] },
+      
+      // Common high-frequency words with Urdu translations
+      { id: 14, arabic: "فِي", transliteration: "fi", meaning: "In/Within - Preposition", meaningUrdu: "میں - حرف جار", frequency: 1214, difficulty: 1, category: "prepositions", chapter: null, verse: null, rootWord: "ف ي", examples: ["فِي الْأَرْضِ"] },
+      { id: 15, arabic: "مِنْ", transliteration: "min", meaning: "From/Of - Preposition", meaningUrdu: "سے/کا - حرف جار", frequency: 1591, difficulty: 1, category: "prepositions", chapter: null, verse: null, rootWord: "م ن", examples: ["مِنَ السَّمَاءِ"] },
+      { id: 16, arabic: "إِلَى", transliteration: "ila", meaning: "To/Towards - Preposition", meaningUrdu: "کی طرف - حرف جار", frequency: 610, difficulty: 1, category: "prepositions", chapter: null, verse: null, rootWord: "ا ل ي", examples: ["إِلَى اللَّهِ"] },
+      { id: 17, arabic: "عَلَى", transliteration: "ala", meaning: "On/Upon - Preposition", meaningUrdu: "پر/اوپر - حرف جار", frequency: 1257, difficulty: 1, category: "prepositions", chapter: null, verse: null, rootWord: "ع ل و", examples: ["عَلَى الْأَرْضِ"] },
+      { id: 18, arabic: "وَ", transliteration: "wa", meaning: "And - Conjunction", meaningUrdu: "اور - حرف عطف", frequency: 1508, difficulty: 1, category: "conjunctions", chapter: null, verse: null, rootWord: "و", examples: ["وَاللَّهُ"] },
+      { id: 19, arabic: "مَا", transliteration: "ma", meaning: "What/That which - Interrogative/Relative", meaningUrdu: "کیا/جو - استفہامیہ/موصولہ", frequency: 1177, difficulty: 2, category: "particles", chapter: null, verse: null, rootWord: "م ا", examples: ["مَا شَاءَ اللَّهُ"] },
+      { id: 20, arabic: "لَا", transliteration: "la", meaning: "No/Not - Negation", meaningUrdu: "نہیں - نفی", frequency: 772, difficulty: 1, category: "particles", chapter: null, verse: null, rootWord: "ل ا", examples: ["لَا إِلَٰهَ إِلَّا اللَّهُ"] }
     ];
 
     sampleWords.forEach(word => {

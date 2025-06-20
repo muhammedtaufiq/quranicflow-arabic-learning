@@ -43,7 +43,8 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
   const [xpGained, setXpGained] = useState(0);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [showUrduTranslations, setShowUrduTranslations] = useState(() => {
-    return localStorage.getItem('showUrduTranslations') === 'true';
+    const stored = localStorage.getItem('showUrduTranslations');
+    return stored !== null ? stored === 'true' : true; // Default to true for deployment testing
   });
   
   const { toast } = useToast();

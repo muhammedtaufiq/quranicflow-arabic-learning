@@ -3,6 +3,7 @@ import { BottomNavigation } from "@/components/bottom-navigation";
 import { LearningCard } from "@/components/learning-card";
 import { ProgressCircle } from "@/components/progress-circle";
 import { AchievementBadge } from "@/components/achievement-badge";
+import { SurahCoverageChart } from "@/components/surah-coverage-chart";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -303,6 +304,11 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
             </div>
+          </div>
+
+          {/* Surah Coverage Chart */}
+          <div className="mt-8">
+            <SurahCoverageChart />
           </div>
         </div>
       </main>

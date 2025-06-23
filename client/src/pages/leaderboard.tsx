@@ -43,11 +43,11 @@ export default function Leaderboard() {
   const getRankBadgeColor = (rank: number) => {
     switch (rank) {
       case 1:
-        return "bg-gradient-to-r from-yellow-400 to-yellow-600 text-white";
+        return "bg-gradient-to-r from-amber-500 to-amber-600 text-white";
       case 2:
-        return "bg-gradient-to-r from-gray-300 to-gray-500 text-white";
+        return "bg-gradient-to-r from-slate-400 to-slate-500 text-white";
       case 3:
-        return "bg-gradient-to-r from-amber-400 to-amber-600 text-white";
+        return "bg-gradient-to-r from-amber-400 to-amber-500 text-white";
       default:
         return "bg-gray-100 text-gray-700";
     }
@@ -59,12 +59,12 @@ export default function Leaderboard() {
       
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Weekly Leaderboard
+        <div className="text-center mb-8 gentle-reveal">
+          <h1 className="text-3xl font-medium text-slate-800 mb-2">
+            Learning Community
           </h1>
-          <p className="text-gray-600">
-            Compete with other Arabic learners and climb the rankings!
+          <p className="text-slate-600">
+            Join fellow students on the journey of Quranic understanding
           </p>
         </div>
 
@@ -74,10 +74,10 @@ export default function Leaderboard() {
             <div className="flex items-end justify-center space-x-4 mb-6">
               {/* Second Place */}
               <div className="text-center">
-                <div className="w-20 h-16 bg-gradient-to-r from-gray-300 to-gray-500 rounded-t-lg flex items-center justify-center mb-2">
-                  <span className="text-white font-bold text-lg">2</span>
+                <div className="w-20 h-16 bg-gradient-to-r from-slate-400 to-slate-500 rounded-t-lg flex items-center justify-center mb-2">
+                  <span className="text-white font-medium text-lg">2</span>
                 </div>
-                <div className="bg-white rounded-lg p-4 shadow-md border-2 border-gray-300">
+                <div className="bg-white rounded-lg p-4 shadow-md border-2 border-slate-300 card-tranquil">
                   <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2">
                     <span className="text-lg font-bold text-gray-600">
                       {leaderboard[1]?.displayName?.charAt(0) || 'U'}
@@ -92,10 +92,10 @@ export default function Leaderboard() {
 
               {/* First Place */}
               <div className="text-center">
-                <div className="w-24 h-20 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-t-lg flex items-center justify-center mb-2">
+                <div className="w-24 h-20 bg-gradient-to-r from-amber-500 to-amber-600 rounded-t-lg flex items-center justify-center mb-2">
                   <Crown className="w-8 h-8 text-white" />
                 </div>
-                <div className="bg-white rounded-lg p-4 shadow-lg border-2 border-yellow-400">
+                <div className="bg-white rounded-lg p-4 shadow-lg border-2 border-amber-400 card-tranquil">
                   <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
                     <span className="text-xl font-bold text-yellow-600">
                       {leaderboard[0]?.displayName?.charAt(0) || 'U'}

@@ -45,42 +45,42 @@ export default function Achievements() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Achievements</h1>
-          <p className="text-gray-600">Track your learning milestones and unlock rewards</p>
+        <div className="mb-8 gentle-reveal">
+          <h1 className="text-3xl font-medium text-slate-800 mb-4">Learning Milestones</h1>
+          <p className="text-slate-600">Track your spiritual journey and unlock rewards</p>
         </div>
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card>
+          <Card className="card-tranquil gentle-reveal">
             <CardContent className="p-6 text-center">
-              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
-                <Trophy className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <Trophy className="w-6 h-6 text-teal-600" />
               </div>
-              <div className="text-2xl font-bold text-gray-900">{stats.unlockedCount}</div>
-              <div className="text-sm text-gray-600">Achievements Unlocked</div>
+              <div className="text-2xl font-medium text-slate-800">{stats.unlockedCount}</div>
+              <div className="text-sm text-slate-600">Milestones Achieved</div>
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="card-tranquil gentle-reveal">
             <CardContent className="p-6 text-center">
-              <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center mx-auto mb-3">
-                <Star className="w-6 h-6 text-accent" />
+              <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <Star className="w-6 h-6 text-emerald-600" />
               </div>
-              <div className="text-2xl font-bold text-gray-900">{stats.totalXpFromAchievements}</div>
-              <div className="text-sm text-gray-600">XP from Achievements</div>
+              <div className="text-2xl font-medium text-slate-800">{stats.totalXpFromAchievements}</div>
+              <div className="text-sm text-slate-600">Points Earned</div>
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="card-tranquil gentle-reveal">
             <CardContent className="p-6 text-center">
-              <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
-                <Target className="w-6 h-6 text-secondary" />
+              <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <Target className="w-6 h-6 text-amber-600" />
               </div>
-              <div className="text-2xl font-bold text-gray-900">
+              <div className="text-2xl font-medium text-slate-800">
                 {Math.round((stats.unlockedCount / stats.totalAchievements) * 100)}%
               </div>
-              <div className="text-sm text-gray-600">Completion Rate</div>
+              <div className="text-sm text-slate-600">Progress Rate</div>
             </CardContent>
           </Card>
         </div>

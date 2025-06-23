@@ -158,9 +158,9 @@ export default function Family() {
 
             <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
               {/* Create Family */}
-              <Card>
+              <Card className="card-tranquil gentle-reveal">
                 <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
+                  <CardTitle className="flex items-center space-x-2 text-slate-700">
                     <Plus className="w-5 h-5" />
                     <span>Create Family</span>
                   </CardTitle>

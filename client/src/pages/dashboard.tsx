@@ -3,12 +3,12 @@ import { BottomNavigation } from "@/components/bottom-navigation";
 import { LearningCard } from "@/components/learning-card";
 import { ProgressCircle } from "@/components/progress-circle";
 import { AchievementBadge } from "@/components/achievement-badge";
-import { QuranProgressChart } from "@/components/quran-progress-chart";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
-import { Flame, Star, Brain, Clock, Trophy, Medal, Crown, Calendar, BookOpen } from "lucide-react";
+import { Star, Brain, Clock, Trophy, Crown, Calendar, BookOpen } from "lucide-react";
+import { Link } from "wouter";
 
 // Mock user data - in a real app this would come from authentication
 const MOCK_USER_ID = 1;
@@ -48,568 +48,264 @@ export default function Dashboard() {
   const contentStats = (contentStatsData as any) || {};
 
   const comprehensionPercentage = user?.comprehensionPercentage || 73;
-  const dailyChallenge = challenges.find((c: any) => c.type === 'daily');
-  const weeklyChallenge = challenges.find((c: any) => c.type === 'weekly');
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 safe-area-pb md:pb-0 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your Arabic learning journey...</p>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+        <NavigationHeader />
+        <main className="pb-20 pt-16">
+          <div className="max-w-4xl mx-auto p-4">
+            <div className="animate-pulse space-y-6">
+              <div className="h-32 bg-slate-200 rounded-lg"></div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="h-24 bg-slate-200 rounded-lg"></div>
+                ))}
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="h-40 bg-slate-200 rounded-lg"></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </main>
+        <BottomNavigation currentPage="home" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 safe-area-pb md:pb-0">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <NavigationHeader />
-      
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Section */}
-        <div className="mb-8 gentle-reveal">
-          <div className="card-tranquil p-8 text-white" style={{background: 'linear-gradient(135deg, hsl(195, 65%, 45%) 0%, hsl(195, 70%, 35%) 100%)'}}>
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-              <div>
-                <h1 className="text-3xl md:text-4xl font-medium mb-3">
-                  السلام عليكم, {user?.displayName || 'Student'}
-                </h1>
-                <p className="text-white/90 mb-6 text-lg">Continue your journey of Quranic wisdom</p>
-                <div className="flex items-center space-x-4">
-                  <div className="bg-white/20 text-white px-4 py-2 rounded-lg font-medium">
-                    <Star className="h-4 w-4 inline mr-2" />
-                    Level {user?.level || 1}
-                  </div>
-                  <div className="bg-white/20 text-white px-4 py-2 rounded-lg font-medium">
-                    <Trophy className="h-4 w-4 inline mr-2" />
-                    {comprehensionPercentage}% Understanding
-                  </div>
-                  <div className="bg-white/20 text-white px-4 py-2 rounded-lg font-medium">
-                    <Star className="h-4 w-4 inline mr-2" />
-                    {user?.xp || 1250} Points
+      <main className="pb-20 pt-16">
+        <div className="max-w-4xl mx-auto p-4 space-y-6">
+          {/* Welcome Header */}
+          <div className="text-center mb-6">
+            <h1 className="text-2xl font-medium text-slate-800 mb-2">
+              Welcome back, {user?.displayName || 'Student'}
+            </h1>
+            <p className="text-slate-600">Ready to learn Quranic Arabic today?</p>
+          </div>
+
+          {/* User Progress Overview */}
+          <div className="card-tranquil mb-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="relative">
+                  <ProgressCircle percentage={comprehensionPercentage} size={80} />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-lg font-medium text-slate-800">{comprehensionPercentage}%</span>
                   </div>
                 </div>
+                <div>
+                  <h3 className="text-lg font-medium text-slate-800">Level {user?.level || 1}</h3>
+                  <p className="text-slate-600">{user?.xp || 1250} XP • {Math.floor((user?.xp || 1250) / 50)} day streak</p>
+                </div>
               </div>
-              <div className="mt-6 md:mt-0 soft-glow">
-                <ProgressCircle percentage={comprehensionPercentage} size={120} />
+              <div className="text-right">
+                <div className="text-2xl font-medium text-slate-800">{contentStats.totalWords || 632}</div>
+                <div className="text-sm text-slate-600">Words Available</div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* App Coverage Info */}
-        <div className="mb-8">
-          <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-50 to-indigo-50">
-            <CardContent className="p-6">
-              <div className="flex items-start space-x-4">
-                <div className="p-3 bg-blue-100 rounded-full">
-                  <Brain className="h-6 w-6 text-blue-600" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    Your Quranic Arabic Learning Journey
-                  </h3>
-                  <p className="text-gray-700 mb-4">
-                    Master <span className="font-semibold text-blue-600">{contentStats.totalWords || 500}+ authentic Arabic words</span> achieving <span className="font-semibold text-green-600">{contentStats.comprehensionCoverage?.practical || 65}% Quran comprehension</span> through scientifically selected high-frequency vocabulary.
-                  </p>
-                  
-                  {/* Phase Progress */}
-                  {contentStats.phase && (
-                    <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-4 mb-4 border border-green-200">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-green-800">Phase {contentStats.phase.current}: {contentStats.phase.description}</span>
-                        <span className="text-sm text-green-600">Next: {contentStats.phase.nextCoverage} coverage</span>
-                      </div>
-                      <div className="w-full bg-green-200 rounded-full h-2">
-                        <div 
-                          className="bg-green-500 h-2 rounded-full transition-all duration-300" 
-                          style={{ width: `${Math.min(100, (contentStats.totalWords / contentStats.phase.nextTarget) * 100)}%` }}
-                        ></div>
-                      </div>
-                      <div className="text-xs text-green-700 mt-1">
-                        {contentStats.totalWords}/{contentStats.phase.nextTarget} words to next phase
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* Overall Statistics */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-                    <div className="bg-white rounded-lg p-3 border">
-                      <div className="text-xl font-bold text-blue-600">{contentStats.totalWords || 500}+</div>
-                      <div className="text-xs text-gray-600">Total Words</div>
-                    </div>
-                    <div className="bg-white rounded-lg p-3 border">
-                      <div className="text-xl font-bold text-green-600">{contentStats.comprehensionCoverage?.practical || 65}%</div>
-                      <div className="text-xs text-gray-600">Comprehension</div>
-                    </div>
-                    <div className="bg-white rounded-lg p-3 border">
-                      <div className="text-xl font-bold text-purple-600">{contentStats.categories || 30}+</div>
-                      <div className="text-xs text-gray-600">Categories</div>
-                    </div>
-                    <div className="bg-white rounded-lg p-3 border">
-                      <div className="text-xl font-bold text-orange-600">{Math.floor((contentStats.totalFrequency || 50000) / 1000)}K</div>
-                      <div className="text-xs text-gray-600">Frequency</div>
-                    </div>
-                  </div>
-
-                  {/* Urdu Translation Statistics */}
-                  {contentStats.urduTranslations && (
-                    <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-lg p-4 mb-4 border border-emerald-200">
-                      <h4 className="font-semibold text-emerald-900 mb-3 flex items-center">
-                        <span className="mr-2">🇵🇰</span>
-                        Urdu Translation Coverage
-                      </h4>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
-                        <div className="bg-white rounded-lg p-2 border border-emerald-100">
-                          <div className="text-lg font-bold text-emerald-600">{contentStats.urduTranslations.totalWithUrdu}</div>
-                          <div className="text-xs text-gray-600">Words with Urdu</div>
-                        </div>
-                        <div className="bg-white rounded-lg p-2 border border-emerald-100">
-                          <div className="text-lg font-bold text-emerald-600">{contentStats.urduTranslations.coveragePercentage}%</div>
-                          <div className="text-xs text-gray-600">Coverage</div>
-                        </div>
-                        <div className="bg-white rounded-lg p-2 border border-emerald-100">
-                          <div className="text-lg font-bold text-emerald-600">{contentStats.urduTranslations.frequencyPercentage}%</div>
-                          <div className="text-xs text-gray-600">Frequency</div>
-                        </div>
-                        <div className="bg-white rounded-lg p-2 border border-emerald-100">
-                          <div className="text-lg font-bold text-emerald-600">{Math.floor((contentStats.urduTranslations.frequencySum || 0) / 1000)}K+</div>
-                          <div className="text-xs text-gray-600">Urdu Freq.</div>
-                        </div>
-                      </div>
-                      <p className="text-sm text-emerald-700">
-                        Complete Urdu translations from authoritative Islamic sources for enhanced learning experience.
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Detailed Chapter Distribution */}
-                  {contentStats.chapterBreakdown && contentStats.chapterBreakdown.length > 0 && (
-                    <div className="bg-gradient-to-r from-slate-50 to-gray-50 rounded-lg p-4 border border-slate-200">
-                      <h4 className="font-semibold text-slate-900 mb-3 flex items-center">
-                        <span className="mr-2">📖</span>
-                        Chapter Distribution Analysis
-                      </h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-                        {contentStats.chapterBreakdown.map((chapter: any) => (
-                          <div key={chapter.id} className="bg-white rounded-lg p-3 border border-slate-100">
-                            <div className="flex items-center justify-between mb-2">
-                              <div>
-                                <div className="font-medium text-slate-900">{chapter.name}</div>
-                                <div className="text-xs text-slate-500">{chapter.arabicName} • {chapter.verses} verses</div>
-                              </div>
-                              <div className="text-right">
-                                <div className="font-bold text-blue-600">{chapter.words}</div>
-                                <div className="text-xs text-slate-500">/{chapter.uniqueWords || 'N/A'}</div>
-                              </div>
-                            </div>
-                            {chapter.coverage !== undefined && (
-                              <div className="w-full bg-slate-200 rounded-full h-1.5">
-                                <div 
-                                  className="bg-blue-500 h-1.5 rounded-full transition-all duration-300" 
-                                  style={{ width: `${Math.min(100, chapter.coverage)}%` }}
-                                ></div>
-                              </div>
-                            )}
-                            <div className="flex items-center justify-between mt-1">
-                              <span className="text-xs text-slate-600">
-                                {chapter.completionStatus || 'Partial'} coverage
-                              </span>
-                              <span className="text-xs font-medium text-slate-700">
-                                {chapter.coverage || 0}%
-                              </span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      
-                      {/* Category Distribution */}
-                      {contentStats.categoryDistribution && (
-                        <div className="border-t border-slate-200 pt-4">
-                          <h5 className="font-medium text-slate-900 mb-2">Top Categories by Frequency</h5>
-                          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                            {contentStats.categoryDistribution.slice(0, 6).map((category: any, index: number) => (
-                              <div key={category.name} className="bg-white rounded-lg p-2 border border-slate-100">
-                                <div className="flex items-center justify-between">
-                                  <span className="text-sm font-medium text-slate-700 capitalize">
-                                    {category.name.replace(/([A-Z])/g, ' $1').trim()}
-                                  </span>
-                                  <span className="text-xs bg-slate-100 px-2 py-1 rounded">
-                                    {category.count}
-                                  </span>
-                                </div>
-                                <div className="text-xs text-slate-500 mt-1">
-                                  {Math.floor(category.frequency / 1000)}K frequency
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* Expansion Progress */}
-                      {contentStats.expansion && (
-                        <div className="border-t border-slate-200 pt-4 mt-4">
-                          <h5 className="font-medium text-slate-900 mb-2">Research-Based Progress</h5>
-                          <div className="text-sm text-slate-700 space-y-1">
-                            <div>📊 {contentStats.expansion.currentProgress}</div>
-                            <div>⚡ {contentStats.expansion.frequencyProgress}</div>
-                            <div className="text-xs text-slate-600 italic">{contentStats.expansion.efficiencyNote}</div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  
-                  <p className="text-sm text-gray-600 mb-4">
-                    Scientifically selected vocabulary based on word frequency analysis from authentic Quranic text, designed to maximize comprehension with minimal effort.
-                  </p>
-
-                  {/* Authoritative Sources Section */}
-                  {contentStats.urduTranslations?.sources && (
-                    <div className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-lg p-4 mb-4 border border-amber-200">
-                      <h4 className="font-semibold text-amber-900 mb-3 flex items-center">
-                        <span className="mr-2">📚</span>
-                        Authoritative Academic Sources
-                      </h4>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
-                        <div>
-                          <h5 className="font-medium text-amber-800 text-sm mb-2">Classical Sources</h5>
-                          <ul className="text-xs text-amber-700 space-y-1">
-                            {contentStats.urduTranslations.sources.classical.map((source: string, index: number) => (
-                              <li key={index} className="flex items-start">
-                                <span className="mr-1">•</span>
-                                <span>{source}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        
-                        <div>
-                          <h5 className="font-medium text-amber-800 text-sm mb-2">Contemporary Sources</h5>
-                          <ul className="text-xs text-amber-700 space-y-1">
-                            {contentStats.urduTranslations.sources.contemporary.map((source: string, index: number) => (
-                              <li key={index} className="flex items-start">
-                                <span className="mr-1">•</span>
-                                <span>{source}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        
-                        <div>
-                          <h5 className="font-medium text-amber-800 text-sm mb-2">Linguistic Sources</h5>
-                          <ul className="text-xs text-amber-700 space-y-1">
-                            {contentStats.urduTranslations.sources.linguistic.map((source: string, index: number) => (
-                              <li key={index} className="flex items-start">
-                                <span className="mr-1">•</span>
-                                <span>{source}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                      
-                      <div className="bg-white rounded-lg p-3 border border-amber-100">
-                        <p className="text-xs text-amber-800">
-                          <strong>Academic Verification:</strong> {contentStats.urduTranslations.sources.verification}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* Academic Sources Section */}
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <h4 className="text-sm font-semibold text-blue-900 mb-2 flex items-center">
-                      <Trophy className="w-4 h-4 mr-2" />
-                      Academic Sources & Translation Verification
-                    </h4>
-                    <div className="text-xs text-blue-800 space-y-1">
-                      <p className="font-medium">Primary Classical Sources:</p>
-                      <ul className="ml-4 space-y-0.5">
-                        <li>• Lane's Arabic-English Lexicon (1863-1893)</li>
-                        <li>• Lisan al-Arab by Ibn Manzur (13th century)</li>
-                        <li>• Al-Mufradat fi Gharib al-Quran by Raghib al-Isfahani</li>
-                        <li>• Hans Wehr Dictionary of Modern Written Arabic</li>
-                      </ul>
-                      <p className="font-medium mt-2">Cross-referenced with:</p>
-                      <ul className="ml-4 space-y-0.5">
-                        <li>• Sahih International Translation</li>
-                        <li>• Pickthall Translation (Al-Azhar approved)</li>
-                        <li>• Abdullah Yusuf Ali Translation</li>
-                      </ul>
-                      <p className="text-blue-700 mt-2 italic">
-                        All vocabulary meanings verified through multiple authoritative Islamic sources for accuracy and authenticity.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column: Learning Path */}
-          <div className="lg:col-span-2 space-y-6">
-            
-            {/* Today's Challenge */}
-            {dailyChallenge && (
-              <Card className="card-tranquil gentle-reveal">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-medium text-slate-700">Today's Learning Path</h2>
-                    <div className="bg-teal-100 text-teal-700 px-3 py-1 rounded-lg font-medium text-sm">
-                      <Star className="w-4 h-4 inline mr-1" />
-                      +{dailyChallenge.xpReward} Points
-                    </div>
-                  </div>
-                  
-                  <div className="rounded-xl p-4 mb-4" style={{background: 'linear-gradient(135deg, hsl(150, 35%, 55%) 0%, hsl(150, 40%, 45%) 100%)'}}>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-white font-medium">{dailyChallenge.title}</span>
-                      <span className="text-white/90 font-medium">
-                        {dailyChallenge.progress}/{dailyChallenge.requirement}
-                      </span>
-                    </div>
-                    <div className="bg-white/30 h-2 rounded-full overflow-hidden">
-                      <div 
-                        className="h-full rounded-full transition-all duration-700 bg-white" 
-                        style={{ 
-                          width: `${(dailyChallenge.progress / dailyChallenge.requirement) * 100}%`
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-
-                  <Button 
-                    className="btn-peaceful w-full"
-                    onClick={() => window.location.href = '/learn?type=daily'}
-                  >
-                    Continue Learning
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Quran Progress Chart */}
-            <div className="mb-8">
-              <QuranProgressChart 
-                userProgress={(chapterProgressData as any)?.chapterProgress || {}}
-                onChapterSelect={(chapterNumber) => {
-                  window.location.href = `/learn?chapter=${chapterNumber}`;
-                }}
-              />
-            </div>
-
-            {/* Learning Session Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <LearningCard
-                icon={<Brain className="text-primary text-xl" />}
-                title="Word Discovery"
-                description="Learn 5 new high-frequency Quranic words"
-                duration="~10 minutes"
-                xpReward={50}
-                badge="New Words"
-                badgeColor="green"
-                href="/learn?type=words"
-              />
-              
-              <LearningCard
-                icon={<Trophy className="text-secondary text-xl" />}
-                title="Sentence Structure"
-                description="Practice Arabic word order and syntax"
-                duration="~15 minutes"
-                xpReward={75}
-                badge="Grammar"
-                badgeColor="blue"
-                href="/learn?type=grammar"
-              />
-              
-              <LearningCard
-                icon={<div className="text-accent text-xl">📖</div>}
-                title="Chapter Learning"
-                description="Study specific Quranic chapters (Al-Fatiha, Al-Ikhlas, etc.)"
-                duration="~15 minutes"
-                xpReward={75}
-                badge="Chapters"
-                badgeColor="yellow"
-                href="/learn?type=chapters"
-              />
-              
-              <LearningCard
-                icon={<div className="text-accent text-xl">🔄</div>}
-                title="Spaced Review"
-                description="Review 12 words due for practice"
-                duration="~8 minutes"
-                xpReward={40}
-                badge="Review"
-                badgeColor="purple"
-                href="/learn?type=review"
-              />
-
-            </div>
+          {/* Quick Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <Card className="card-tranquil">
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-medium text-slate-800">{contentStats.totalWords || 632}</div>
+                <div className="text-sm text-slate-600">Words Available</div>
+              </CardContent>
+            </Card>
+            <Card className="card-tranquil">
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-medium text-slate-800">{contentStats.comprehensionCoverage?.practical || 65}%</div>
+                <div className="text-sm text-slate-600">Coverage</div>
+              </CardContent>
+            </Card>
+            <Card className="card-tranquil">
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-medium text-slate-800">{user?.level || 1}</div>
+                <div className="text-sm text-slate-600">Your Level</div>
+              </CardContent>
+            </Card>
+            <Card className="card-tranquil">
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-medium text-slate-800">{Math.floor((user?.xp || 1250) / 50)}</div>
+                <div className="text-sm text-slate-600">Day Streak</div>
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Right Column: Stats & Achievements */}
-          <div className="space-y-6">
-            
-            {/* Daily Stats */}
-            <Card className="card-candy pop-in">
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-primary mb-6">📊 Today's Progress</h3>
-                
-                <div className="space-y-6">
-                  <div className="achievement-badge w-full h-auto p-4 rounded-2xl">
-                    <div className="flex items-center justify-between text-white">
-                      <div className="flex items-center space-x-3">
-                        <Brain className="w-6 h-6" />
-                        <span className="font-semibold">Words Mastered</span>
-                      </div>
-                      <span className="text-xl font-bold">
-                        {stats?.learnedWordsCount || 0}/10 ⭐
-                      </span>
+          {/* Main Learning Actions */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left Column: Learning Options */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Today's Challenge */}
+              {challenges.length > 0 && (
+                <Card className="card-tranquil">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-lg font-medium text-slate-800 flex items-center">
+                        <Calendar className="h-5 w-5 mr-2 text-teal-600" />
+                        Today's Challenge
+                      </h3>
+                      <Badge className="bg-teal-100 text-teal-800">
+                        +{challenges[0]?.xpReward || 50} XP
+                      </Badge>
                     </div>
-                  </div>
-                  
-                  <div className="rounded-2xl p-4" style={{background: 'var(--gradient-secondary)'}}>
-                    <div className="flex items-center justify-between text-white">
-                      <div className="flex items-center space-x-3">
-                        <Star className="w-6 h-6" />
-                        <span className="font-semibold">XP Earned</span>
-                      </div>
-                      <span className="text-xl font-bold">{user?.xp || 1250} 💎</span>
-                    </div>
-                  </div>
-                  
-                  <div className="rounded-2xl p-4" style={{background: 'var(--gradient-success)'}}>
-                    <div className="flex items-center justify-between text-white">
-                      <div className="flex items-center space-x-3">
-                        <Flame className="w-6 h-6 sparkle" />
-                        <span className="font-semibold">Learning Streak</span>
-                      </div>
-                      <span className="text-xl font-bold">
-                        {user?.streakDays || 7} days 🔥
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <Clock className="text-blue-600 w-4 h-4" />
-                      </div>
-                      <span className="text-sm text-gray-700">Time Spent</span>
-                    </div>
-                    <span className="text-sm font-semibold text-gray-900">34 mins</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Recent Achievements */}
-            <Card>
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Achievements</h3>
-                
-                <div className="space-y-3">
-                  {recentAchievements.map((achievement: any) => (
-                    <AchievementBadge
-                      key={achievement.id}
-                      icon={achievement.icon}
-                      name={achievement.name}
-                      description={achievement.description}
-                      timeAgo="2h ago"
-                      isRecent={true}
-                    />
-                  ))}
-                  
-                  {recentAchievements.length === 0 && (
-                    <p className="text-sm text-gray-500">No recent achievements. Keep learning to unlock more!</p>
-                  )}
-                </div>
-
-                <Button variant="ghost" className="w-full mt-4 text-sm text-primary hover:text-primary/80">
-                  View all achievements
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Leaderboard */}
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Weekly Leaderboard</h3>
-                  <Button variant="ghost" size="sm" className="text-xs text-primary hover:text-primary/80">
-                    View all
-                  </Button>
-                </div>
-                
-                <div className="space-y-3">
-                  {leaderboard.map((player: any, index: number) => (
-                    <div key={player.id} className="flex items-center space-x-3">
-                      <div className="w-6 h-6 flex items-center justify-center">
-                        {index === 0 ? (
-                          <Crown className="w-4 h-4 text-accent" />
-                        ) : index === 1 ? (
-                          <Medal className="w-4 h-4 text-gray-400" />
-                        ) : index === 2 ? (
-                          <Medal className="w-4 h-4 text-amber-600" />
-                        ) : (
-                          <span className="text-xs font-bold text-gray-400">{index + 1}</span>
-                        )}
-                      </div>
-                      <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                        <span className="text-xs text-white font-medium">
-                          {player.displayName?.charAt(0) || 'U'}
+                    <p className="text-slate-700 mb-4">{challenges[0]?.description}</p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-full bg-slate-200 rounded-full h-2 max-w-[200px]">
+                          <div 
+                            className="bg-teal-500 h-2 rounded-full transition-all duration-300" 
+                            style={{ width: `${(challenges[0]?.progress || 0) / (challenges[0]?.target || 1) * 100}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-sm text-slate-600">
+                          {challenges[0]?.progress || 0}/{challenges[0]?.target || 1}
                         </span>
                       </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-gray-900">{player.displayName}</p>
-                        <p className="text-xs text-gray-600">{player.xp} XP</p>
-                      </div>
-                      {index === 0 && <Crown className="w-4 h-4 text-accent" />}
+                      <Link to="/learn">
+                        <Button className="btn-peaceful">
+                          Continue
+                        </Button>
+                      </Link>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
+              )}
 
-            {/* Weekly Challenge */}
-            {weeklyChallenge && (
-              <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-6 text-white">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-lg font-semibold">Weekly Challenge</h3>
-                  <Calendar className="w-5 h-5 text-white/80" />
-                </div>
-                <p className="text-sm text-white/90 mb-4">{weeklyChallenge.description}</p>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm">Progress</span>
-                  <span className="text-sm font-medium">
-                    {weeklyChallenge.progress}/{weeklyChallenge.requirement}
-                  </span>
-                </div>
-                <div className="w-full bg-white/20 rounded-full h-2 mb-4">
-                  <div 
-                    className="bg-white h-2 rounded-full transition-all duration-300" 
-                    style={{ width: `${(weeklyChallenge.progress / weeklyChallenge.requirement) * 100}%` }}
-                  ></div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-white/80">4 days left</span>
-                  <div className="flex items-center space-x-1">
-                    <Trophy className="w-4 h-4 text-yellow-300" />
-                    <span className="text-xs">{weeklyChallenge.xpReward} XP reward</span>
-                  </div>
-                </div>
+              {/* Learning Options */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <LearningCard
+                  title="Vocabulary Practice"
+                  description="Learn new Arabic words"
+                  icon={<BookOpen className="h-6 w-6" />}
+                  href="/learn"
+                  duration="5-10 min"
+                  xpReward={25}
+                  badge="New"
+                  badgeColor="green"
+                />
+                <LearningCard
+                  title="Spaced Review"
+                  description="Review words you've learned"
+                  icon={<Clock className="h-6 w-6" />}
+                  href="/learn?mode=review"
+                  duration="10-15 min"
+                  xpReward={50}
+                  badge="Review"
+                  badgeColor="blue"
+                />
+                <LearningCard
+                  title="Chapter Learning"
+                  description="Study specific chapters"
+                  icon={<Brain className="h-6 w-6" />}
+                  href="/learn?mode=chapter"
+                  duration="15-20 min"
+                  xpReward={75}
+                  badge="Study"
+                  badgeColor="purple"
+                />
+                <LearningCard
+                  title="Grammar Structure"
+                  description="Understand sentence patterns"
+                  icon={<Star className="h-6 w-6" />}
+                  href="/learn?mode=grammar"
+                  duration="10-15 min"
+                  xpReward={60}
+                  badge="Grammar"
+                  badgeColor="purple"
+                />
               </div>
-            )}
+            </div>
+
+            {/* Right Column: Progress & Social */}
+            <div className="space-y-6">
+              {/* Recent Achievements */}
+              {recentAchievements.length > 0 && (
+                <Card className="card-tranquil">
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-medium text-slate-800 mb-4 flex items-center">
+                      <Trophy className="h-5 w-5 mr-2 text-teal-600" />
+                      Recent Achievements
+                    </h3>
+                    <div className="space-y-3">
+                      {recentAchievements.map((achievement: any) => (
+                        <AchievementBadge
+                          key={achievement.id}
+                          name={achievement.name}
+                          description={achievement.description}
+                          icon="trophy"
+                        />
+                      ))}
+                    </div>
+                    <Link to="/achievements">
+                      <Button variant="outline" className="w-full mt-4 btn-wisdom">
+                        View All Achievements
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Leaderboard */}
+              {leaderboard.length > 0 && (
+                <Card className="card-tranquil">
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-medium text-slate-800 mb-4 flex items-center">
+                      <Crown className="h-5 w-5 mr-2 text-teal-600" />
+                      Top Learners
+                    </h3>
+                    <div className="space-y-3">
+                      {leaderboard.slice(0, 3).map((learner: any, index: number) => (
+                        <div key={learner.id} className="flex items-center justify-between">
+                          <div className="flex items-center space-x-3">
+                            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
+                              index === 0 ? 'bg-yellow-100 text-yellow-800' :
+                              index === 1 ? 'bg-gray-100 text-gray-800' :
+                              'bg-orange-100 text-orange-800'
+                            }`}>
+                              {index + 1}
+                            </div>
+                            <span className="font-medium text-slate-800">{learner.displayName}</span>
+                          </div>
+                          <span className="text-sm text-slate-600">{learner.xp} XP</span>
+                        </div>
+                      ))}
+                    </div>
+                    <Link to="/leaderboard">
+                      <Button variant="outline" className="w-full mt-4 btn-wisdom">
+                        View Full Leaderboard
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Family Learning */}
+              <Card className="card-tranquil">
+                <CardContent className="p-6">
+                  <h3 className="text-lg font-medium text-slate-800 mb-4">
+                    Family Learning
+                  </h3>
+                  <p className="text-slate-600 text-sm mb-4">
+                    Learn together with your family and track group progress.
+                  </p>
+                  <Link to="/family">
+                    <Button className="w-full btn-peaceful">
+                      Explore Family Features
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </main>
-
       <BottomNavigation currentPage="home" />
     </div>
   );

@@ -279,6 +279,10 @@ export class MemStorage implements IStorage {
     if (difficulty) {
       words = words.filter(word => word.difficulty === difficulty);
     }
+    // Return all words if limit is high enough (for content stats)
+    if (limit >= 1000) {
+      return words;
+    }
     return words.slice(0, limit);
   }
 

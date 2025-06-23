@@ -108,7 +108,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/content-stats", async (req, res) => {
     try {
-      const allWords = await storage.getWords(300);
+      const allWords = await storage.getWords(1000); // Get all available words without limit
       
       // Precise Quranic vocabulary analysis based on corpus frequency research
       // Total unique words in Quran: ~14,870 (including inflections)
@@ -131,6 +131,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Calculate precise comprehension coverage
       const totalWords = allWords.length;
       const totalFrequency = allWords.reduce((sum, word) => sum + (word.frequency || 0), 0);
+      
+
       
       // Frequency-based comprehension (how much of Quran text is understood)
       const frequencyComprehension = Math.round((totalFrequency / QURAN_FREQUENCY_TOTAL) * 100);

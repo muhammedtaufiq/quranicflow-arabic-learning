@@ -15,6 +15,7 @@ import {
   type FamilyChallengeProgress, type InsertFamilyChallengeProgress,
   type DailyReminder, type InsertDailyReminder
 } from "@shared/schema";
+import { AUTHENTIC_QURANIC_VOCABULARY } from "./authentic-vocabulary";
 
 export interface IStorage {
   // User operations
@@ -191,36 +192,23 @@ export class MemStorage implements IStorage {
       this.currentChallengeId = Math.max(this.currentChallengeId, challenge.id + 1);
     });
 
-    // AUTHENTIC QURANIC VOCABULARY - Verified from Authoritative Sources
-    // Sources: Lane's Arabic-English Lexicon, Hans Wehr Dictionary, Lisan al-Arab
-    // Al-Mufradat fi Gharib al-Quran by Raghib al-Isfahani
-    // Cross-referenced: Sahih International, Pickthall, Yusuf Ali translations
-    const sampleWords: Word[] = [
-      // Al-Fatiha - Verified translations from classical lexicons
-      { id: 1, arabic: "اللَّهُ", transliteration: "Allah", meaning: "Allah - The proper name of God in Arabic, derived from al-ilah (The God)", meaningUrdu: "اللہ - خدا کا اصل نام، العرف سے ماخوذ", frequency: 2697, difficulty: 1, category: "divine", chapter: 1, verse: 1, rootWord: "ا ل ه", examples: ["بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ"] },
-      { id: 2, arabic: "الْحَمْدُ", transliteration: "al-hamdu", meaning: "All praise and thanks - Complete acknowledgment of excellence (Lane's Lexicon)", meaningUrdu: "تمام تعریف اور شکر - کمال کی مکمل تسلیم", frequency: 100, difficulty: 1, category: "essential", chapter: 1, verse: 2, rootWord: "ح م د", examples: ["الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ"] },
-      { id: 3, arabic: "رَبِّ", transliteration: "rabbi", meaning: "Lord and Sustainer - One who nourishes and maintains creation (Lisan al-Arab)", meaningUrdu: "رب اور پالنے والا - جو تخلیق کو پالتا اور سنبھالتا ہے", frequency: 967, difficulty: 1, category: "essential", chapter: 1, verse: 2, rootWord: "ر ب ب", examples: ["رَبِّ الْعَالَمِينَ"] },
-      { id: 4, arabic: "الْعَالَمِينَ", transliteration: "al-'aalameen", meaning: "All the worlds/realms - Everything that exists besides Allah (Classical commentaries)", meaningUrdu: "تمام جہان - اللہ کے علاوہ جو کچھ موجود ہے", frequency: 73, difficulty: 2, category: "creation", chapter: 1, verse: 2, rootWord: "ع ل م", examples: ["رَبِّ الْعَالَمِينَ"] },
-      { id: 5, arabic: "الرَّحْمَٰنِ", transliteration: "ar-Rahmaan", meaning: "The Most Gracious - Divine attribute emphasizing boundless mercy to all creation (Al-Mufradat)", meaningUrdu: "رحمٰن - تمام مخلوق پر بے حد رحم کرنے والا", frequency: 169, difficulty: 1, category: "attributes", chapter: 1, verse: 3, rootWord: "ر ح م", examples: ["الرَّحْمَٰنِ الرَّحِيمِ"] },
-      { id: 6, arabic: "الرَّحِيمِ", transliteration: "ar-Raheem", meaning: "The Most Merciful - Divine attribute emphasizing specific mercy to believers (Al-Mufradat)", meaningUrdu: "رحیم - مومنوں پر خاص رحم کرنے والا", frequency: 113, difficulty: 1, category: "attributes", chapter: 1, verse: 3, rootWord: "ر ح م", examples: ["الرَّحْمَٰنِ الرَّحِيمِ"] },
-      { id: 7, arabic: "مَالِكِ", transliteration: "maaliki", meaning: "Master and Sovereign - One who has absolute authority and ownership (Lane's Lexicon)", meaningUrdu: "مالک اور بادشاہ - مطلق اختیار رکھنے والا", frequency: 35, difficulty: 2, category: "authority", chapter: 1, verse: 4, rootWord: "م ل ك", examples: ["مَالِكِ يَوْمِ الدِّينِ"] },
-      { id: 8, arabic: "يَوْمِ", transliteration: "yawmi", meaning: "Day - Period of time, specifically the Day of Judgment (Classical dictionaries)", meaningUrdu: "دن - وقت کا حصہ، خاص طور پر قیامت کا دن", frequency: 405, difficulty: 1, category: "time", chapter: 1, verse: 4, rootWord: "ي و م", examples: ["يَوْمِ الدِّينِ"] },
-      { id: 9, arabic: "الدِّينِ", transliteration: "ad-deen", meaning: "Religion/Judgment - System of life and divine recompense (Al-Mufradat)", meaningUrdu: "دین/انصاف - زندگی کا نظام اور الہی بدلہ", frequency: 92, difficulty: 2, category: "concept", chapter: 1, verse: 4, rootWord: "د ي ن", examples: ["يَوْمِ الدِّينِ"] },
-      { id: 10, arabic: "إِيَّاكَ", transliteration: "iyyaaka", meaning: "You alone - Emphatic pronoun showing exclusivity in worship (Arabic grammar)", meaningUrdu: "صرف آپ - عبادت میں انحصار ظاہر کرنے والا ضمیر", frequency: 5, difficulty: 3, category: "pronoun", chapter: 1, verse: 5, rootWord: "ا ي ي", examples: ["إِيَّاكَ نَعْبُدُ"] },
-      
-      // Ya-Sin (Chapter 36) - Popular chapter
-      { id: 11, arabic: "يس", transliteration: "Ya-Sin", meaning: "Ya-Sin", meaningUrdu: null, frequency: 1, difficulty: 2, category: "letters", chapter: 36, verse: 1, rootWord: "ي س", examples: ["يس"] },
-      { id: 12, arabic: "وَالْقُرْآنِ", transliteration: "wal-Quran", meaning: "and the Quran", meaningUrdu: null, frequency: 35, difficulty: 2, category: "scripture", chapter: 36, verse: 2, rootWord: "ق ر ا", examples: ["والقرآن الحكيم"] },
-      { id: 13, arabic: "الْحَكِيمِ", transliteration: "al-hakeem", meaning: "the Wise", meaningUrdu: null, frequency: 97, difficulty: 2, category: "attributes", chapter: 36, verse: 2, rootWord: "ح ك م", examples: ["والقرآن الحكيم"] },
-      
-      // Al-Ikhlas (Chapter 112) - Verified from classical sources
-      { id: 14, arabic: "قُلْ", transliteration: "qul", meaning: "Say", meaningUrdu: "کہو", frequency: 332, difficulty: 1, category: "command", chapter: 112, verse: 1, rootWord: "ق و ل", examples: ["قُلْ هُوَ اللَّهُ أَحَدٌ"] },
-      { id: 15, arabic: "هُوَ", transliteration: "huwa", meaning: "He", meaningUrdu: "وہ", frequency: 1508, difficulty: 1, category: "pronoun", chapter: 112, verse: 1, rootWord: "ه و", examples: ["هُوَ اللَّهُ أَحَدٌ"] },
-      { id: 16, arabic: "أَحَدٌ", transliteration: "ahad", meaning: "One", meaningUrdu: "ایک", frequency: 25, difficulty: 2, category: "number", chapter: 112, verse: 1, rootWord: "ا ح د", examples: ["اللَّهُ أَحَدٌ"] },
-      { id: 17, arabic: "الصَّمَدُ", transliteration: "as-samad", meaning: "The Eternal", meaningUrdu: "بے نیاز", frequency: 1, difficulty: 3, category: "attributes", chapter: 112, verse: 2, rootWord: "ص م د", examples: ["اللَّهُ الصَّمَدُ"] },
-    ];
+    // Initialize comprehensive authentic Quranic vocabulary from verified sources
+    const authenticWords: Word[] = AUTHENTIC_QURANIC_VOCABULARY.map((vocabWord, index) => ({
+      id: index + 1,
+      arabic: vocabWord.arabic,
+      transliteration: vocabWord.transliteration,
+      meaning: vocabWord.meaning,
+      meaningUrdu: vocabWord.meaningUrdu || null,
+      frequency: vocabWord.frequency,
+      difficulty: vocabWord.difficulty,
+      category: vocabWord.category,
+      chapter: vocabWord.chapter || 0,
+      verse: vocabWord.verse || null,
+      rootWord: vocabWord.rootWord || null,
+      examples: vocabWord.examples || []
+    }));
 
-    sampleWords.forEach(word => {
+    authenticWords.forEach(word => {
       this.words.set(word.id, word);
       this.currentWordId = Math.max(this.currentWordId, word.id + 1);
     });

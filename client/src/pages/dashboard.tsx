@@ -105,7 +105,7 @@ export default function Dashboard() {
                     Your Quranic Arabic Learning Journey
                   </h3>
                   <p className="text-gray-700 mb-4">
-                    Master <span className="font-semibold text-blue-600">{contentStats.totalWords || 200} authentic Arabic words</span> achieving <span className="font-semibold text-green-600">{contentStats.comprehensionCoverage?.practical || 49}% Quran comprehension</span> through scientifically selected high-frequency vocabulary.
+                    Master <span className="font-semibold text-blue-600">{contentStats.totalWords || 500}+ authentic Arabic words</span> achieving <span className="font-semibold text-green-600">{contentStats.comprehensionCoverage?.practical || 65}% Quran comprehension</span> through scientifically selected high-frequency vocabulary.
                   </p>
                   
                   {/* Phase Progress */}
@@ -130,19 +130,19 @@ export default function Dashboard() {
                   {/* Overall Statistics */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
                     <div className="bg-white rounded-lg p-3 border">
-                      <div className="text-xl font-bold text-blue-600">{contentStats.totalWords || 200}</div>
+                      <div className="text-xl font-bold text-blue-600">{contentStats.totalWords || 500}+</div>
                       <div className="text-xs text-gray-600">Total Words</div>
                     </div>
                     <div className="bg-white rounded-lg p-3 border">
-                      <div className="text-xl font-bold text-green-600">{contentStats.comprehensionCoverage?.practical || 49}%</div>
+                      <div className="text-xl font-bold text-green-600">{contentStats.comprehensionCoverage?.practical || 65}%</div>
                       <div className="text-xs text-gray-600">Comprehension</div>
                     </div>
                     <div className="bg-white rounded-lg p-3 border">
-                      <div className="text-xl font-bold text-purple-600">{contentStats.categories || 25}</div>
+                      <div className="text-xl font-bold text-purple-600">{contentStats.categories || 30}+</div>
                       <div className="text-xs text-gray-600">Categories</div>
                     </div>
                     <div className="bg-white rounded-lg p-3 border">
-                      <div className="text-xl font-bold text-orange-600">{Math.floor((contentStats.totalFrequency || 38460) / 1000)}K</div>
+                      <div className="text-xl font-bold text-orange-600">{Math.floor((contentStats.totalFrequency || 50000) / 1000)}K</div>
                       <div className="text-xs text-gray-600">Frequency</div>
                     </div>
                   </div>

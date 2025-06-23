@@ -15,10 +15,10 @@ interface LearningCardProps {
 }
 
 const badgeStyles = {
-  green: "bg-green-100 text-green-800",
-  blue: "bg-blue-100 text-blue-800", 
-  yellow: "bg-yellow-100 text-yellow-800",
-  purple: "bg-purple-100 text-purple-800"
+  green: "bg-green-500 text-white font-bold shadow-lg",
+  blue: "bg-blue-500 text-white font-bold shadow-lg", 
+  yellow: "bg-yellow-500 text-white font-bold shadow-lg",
+  purple: "bg-purple-500 text-white font-bold shadow-lg"
 };
 
 export function LearningCard({
@@ -33,25 +33,27 @@ export function LearningCard({
 }: LearningCardProps) {
   return (
     <Link href={href}>
-      <Card className="hover:shadow-md transition-shadow cursor-pointer">
+      <Card className="word-card bounce-in">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center">
-              {icon}
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center pulse-glow" style={{background: 'var(--gradient-primary)'}}>
+              <div className="text-white text-2xl">
+                {icon}
+              </div>
             </div>
-            <Badge className={badgeStyles[badgeColor]}>
+            <Badge className={`${badgeStyles[badgeColor]} px-3 py-1 rounded-full`}>
               {badge}
             </Badge>
           </div>
           
-          <h3 className="font-semibold text-gray-900 mb-2">{title}</h3>
-          <p className="text-sm text-gray-600 mb-4">{description}</p>
+          <h3 className="font-bold text-primary text-lg mb-3">{title}</h3>
+          <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{description}</p>
           
           <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-500">{duration}</span>
-            <div className="flex items-center space-x-1 text-accent">
-              <Star className="w-3 h-3" />
-              <span className="text-xs">+{xpReward} XP</span>
+            <span className="text-sm font-medium text-muted-foreground">{duration}</span>
+            <div className="xp-display">
+              <Star className="w-4 h-4 inline mr-1" />
+              +{xpReward} XP
             </div>
           </div>
         </CardContent>

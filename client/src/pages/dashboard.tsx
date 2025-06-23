@@ -68,25 +68,31 @@ export default function Dashboard() {
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
-        <div className="mb-8">
-          <div className="bg-gradient-primary rounded-2xl p-6 text-white">
+        <div className="mb-8 bounce-in">
+          <div className="card-candy p-8 text-white" style={{background: 'var(--gradient-primary)'}}>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold mb-2">
-                  السلام عليكم, {user?.displayName || 'Student'}! 👋
+                <h1 className="text-3xl md:text-4xl font-bold mb-3 sparkle">
+                  السلام عليكم, {user?.displayName || 'Student'}! ✨
                 </h1>
-                <p className="text-primary-100 mb-4">Ready to continue your Quranic Arabic journey?</p>
+                <p className="text-white/90 mb-6 text-lg">Ready to unlock more Arabic mastery?</p>
                 <div className="flex items-center space-x-4">
-                  <Badge variant="secondary" className="bg-white/20 text-white">
+                  <div className="xp-display">
+                    <Flame className="h-4 w-4 inline mr-2" />
                     Level {user?.level || 1}
-                  </Badge>
-                  <Badge variant="secondary" className="bg-white/20 text-white">
-                    {comprehensionPercentage}% Quranic Comprehension
-                  </Badge>
+                  </div>
+                  <div className="score-display">
+                    <Trophy className="h-4 w-4 inline mr-2" />
+                    {comprehensionPercentage}% Mastery
+                  </div>
+                  <div className="lives-display">
+                    <Star className="h-4 w-4 inline mr-2" />
+                    {user?.xp || 1250} XP
+                  </div>
                 </div>
               </div>
-              <div className="mt-4 md:mt-0">
-                <ProgressCircle percentage={comprehensionPercentage} size={96} />
+              <div className="mt-6 md:mt-0 pulse-glow">
+                <ProgressCircle percentage={comprehensionPercentage} size={120} />
               </div>
             </div>
           </div>
@@ -351,36 +357,39 @@ export default function Dashboard() {
             
             {/* Today's Challenge */}
             {dailyChallenge && (
-              <Card>
+              <Card className="card-candy pop-in">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-semibold text-gray-900">Today's Challenge</h2>
-                    <div className="flex items-center space-x-1 text-accent">
-                      <Star className="w-4 h-4" />
-                      <span className="text-sm font-medium">+{dailyChallenge.xpReward} XP</span>
+                    <h2 className="text-xl font-semibold text-primary">🎯 Today's Challenge</h2>
+                    <div className="xp-display sparkle">
+                      <Star className="w-4 h-4 inline mr-1" />
+                      +{dailyChallenge.xpReward} XP
                     </div>
                   </div>
                   
-                  <div className="bg-gradient-to-r from-accent/10 to-primary/10 rounded-lg p-4 mb-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-gray-600">{dailyChallenge.title}</span>
-                      <span className="text-sm font-medium text-primary">
-                        {dailyChallenge.progress}/{dailyChallenge.requirement} completed
+                  <div className="rounded-2xl p-4 mb-4" style={{background: 'var(--gradient-secondary)'}}>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-white font-semibold">{dailyChallenge.title}</span>
+                      <span className="text-white/90 font-bold">
+                        {dailyChallenge.progress}/{dailyChallenge.requirement} ⭐
                       </span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="progress-candy relative">
                       <div 
-                        className="bg-primary h-2 rounded-full transition-all duration-300" 
-                        style={{ width: `${(dailyChallenge.progress / dailyChallenge.requirement) * 100}%` }}
+                        className="h-full rounded-full transition-all duration-500" 
+                        style={{ 
+                          width: `${(dailyChallenge.progress / dailyChallenge.requirement) * 100}%`,
+                          background: 'var(--gradient-success)'
+                        }}
                       ></div>
                     </div>
                   </div>
 
                   <Button 
-                    className="w-full bg-primary hover:bg-primary/90"
+                    className="btn-candy w-full text-lg font-bold"
                     onClick={() => window.location.href = '/learn?type=daily'}
                   >
-                    Continue Challenge
+                    🚀 Continue Challenge
                   </Button>
                 </CardContent>
               </Card>
@@ -449,43 +458,43 @@ export default function Dashboard() {
           <div className="space-y-6">
             
             {/* Daily Stats */}
-            <Card>
+            <Card className="card-candy pop-in">
               <CardContent className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Today's Progress</h3>
+                <h3 className="text-xl font-bold text-primary mb-6">📊 Today's Progress</h3>
                 
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                        <Brain className="text-primary w-4 h-4" />
+                <div className="space-y-6">
+                  <div className="achievement-badge w-full h-auto p-4 rounded-2xl">
+                    <div className="flex items-center justify-between text-white">
+                      <div className="flex items-center space-x-3">
+                        <Brain className="w-6 h-6" />
+                        <span className="font-semibold">Words Mastered</span>
                       </div>
-                      <span className="text-sm text-gray-700">Words Learned</span>
+                      <span className="text-xl font-bold">
+                        {stats?.learnedWordsCount || 0}/10 ⭐
+                      </span>
                     </div>
-                    <span className="text-sm font-semibold text-gray-900">
-                      {stats?.learnedWordsCount || 0}/10
-                    </span>
                   </div>
                   
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-accent/10 rounded-lg flex items-center justify-center">
-                        <Star className="text-accent w-4 h-4" />
+                  <div className="rounded-2xl p-4" style={{background: 'var(--gradient-secondary)'}}>
+                    <div className="flex items-center justify-between text-white">
+                      <div className="flex items-center space-x-3">
+                        <Star className="w-6 h-6" />
+                        <span className="font-semibold">XP Earned</span>
                       </div>
-                      <span className="text-sm text-gray-700">XP Earned</span>
+                      <span className="text-xl font-bold">{user?.xp || 1250} 💎</span>
                     </div>
-                    <span className="text-sm font-semibold text-gray-900">{user?.xp || 0}</span>
                   </div>
                   
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
-                        <Flame className="text-orange-500 w-4 h-4 streak-fire" />
+                  <div className="rounded-2xl p-4" style={{background: 'var(--gradient-success)'}}>
+                    <div className="flex items-center justify-between text-white">
+                      <div className="flex items-center space-x-3">
+                        <Flame className="w-6 h-6 sparkle" />
+                        <span className="font-semibold">Learning Streak</span>
                       </div>
-                      <span className="text-sm text-gray-700">Streak</span>
+                      <span className="text-xl font-bold">
+                        {user?.streakDays || 7} days 🔥
+                      </span>
                     </div>
-                    <span className="text-sm font-semibold text-gray-900">
-                      {user?.streakDays || 0} days
-                    </span>
                   </div>
                   
                   <div className="flex items-center justify-between">

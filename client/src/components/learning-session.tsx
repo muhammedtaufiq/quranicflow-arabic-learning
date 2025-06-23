@@ -201,16 +201,16 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
           <div className="text-center mb-8">
             <p className="text-xl font-bold text-primary mb-6">{currentQuestion.question}</p>
             <motion.div
-              className="rounded-2xl p-8 mb-6 pulse-glow"
-              style={{background: 'var(--gradient-primary)'}}
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.3 }}
+              className="rounded-xl p-8 mb-6 soft-glow"
+              style={{background: 'linear-gradient(135deg, hsl(195, 65%, 45%) 0%, hsl(195, 70%, 35%) 100%)'}}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              <span className="font-arabic text-5xl text-white block mb-3 sparkle" dir="rtl">
+              <span className="font-arabic text-5xl text-white block mb-3 peaceful-breath" dir="rtl">
                 {currentQuestion.word.arabic}
               </span>
-              <span className="text-xl text-white/90 italic block mb-3 font-semibold">
+              <span className="text-xl text-white/90 italic block mb-3 font-medium">
                 {currentQuestion.word.transliteration}
               </span>
               {showUrduTranslations && currentQuestion.word.meaningUrdu && (
@@ -233,14 +233,14 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
                 >
                   <Button
                     variant="outline"
-                    className={`w-full p-4 text-left border-0 rounded-2xl transition-all duration-300 transform hover:scale-105 ${
+                    className={`w-full p-4 text-left border-0 rounded-xl transition-all duration-300 ${
                       selectedAnswer === option
                         ? isCorrect
-                          ? "bg-green-500 text-white shadow-lg"
-                          : "bg-red-500 text-white shadow-lg"
+                          ? "bg-emerald-600 text-white shadow-md"
+                          : "bg-red-400 text-white shadow-md"
                         : isAnswered && option === currentQuestion.correctAnswer
-                        ? "bg-green-500 text-white shadow-lg"
-                        : "bg-white border-2 border-gray-200 hover:border-primary hover:shadow-md"
+                        ? "bg-emerald-600 text-white shadow-md"
+                        : "bg-white border-2 border-gray-200 hover:border-teal-400 hover:shadow-md hover:translate-y-[-1px]"
                     }`}
                     onClick={() => handleAnswerSelect(option)}
                     disabled={isAnswered}

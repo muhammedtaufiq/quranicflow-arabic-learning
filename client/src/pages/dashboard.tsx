@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
-import { Flame, Star, Brain, Clock, Trophy, Medal, Crown, Calendar } from "lucide-react";
+import { Flame, Star, Brain, Clock, Trophy, Medal, Crown, Calendar, BookOpen } from "lucide-react";
 
 // Mock user data - in a real app this would come from authentication
 const MOCK_USER_ID = 1;
@@ -68,30 +68,30 @@ export default function Dashboard() {
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
-        <div className="mb-8 bounce-in">
-          <div className="card-candy p-8 text-white" style={{background: 'var(--gradient-primary)'}}>
+        <div className="mb-8 gentle-reveal">
+          <div className="card-tranquil p-8 text-white" style={{background: 'linear-gradient(135deg, hsl(195, 65%, 45%) 0%, hsl(195, 70%, 35%) 100%)'}}>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold mb-3 sparkle">
-                  السلام عليكم, {user?.displayName || 'Student'}! ✨
+                <h1 className="text-3xl md:text-4xl font-medium mb-3">
+                  السلام عليكم, {user?.displayName || 'Student'}
                 </h1>
-                <p className="text-white/90 mb-6 text-lg">Ready to unlock more Arabic mastery?</p>
+                <p className="text-white/90 mb-6 text-lg">Continue your journey of Quranic wisdom</p>
                 <div className="flex items-center space-x-4">
-                  <div className="xp-display">
-                    <Flame className="h-4 w-4 inline mr-2" />
+                  <div className="bg-white/20 text-white px-4 py-2 rounded-lg font-medium">
+                    <Star className="h-4 w-4 inline mr-2" />
                     Level {user?.level || 1}
                   </div>
-                  <div className="score-display">
+                  <div className="bg-white/20 text-white px-4 py-2 rounded-lg font-medium">
                     <Trophy className="h-4 w-4 inline mr-2" />
-                    {comprehensionPercentage}% Mastery
+                    {comprehensionPercentage}% Understanding
                   </div>
-                  <div className="lives-display">
+                  <div className="bg-white/20 text-white px-4 py-2 rounded-lg font-medium">
                     <Star className="h-4 w-4 inline mr-2" />
-                    {user?.xp || 1250} XP
+                    {user?.xp || 1250} Points
                   </div>
                 </div>
               </div>
-              <div className="mt-6 md:mt-0 pulse-glow">
+              <div className="mt-6 md:mt-0 soft-glow">
                 <ProgressCircle percentage={comprehensionPercentage} size={120} />
               </div>
             </div>
@@ -357,39 +357,38 @@ export default function Dashboard() {
             
             {/* Today's Challenge */}
             {dailyChallenge && (
-              <Card className="card-candy pop-in">
+              <Card className="card-tranquil gentle-reveal">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-semibold text-primary">🎯 Today's Challenge</h2>
-                    <div className="xp-display sparkle">
+                    <h2 className="text-xl font-medium text-slate-700">Today's Learning Path</h2>
+                    <div className="bg-teal-100 text-teal-700 px-3 py-1 rounded-lg font-medium text-sm">
                       <Star className="w-4 h-4 inline mr-1" />
-                      +{dailyChallenge.xpReward} XP
+                      +{dailyChallenge.xpReward} Points
                     </div>
                   </div>
                   
-                  <div className="rounded-2xl p-4 mb-4" style={{background: 'var(--gradient-secondary)'}}>
+                  <div className="rounded-xl p-4 mb-4" style={{background: 'linear-gradient(135deg, hsl(150, 35%, 55%) 0%, hsl(150, 40%, 45%) 100%)'}}>
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-white font-semibold">{dailyChallenge.title}</span>
-                      <span className="text-white/90 font-bold">
-                        {dailyChallenge.progress}/{dailyChallenge.requirement} ⭐
+                      <span className="text-white font-medium">{dailyChallenge.title}</span>
+                      <span className="text-white/90 font-medium">
+                        {dailyChallenge.progress}/{dailyChallenge.requirement}
                       </span>
                     </div>
-                    <div className="progress-candy relative">
+                    <div className="bg-white/30 h-2 rounded-full overflow-hidden">
                       <div 
-                        className="h-full rounded-full transition-all duration-500" 
+                        className="h-full rounded-full transition-all duration-700 bg-white" 
                         style={{ 
-                          width: `${(dailyChallenge.progress / dailyChallenge.requirement) * 100}%`,
-                          background: 'var(--gradient-success)'
+                          width: `${(dailyChallenge.progress / dailyChallenge.requirement) * 100}%`
                         }}
                       ></div>
                     </div>
                   </div>
 
                   <Button 
-                    className="btn-candy w-full text-lg font-bold"
+                    className="btn-peaceful w-full"
                     onClick={() => window.location.href = '/learn?type=daily'}
                   >
-                    🚀 Continue Challenge
+                    Continue Learning
                   </Button>
                 </CardContent>
               </Card>

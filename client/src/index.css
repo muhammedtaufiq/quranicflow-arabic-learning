@@ -109,73 +109,134 @@
   }
 }
 
+@keyframes gentle-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wisdom-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(45, 125, 148, 0.2);
+  }
+  
+  50% {
+    box-shadow: 0 0 0 8px rgba(45, 125, 148, 0);
+  }
+}
+
+@keyframes peaceful-breath {
+  0%, 100% {
+    transform: scale(1);
+  }
+  
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes serene-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes soft-glow {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(45, 125, 148, 0.15);
+  }
+  
+  50% {
+    box-shadow: 0 6px 20px rgba(45, 125, 148, 0.25);
+  }
+}
+
+@keyframes gentle-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  
+  50% {
+    opacity: 0.8;
+  }
+}
+
 @layer components {
-  /* Candy Crush Style Animations and Components */
-  .celebration-bounce {
-    animation: celebration-bounce 0.6s ease-in-out;
+  /* Islamic Tranquility Animations and Components */
+  .gentle-reveal {
+    animation: gentle-reveal 0.8s ease-out;
   }
   
-  .xp-gain {
-    animation: xp-gain 1s ease-out;
+  .wisdom-glow {
+    animation: wisdom-glow 4s ease-in-out infinite;
   }
   
-  .streak-fire {
-    animation: streak-fire 0.8s ease-in-out infinite alternate;
+  .peaceful-breath {
+    animation: peaceful-breath 6s ease-in-out infinite;
   }
   
-  .mastery-glow {
-    animation: mastery-glow 2s ease-in-out infinite;
+  .serene-fade {
+    animation: serene-fade 1s ease-out;
   }
   
-  /* New Candy Crush Inspired Animations */
-  .bounce-in {
-    animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  .soft-glow {
+    animation: soft-glow 3s ease-in-out infinite;
   }
   
-  .pulse-glow {
-    animation: pulseGlow 2s infinite;
+  .gentle-pulse {
+    animation: gentle-pulse 4s ease-in-out infinite;
   }
   
-  .shake {
-    animation: shake 0.5s ease-in-out;
-  }
-  
-  .celebrate {
-    animation: celebrate 1s ease-in-out;
-  }
-  
-  .sparkle {
-    animation: sparkle 1.5s ease-in-out infinite;
-  }
-  
-  .pop-in {
-    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
-  
-  /* Interactive Button Styles */
-  .btn-candy {
-    @apply font-bold py-3 px-6 rounded-2xl shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95;
-    background: var(--gradient-primary);
+  /* Reverent Button Styles */
+  .btn-peaceful {
+    @apply font-medium py-3 px-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-lg;
+    background: linear-gradient(135deg, hsl(195, 65%, 45%) 0%, hsl(195, 70%, 35%) 100%);
     color: white;
+    letter-spacing: 0.025em;
   }
   
-  .btn-candy-secondary {
-    @apply font-bold py-3 px-6 rounded-2xl shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95;
-    background: var(--gradient-secondary);
+  .btn-peaceful:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, hsl(195, 70%, 50%) 0%, hsl(195, 75%, 40%) 100%);
+  }
+  
+  .btn-wisdom {
+    @apply font-medium py-3 px-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-lg;
+    background: linear-gradient(135deg, hsl(150, 35%, 55%) 0%, hsl(150, 40%, 45%) 100%);
     color: white;
+    letter-spacing: 0.025em;
   }
   
-  .btn-candy-success {
-    @apply font-bold py-3 px-6 rounded-2xl shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95;
-    background: var(--gradient-success);
+  .btn-blessed {
+    @apply font-medium py-3 px-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-lg;
+    background: linear-gradient(135deg, hsl(35, 55%, 70%) 0%, hsl(35, 60%, 60%) 100%);
     color: white;
+    letter-spacing: 0.025em;
   }
   
-  /* Enhanced Card Styles */
-  .card-candy {
-    @apply bg-white rounded-3xl shadow-xl border-2 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl;
-    border-color: hsl(300, 30%, 85%);
-    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%);
+  /* Tranquil Card Styles */
+  .card-tranquil {
+    @apply bg-white rounded-xl shadow-lg border transition-all hover:shadow-xl;
+    border-color: hsl(195, 20%, 85%);
+    background: linear-gradient(145deg, rgba(255,255,255,0.98) 0%, rgba(248,250,252,0.95) 100%);
+    transition-duration: 400ms;
+  }
+  
+  .card-tranquil:hover {
+    transform: translateY(-2px);
+    border-color: hsl(195, 30%, 75%);
   }
   
   .card-candy:hover {

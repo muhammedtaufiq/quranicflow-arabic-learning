@@ -15,10 +15,10 @@ interface LearningCardProps {
 }
 
 const badgeStyles = {
-  green: "bg-green-500 text-white font-bold shadow-lg",
-  blue: "bg-blue-500 text-white font-bold shadow-lg", 
-  yellow: "bg-yellow-500 text-white font-bold shadow-lg",
-  purple: "bg-purple-500 text-white font-bold shadow-lg"
+  green: "bg-emerald-600 text-white font-medium shadow-md",
+  blue: "bg-teal-600 text-white font-medium shadow-md", 
+  yellow: "bg-amber-600 text-white font-medium shadow-md",
+  purple: "bg-slate-600 text-white font-medium shadow-md"
 };
 
 export function LearningCard({
@@ -33,21 +33,21 @@ export function LearningCard({
 }: LearningCardProps) {
   return (
     <Link href={href}>
-      <Card className="word-card bounce-in">
+      <Card className="card-tranquil gentle-reveal">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center pulse-glow" style={{background: 'var(--gradient-primary)'}}>
+            <div className="w-16 h-16 rounded-xl flex items-center justify-center soft-glow" style={{background: 'linear-gradient(135deg, hsl(195, 65%, 45%) 0%, hsl(195, 70%, 35%) 100%)'}}>
               <div className="text-white text-2xl">
                 {icon}
               </div>
             </div>
-            <Badge className={`${badgeStyles[badgeColor]} px-3 py-1 rounded-full`}>
+            <Badge className={`${badgeStyles[badgeColor]} px-3 py-1 rounded-lg`}>
               {badge}
             </Badge>
           </div>
           
-          <h3 className="font-bold text-primary text-lg mb-3">{title}</h3>
-          <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{description}</p>
+          <h3 className="font-medium text-slate-700 text-lg mb-3">{title}</h3>
+          <p className="text-sm text-slate-600 mb-4 leading-relaxed">{description}</p>
           
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-muted-foreground">{duration}</span>

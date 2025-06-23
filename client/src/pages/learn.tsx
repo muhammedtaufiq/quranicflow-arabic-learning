@@ -314,55 +314,55 @@ export default function Learn() {
       <NavigationHeader />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Choose Your Learning Path</h1>
-          <p className="text-gray-600">Select a learning activity to continue your Quranic Arabic journey</p>
+        <div className="mb-8 gentle-reveal">
+          <h1 className="text-3xl font-medium text-slate-800 mb-4">Choose Your Learning Path</h1>
+          <p className="text-slate-600">Select a learning activity to continue your Quranic Arabic journey</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
 
           {learningTypes.map((type) => (
-            <Card key={type.id} className={`word-card bounce-in ${
-              type.recommended ? 'achievement-badge' : 'card-candy'
+            <Card key={type.id} className={`card-tranquil gentle-reveal ${
+              type.recommended ? 'border-2 border-teal-200' : ''
             }`}>
               <CardContent className="p-6">
                 {type.recommended && (
                   <div className="mb-3">
-                    <Badge className="bg-white text-orange-600 font-bold shadow-lg sparkle">
-                      ⭐ Recommended
+                    <Badge className="bg-teal-100 text-teal-700 font-medium shadow-sm">
+                      Recommended
                     </Badge>
                   </div>
                 )}
                 
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center pulse-glow" 
-                       style={{background: type.recommended ? 'var(--gradient-secondary)' : 'var(--gradient-primary)'}}>
+                  <div className="w-16 h-16 rounded-xl flex items-center justify-center soft-glow" 
+                       style={{background: type.recommended ? 'linear-gradient(135deg, hsl(150, 35%, 55%) 0%, hsl(150, 40%, 45%) 100%)' : 'linear-gradient(135deg, hsl(195, 65%, 45%) 0%, hsl(195, 70%, 35%) 100%)'}}>
                     {type.icon}
                   </div>
-                  <Badge className={`${type.badgeColor} px-3 py-1 rounded-full`}>
+                  <Badge className={`${type.badgeColor} px-3 py-1 rounded-lg`}>
                     {type.badge}
                   </Badge>
                 </div>
                 
-                <h3 className="font-bold text-primary text-lg mb-3">{type.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{type.description}</p>
+                <h3 className="font-medium text-slate-700 text-lg mb-3">{type.title}</h3>
+                <p className="text-sm text-slate-600 mb-4 leading-relaxed">{type.description}</p>
                 
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm font-medium text-muted-foreground">{type.duration}</span>
-                  <div className="xp-display">
-                    <span className="text-sm">+{type.xpReward} XP</span>
+                  <span className="text-sm font-medium text-slate-500">{type.duration}</span>
+                  <div className="bg-teal-50 text-teal-700 px-2 py-1 rounded-md">
+                    <span className="text-sm">+{type.xpReward} Points</span>
                   </div>
                 </div>
 
                 <Button
                   onClick={() => handleStartLearning(type.id)}
-                  className={`w-full text-lg font-bold ${
+                  className={`w-full ${
                     type.recommended 
-                      ? 'btn-candy' 
-                      : 'btn-candy'
+                      ? 'btn-wisdom' 
+                      : 'btn-peaceful'
                   }`}
                 >
-                  {type.recommended ? '🚀 Start Daily Challenge' : '🎮 Start Learning'}
+                  {type.recommended ? 'Begin Challenge' : 'Start Learning'}
                 </Button>
               </CardContent>
             </Card>

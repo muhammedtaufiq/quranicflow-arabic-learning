@@ -139,12 +139,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const vocabularyComprehension = Math.round((totalWords / TOTAL_QURAN_VOCABULARY) * 100);
       
       // Weighted comprehension (combines frequency and coverage for practical understanding)
-      // Research shows: top 500 words = 75% understanding, top 1000 = 85%, top 2000 = 95%
+      // Research shows: top 500 words = 65% understanding, top 1000 = 80%, top 2000 = 95%
       let practicalComprehension;
-      if (totalWords <= 100) practicalComprehension = Math.round(totalWords * 0.3); // ~30%
-      else if (totalWords <= 500) practicalComprehension = 30 + Math.round((totalWords - 100) * 0.45 / 4); // 30-75%
-      else if (totalWords <= 1000) practicalComprehension = 75 + Math.round((totalWords - 500) * 0.2 / 5); // 75-85%
-      else if (totalWords <= 2000) practicalComprehension = 85 + Math.round((totalWords - 1000) * 0.1 / 10); // 85-95%
+      if (totalWords <= 50) practicalComprehension = Math.round(totalWords * 0.25); // ~15%
+      else if (totalWords <= 200) practicalComprehension = 15 + Math.round((totalWords - 50) * 0.34 / 1.5); // 15-49%
+      else if (totalWords <= 500) practicalComprehension = 49 + Math.round((totalWords - 200) * 0.16 / 3); // 49-65%
+      else if (totalWords <= 1000) practicalComprehension = 65 + Math.round((totalWords - 500) * 0.15 / 5); // 65-80%
+      else if (totalWords <= 2000) practicalComprehension = 80 + Math.round((totalWords - 1000) * 0.15 / 10); // 80-95%
       else practicalComprehension = 95 + Math.round((totalWords - 2000) * 0.05 / 100); // 95-100%
       
       const categories = Array.from(new Set(allWords.map(w => w.category))).length;

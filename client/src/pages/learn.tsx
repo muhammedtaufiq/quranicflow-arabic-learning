@@ -53,50 +53,50 @@ export default function Learn() {
   const learningTypes = [
     {
       id: 'daily',
-      title: 'Daily Word Challenge',
+      title: '🎯 Daily Word Challenge',
       description: 'Automated daily learning path - no chapter selection needed',
-      icon: <Trophy className="w-6 h-6 text-orange-600" />,
+      icon: <Trophy className="w-6 h-6 text-white" />,
       badge: 'Daily Challenge',
-      badgeColor: 'bg-orange-100 text-orange-800',
+      badgeColor: 'bg-orange-500 text-white font-bold shadow-lg',
       xpReward: 60,
       duration: '~12 minutes',
       recommended: true
     },
     {
       id: 'words',
-      title: 'Word Discovery',
+      title: '🧠 Word Discovery',
       description: 'Learn new high-frequency Quranic words',
-      icon: <Brain className="w-6 h-6 text-primary" />,
+      icon: <Brain className="w-6 h-6 text-white" />,
       badge: 'New Words',
-      badgeColor: 'bg-green-100 text-green-800',
+      badgeColor: 'bg-green-500 text-white font-bold shadow-lg',
       xpReward: 50,
       duration: '~10 minutes'
     },
     {
       id: 'chapters',
-      title: 'Chapter-Specific Learning',
+      title: '📖 Chapter-Specific Learning',
       description: 'Choose specific Quranic chapters to study (Al-Fatiha, short chapters, etc.)',
-      icon: <BookOpen className="w-6 h-6 text-accent" />,
+      icon: <BookOpen className="w-6 h-6 text-white" />,
       badge: 'Chapters',
-      badgeColor: 'bg-blue-100 text-blue-800',
+      badgeColor: 'bg-blue-500 text-white font-bold shadow-lg',
       xpReward: 75,
       duration: '~15 minutes'
     },
     {
       id: 'grammar',
-      title: 'Sentence Structure',
+      title: '⚡ Sentence Structure',
       description: 'Learn Arabic word order and grammar patterns from Quranic examples',
-      icon: <Trophy className="w-6 h-6 text-secondary" />,
+      icon: <Trophy className="w-6 h-6 text-white" />,
       badge: 'Grammar',
-      badgeColor: 'bg-orange-100 text-orange-800',
+      badgeColor: 'bg-purple-500 text-white font-bold shadow-lg',
       xpReward: 75,
       duration: '~15 minutes'
     },
     {
       id: 'review',
-      title: 'Spaced Review',
+      title: '🔄 Spaced Review',
       description: 'Review words you learned before at scientifically optimal intervals to move them into long-term memory',
-      icon: <RotateCcw className="w-6 h-6 text-purple-600" />,
+      icon: <RotateCcw className="w-6 h-6 text-white" />,
       badge: 'Memory Science',
       badgeColor: 'bg-purple-100 text-purple-800',
       xpReward: 40,
@@ -322,48 +322,47 @@ export default function Learn() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
 
           {learningTypes.map((type) => (
-            <Card key={type.id} className={`hover:shadow-lg transition-shadow cursor-pointer ${
-              type.recommended ? 'border-2 border-orange-200 bg-gradient-to-br from-orange-50 to-yellow-50' : ''
+            <Card key={type.id} className={`word-card bounce-in ${
+              type.recommended ? 'achievement-badge' : 'card-candy'
             }`}>
               <CardContent className="p-6">
                 {type.recommended && (
                   <div className="mb-3">
-                    <Badge className="bg-orange-500 text-white">
+                    <Badge className="bg-white text-orange-600 font-bold shadow-lg sparkle">
                       ⭐ Recommended
                     </Badge>
                   </div>
                 )}
                 
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                    type.recommended ? 'bg-orange-100' : 'bg-gray-50'
-                  }`}>
+                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center pulse-glow" 
+                       style={{background: type.recommended ? 'var(--gradient-secondary)' : 'var(--gradient-primary)'}}>
                     {type.icon}
                   </div>
-                  <Badge className={type.badgeColor}>
+                  <Badge className={`${type.badgeColor} px-3 py-1 rounded-full`}>
                     {type.badge}
                   </Badge>
                 </div>
                 
-                <h3 className="font-semibold text-gray-900 mb-2">{type.title}</h3>
-                <p className="text-sm text-gray-600 mb-4">{type.description}</p>
+                <h3 className="font-bold text-primary text-lg mb-3">{type.title}</h3>
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{type.description}</p>
                 
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs text-gray-500">{type.duration}</span>
-                  <div className="flex items-center space-x-1 text-accent">
-                    <span className="text-xs">+{type.xpReward} XP</span>
+                  <span className="text-sm font-medium text-muted-foreground">{type.duration}</span>
+                  <div className="xp-display">
+                    <span className="text-sm">+{type.xpReward} XP</span>
                   </div>
                 </div>
 
                 <Button
                   onClick={() => handleStartLearning(type.id)}
-                  className={`w-full ${
+                  className={`w-full text-lg font-bold ${
                     type.recommended 
-                      ? 'bg-orange-600 hover:bg-orange-700 text-white' 
-                      : 'bg-primary hover:bg-primary/90'
+                      ? 'btn-candy' 
+                      : 'btn-candy'
                   }`}
                 >
-                  {type.recommended ? 'Start Daily Challenge' : 'Start Learning'}
+                  {type.recommended ? '🚀 Start Daily Challenge' : '🎮 Start Learning'}
                 </Button>
               </CardContent>
             </Card>

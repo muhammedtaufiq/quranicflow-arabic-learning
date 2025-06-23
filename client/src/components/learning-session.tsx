@@ -199,21 +199,22 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
           
           {/* Question */}
           <div className="text-center mb-8">
-            <p className="text-lg text-gray-700 mb-4">{currentQuestion.question}</p>
+            <p className="text-xl font-bold text-primary mb-6">{currentQuestion.question}</p>
             <motion.div
-              className="bg-gray-100 rounded-xl p-8 mb-6"
+              className="rounded-2xl p-8 mb-6 pulse-glow"
+              style={{background: 'var(--gradient-primary)'}}
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <span className="font-arabic text-4xl text-gray-800 block mb-2" dir="rtl">
+              <span className="font-arabic text-5xl text-white block mb-3 sparkle" dir="rtl">
                 {currentQuestion.word.arabic}
               </span>
-              <span className="text-lg text-gray-600 italic block mb-2">
+              <span className="text-xl text-white/90 italic block mb-3 font-semibold">
                 {currentQuestion.word.transliteration}
               </span>
               {showUrduTranslations && currentQuestion.word.meaningUrdu && (
-                <span className="text-sm text-blue-700 font-medium block" dir="rtl">
+                <span className="text-base text-white/80 font-medium block" dir="rtl">
                   {currentQuestion.word.meaningUrdu}
                 </span>
               )}
@@ -232,20 +233,20 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
                 >
                   <Button
                     variant="outline"
-                    className={`w-full p-4 text-left border-2 rounded-xl hover:border-primary hover:bg-primary/5 transition-colors ${
+                    className={`w-full p-4 text-left border-0 rounded-2xl transition-all duration-300 transform hover:scale-105 ${
                       selectedAnswer === option
                         ? isCorrect
-                          ? "border-green-500 bg-green-50"
-                          : "border-red-500 bg-red-50"
+                          ? "bg-green-500 text-white shadow-lg"
+                          : "bg-red-500 text-white shadow-lg"
                         : isAnswered && option === currentQuestion.correctAnswer
-                        ? "border-green-500 bg-green-50"
-                        : "border-gray-200"
+                        ? "bg-green-500 text-white shadow-lg"
+                        : "bg-white border-2 border-gray-200 hover:border-primary hover:shadow-md"
                     }`}
                     onClick={() => handleAnswerSelect(option)}
                     disabled={isAnswered}
                   >
                     <div className="flex items-center justify-between">
-                      <span>{option}</span>
+                      <span className="text-sm sm:text-base leading-relaxed break-words whitespace-normal text-left font-medium">{option}</span>
                       {isAnswered && selectedAnswer === option && (
                         <motion.div
                           initial={{ scale: 0 }}
@@ -273,17 +274,17 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
           <div className="flex justify-center space-x-4">
             {!isAnswered ? (
               <>
-                <Button variant="ghost" size="sm" onClick={handleSkip}>
+                <Button variant="ghost" size="sm" onClick={handleSkip} className="text-primary hover:bg-primary/10 rounded-xl">
                   <Lightbulb className="w-4 h-4 mr-2" />
-                  Hint
+                  💡 Hint
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleSkip}>
-                  Skip
+                <Button variant="ghost" size="sm" onClick={handleSkip} className="text-muted-foreground hover:bg-gray-100 rounded-xl">
+                  ⏭️ Skip
                 </Button>
               </>
             ) : (
-              <Button onClick={handleNext} className="bg-primary hover:bg-primary/90">
-                {currentQuestionIndex < questions.length - 1 ? "Next Question" : "Complete Session"}
+              <Button onClick={handleNext} className="btn-candy text-lg font-bold px-8 py-3">
+                {currentQuestionIndex < questions.length - 1 ? "🚀 Next Question" : "🎉 Complete Session"}
               </Button>
             )}
           </div>

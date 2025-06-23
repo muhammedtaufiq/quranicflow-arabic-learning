@@ -5,6 +5,9 @@ import { storage } from "./storage";
 import { insertUserSchema, insertUserWordProgressSchema } from "@shared/schema";
 import { getWordsForDifficulty, calculateSpacedRepetitionInterval, getMasteryLevel } from "./services/quranic-data";
 import { generateOfflineQuestions } from "./services/offline-question-generator";
+import { learningEngine, LEARNING_PHASES } from "./learning-engine";
+import { streakSystem } from "./streak-system";
+import { offlineAI } from "./offline-ai";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
@@ -738,6 +741,119 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to fetch chapter progress", error: error.message });
     }
   });
+
+  // Phased Learning System Routes
+  app.get("/api/learning-phases", async (req, res) => {
+    try {
+      res.json({ phases: LEARNING_PHASES });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get learning phases", error: error.message });
+    }
+  });
+
+  app.get("/api/user/:userId/current-phase", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const analytics = learningEngine.getLearningAnalytics(userId);
+      const currentPhase = analytics?.recommendedPhase || 1;
+      const phase = LEARNING_PHASES.find(p => p.id === currentPhase);
+      
+      res.json({ currentPhase: phase });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get current phase", error: error.message });
+    }
+  });
+
+  app.get("/api/user/:userId/daily-lesson", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const phaseId = parseInt(req.query.phase as string) || 1;
+      
+      const lesson = learningEngine.getDailyLesson(userId, phaseId);
+      res.json({ lesson });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get daily lesson", error: error.message });
+    }
+  });
+
+  app.post("/api/user/:userId/record-session", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const sessionData = req.body;
+      
+      // Record learning session
+      learningEngine.recordLearningSession(userId, sessionData);
+      
+      // Update streak and check for rewards
+      const streakResult = await streakSystem.recordLearningSession(userId);
+      
+      res.json({ 
+        success: true,
+        streakUpdated: streakResult.streakUpdated,
+        rewardEarned: streakResult.rewardEarned,
+        newStreakLength: streakResult.newStreakLength
+      });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to record session", error: error.message });
+    }
+  });
+
+  // Streak System Routes
+  app.get("/api/user/:userId/streak-stats", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const stats = await streakSystem.getStreakAnalytics(userId);
+      res.json(stats);
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get streak stats", error: error.message });
+    }
+  });
+
+  app.get("/api/user/:userId/notifications", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const notifications = await streakSystem.getUserNotifications(userId);
+      res.json({ notifications });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get notifications", error: error.message });
+    }
+  });
+
+  app.post("/api/user/:userId/clear-notifications", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      await streakSystem.clearNotifications(userId);
+      res.json({ success: true });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to clear notifications", error: error.message });
+    }
+  });
+
+  // Personalized Learning Routes
+  app.get("/api/user/:userId/learning-analytics", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const analytics = learningEngine.getLearningAnalytics(userId);
+      res.json(analytics);
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get learning analytics", error: error.message });
+    }
+  });
+
+  app.get("/api/user/:userId/review-words", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const reviewWords = learningEngine.getWordsForReview(userId);
+      res.json({ reviewWords });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get review words", error: error.message });
+    }
+  });
+
+  // Start daily streak checking (would be handled by cron job in production)
+  setInterval(() => {
+    streakSystem.checkDailyStreaks();
+  }, 24 * 60 * 60 * 1000); // Check daily
 
   const httpServer = createServer(app);
   return httpServer;

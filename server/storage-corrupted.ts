@@ -214,17 +214,17 @@ export class MemStorage implements IStorage {
       { id: 13, arabic: "الْحَكِيمِ", transliteration: "al-hakeem", meaning: "the Wise", meaningUrdu: null, frequency: 97, difficulty: 2, category: "attributes", chapter: 36, verse: 2, rootWord: "ح ك م", examples: ["والقرآن الحكيم"] },
       
       // Al-Ikhlas (Chapter 112) - Verified from classical sources
-      { id: , arabic: "", transliteration: "", meaning: "", meaningUrdu: null, frequency: 332, difficulty: 1, category: "command", chapter: 112, verse: 1, rootWord: "ق و ل", examples: ["قُلْ هُوَ اللَّهُ أَحَدٌ"] },
-      { id: , arabic: "", transliteration: "", meaning: "", meaningUrdu: null, frequency: 1508, difficulty: 1, category: "pronoun", chapter: 112, verse: 1, rootWord: "ه و", examples: ["هُوَ اللَّهُ أَحَدٌ"] },
-      { id: , arabic: "", transliteration: "", meaning: "", meaningUrdu: null, frequency: 25, difficulty: 2, category: "number", chapter: 112, verse: 1, rootWord: "ا ح د", examples: ["اللَّهُ أَحَدٌ"] },
-      { id: , arabic: "", transliteration: "", meaning: "", meaningUrdu: null, frequency: 1, difficulty: 3, category: "attributes", chapter: 112, verse: 2, rootWord: "ص م د", examples: ["اللَّهُ الصَّمَدُ"] },
-      { id: , arabic: "", transliteration: "", meaning: "", meaningUrdu: null, frequency: 272, difficulty: 2, category: "particles", chapter: 112, verse: 3, rootWord: "ل م", examples: ["لَمْ يَلِدْ وَلَمْ يُولَدْ"] },
-      { id: , arabic: "", transliteration: "", meaning: "", meaningUrdu: null, frequency: 13, difficulty: 3, category: "verbs", chapter: 112, verse: 3, rootWord: "و ل د", examples: ["لَمْ يَلِدْ"] },
-      { id: , arabic: "", transliteration: "", meaning: "", meaningUrdu: null, frequency: 45, difficulty: 2, category: "particles", chapter: 112, verse: 3, rootWord: "و ل م", examples: ["وَلَمْ يُولَدْ"] },
-      { id: , arabic: "", transliteration: "", meaning: "", meaningUrdu: null, frequency: 8, difficulty: 3, category: "verbs", chapter: 112, verse: 3, rootWord: "و ل د", examples: ["وَلَمْ يُولَدْ"] },
-      { id: , arabic: "", transliteration: "", meaning: "", meaningUrdu: null, frequency: 280, difficulty: 2, category: "verbs", chapter: 112, verse: 4, rootWord: "ك و ن", examples: ["وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ"] },
-      { id: , arabic: "", transliteration: "", meaning: "", meaningUrdu: null, frequency: 1290, difficulty: 1, category: "pronouns", chapter: 112, verse: 4, rootWord: "ل ه", examples: ["وَلَمْ يَكُن لَّهُ"] },
-      { id: , arabic: "", transliteration: "", meaning: "", meaningUrdu: null, frequency: 1, difficulty: 4, category: "attributes", chapter: 112, verse: 4, rootWord: "ك ف و", examples: ["كُفُوًا أَحَدٌ"] },
+      { id: 633, arabic: "قُلْ", transliteration: "qul", meaning: "say", meaningUrdu: "کہو", frequency: 332, difficulty: 1, category: "command", chapter: 112, verse: 1, rootWord: "ق و ل", examples: ["قُلْ هُوَ اللَّهُ أَحَدٌ"] },
+      { id: 634, arabic: "هُوَ", transliteration: "huwa", meaning: "He", meaningUrdu: "وہ", frequency: 1508, difficulty: 1, category: "pronoun", chapter: 112, verse: 1, rootWord: "ه و", examples: ["هُوَ اللَّهُ أَحَدٌ"] },
+      { id: 635, arabic: "أَحَدٌ", transliteration: "ahad", meaning: "One", meaningUrdu: "ایک", frequency: 25, difficulty: 2, category: "number", chapter: 112, verse: 1, rootWord: "ا ح د", examples: ["اللَّهُ أَحَدٌ"] },
+      { id: 636, arabic: "الصَّمَدُ", transliteration: "as-samad", meaning: "The Eternal", meaningUrdu: "بے نیاز", frequency: 1, difficulty: 3, category: "attributes", chapter: 112, verse: 2, rootWord: "ص م د", examples: ["اللَّهُ الصَّمَدُ"] },
+      { id: 637, arabic: "لَمْ", transliteration: "lam", meaning: "not", meaningUrdu: "نہیں", frequency: 272, difficulty: 2, category: "particles", chapter: 112, verse: 3, rootWord: "ل م", examples: ["لَمْ يَلِدْ وَلَمْ يُولَدْ"] },
+      { id: 638, arabic: "يَلِدْ", transliteration: "yalid", meaning: "beget", meaningUrdu: "جنا", frequency: 13, difficulty: 3, category: "verbs", chapter: 112, verse: 3, rootWord: "و ل د", examples: ["لَمْ يَلِدْ"] },
+      { id: 639, arabic: "وَلَمْ", transliteration: "wa lam", meaning: "and not", meaningUrdu: "اور نہیں", frequency: 45, difficulty: 2, category: "particles", chapter: 112, verse: 3, rootWord: "و ل م", examples: ["وَلَمْ يُولَدْ"] },
+      { id: 640, arabic: "يُولَدْ", transliteration: "yulad", meaning: "be born", meaningUrdu: "پیدا ہونا", frequency: 8, difficulty: 3, category: "verbs", chapter: 112, verse: 3, rootWord: "و ل د", examples: ["وَلَمْ يُولَدْ"] },
+      { id: 641, arabic: "يَكُن", transliteration: "yakun", meaning: "be", meaningUrdu: "ہونا", frequency: 280, difficulty: 2, category: "verbs", chapter: 112, verse: 4, rootWord: "ك و ن", examples: ["وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ"] },
+      { id: 642, arabic: "لَّهُ", transliteration: "lahu", meaning: "for Him", meaningUrdu: "اس کے لیے", frequency: 1290, difficulty: 1, category: "pronouns", chapter: 112, verse: 4, rootWord: "ل ه", examples: ["وَلَمْ يَكُن لَّهُ"] },
+      { id: 643, arabic: "كُفُوًا", transliteration: "kufuwan", meaning: "equal", meaningUrdu: "برابر", frequency: 1, difficulty: 4, category: "attributes", chapter: 112, verse: 4, rootWord: "ك ف و", examples: ["كُفُوًا أَحَدٌ"] },
 
       // Al-Falaq (Chapter 113) - Verified from classical sources
       { id: , arabic: "", transliteration: "", meaning: "", meaningUrdu: null, frequency: 8, difficulty: 3, category: "worship", chapter: 113, verse: 1, rootWord: "ع و ذ", examples: ["قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ"] },

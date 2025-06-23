@@ -4,6 +4,7 @@ import { LearningCard } from "@/components/learning-card";
 import { ProgressCircle } from "@/components/progress-circle";
 import { AchievementBadge } from "@/components/achievement-badge";
 import { SurahCoverageChart } from "@/components/surah-coverage-chart";
+import { PhasedLearningDashboard } from "@/components/phased-learning-dashboard";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -304,6 +305,11 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
             </div>
+          </div>
+
+          {/* Phased Learning Dashboard */}
+          <div className="mt-8">
+            <PhasedLearningDashboard />
           </div>
 
           {/* Surah Coverage Chart */}

@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Settings, BookOpen, Target, Brain, Star, Crown, Sparkles } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 interface Phase {
   id: number;
@@ -78,7 +80,36 @@ interface AdminSettingsProps {
 }
 
 export function AdminSettings({ onPhaseSelect }: AdminSettingsProps) {
+  const queryClient = useQueryClient();
   const [selectedPhase, setSelectedPhase] = useState<number | null>(null);
+
+  // Get current phase from API
+  const { data: currentPhaseData } = useQuery({
+    queryKey: ["/api/content-stats"],
+  });
+
+  const currentPhase = currentPhaseData?.phase?.current || 1;
+
+  // Phase selection mutation
+  const phaseSelectMutation = useMutation({
+    mutationFn: async (phaseId: number) => {
+      return apiRequest(`/api/user/1/select-phase`, {
+        method: 'POST',
+        body: { phaseId }
+      });
+    },
+    onSuccess: () => {
+      // Invalidate all queries that depend on phase data
+      queryClient.invalidateQueries({ queryKey: ["/api/content-stats"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+    }
+  });
+
+  const handlePhaseSelect = async (phaseId: number) => {
+    setSelectedPhase(phaseId);
+    onPhaseSelect(phaseId);
+    await phaseSelectMutation.mutateAsync(phaseId);
+  };
 
   const getPhaseIcon = (phaseId: number) => {
     const icons = [BookOpen, Target, Brain, Star, Crown, Sparkles];
@@ -98,9 +129,8 @@ export function AdminSettings({ onPhaseSelect }: AdminSettingsProps) {
     return colors[phaseId - 1] || colors[0];
   };
 
-  const handlePhaseAccess = (phase: Phase) => {
-    setSelectedPhase(phase.id);
-    onPhaseSelect(phase.id);
+  const handlePhaseAccess = async (phase: Phase) => {
+    await handlePhaseSelect(phase.id);
   };
 
   return (

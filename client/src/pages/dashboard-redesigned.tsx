@@ -25,6 +25,26 @@ export default function DashboardRedesigned() {
     queryKey: ["/api/content-stats"],
   });
 
+  // Get current phase from backend or default to 1
+  const currentPhase = contentStatsData?.phase?.current || 1;
+  const phaseDescription = contentStatsData?.phase?.description || 'Foundation Phase';
+  const phaseTarget = contentStatsData?.phase?.nextCoverage || '65%';
+  
+  // Get focus areas for current phase
+  const phaseFocusAreas = getPhaseFocusAreas(currentPhase);
+  
+  function getPhaseFocusAreas(phaseId: number): string {
+    const phaseMap: Record<number, string> = {
+      1: "Basic prayer vocabulary, Divine names, Essential verbs",
+      2: "Prophetic names, Moral qualities, Natural phenomena", 
+      3: "Story vocabulary, Descriptive terms, Complex grammar",
+      4: "Scholarly terms, Theological concepts, Advanced expressions",
+      5: "Complete mastery, Rare terms, Historical references",
+      6: "Expert level, Classical Arabic, Scholarly commentary"
+    };
+    return phaseMap[phaseId] || "Foundation vocabulary";
+  }
+
   const { data: chapterProgressData } = useQuery({
     queryKey: [`/api/user/${MOCK_USER_ID}/chapter-progress`],
   });
@@ -73,10 +93,10 @@ export default function DashboardRedesigned() {
               {/* Always visible phase indicator */}
               <div className="flex items-center justify-center space-x-2 mt-3">
                 <Badge className="bg-teal-500 text-white text-sm px-3 py-1">
-                  Active: Phase {contentStatsData?.phase?.current || 5}
+                  Active: Phase {currentPhase}
                 </Badge>
                 <span className="text-sm text-slate-700 font-medium">
-                  {contentStatsData?.phase?.description || 'Mastery Phase'}
+                  {phaseDescription}
                 </span>
               </div>
             </div>
@@ -91,67 +111,37 @@ export default function DashboardRedesigned() {
               <div className="flex items-center space-x-4">
                 <div className="w-5 h-5 bg-white rounded-full animate-pulse"></div>
                 <div>
-                  <h3 className="text-xl font-bold">Currently Active: Phase {contentStatsData?.phase?.current || 5}</h3>
-                  <p className="text-emerald-100">{contentStatsData?.phase?.description || 'Mastery Phase'} - Target: {contentStatsData?.phase?.nextCoverage || '99%'} coverage</p>
+                  <h3 className="text-xl font-bold">Currently Active: Phase {currentPhase}</h3>
+                  <p className="text-emerald-100">{phaseDescription}</p>
+                  <p className="text-emerald-200 text-sm">Focus: {phaseFocusAreas} • Target: {phaseTarget} coverage</p>
                 </div>
               </div>
               <Badge className="bg-white text-teal-700 font-bold px-4 py-2 text-lg">
-                PHASE {contentStatsData?.phase?.current || 5}
+                PHASE {currentPhase}
               </Badge>
             </div>
           </CardContent>
         </Card>
 
-        {/* Learning Path Overview */}
-        <Card className="card-tranquil mb-6">
-          <CardContent className="p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center">
-                <Target className="h-6 w-6 text-teal-600 mr-3" />
-                <div>
-                  <h3 className="text-lg font-semibold text-slate-800">Your Learning Path to Complete Quranic Understanding</h3>
-                  <p className="text-slate-600 text-sm">Strategic vocabulary mastery for 100% comprehension</p>
-                </div>
-              </div>
-              <Link to="/about">
-                <Button variant="outline" size="sm" className="btn-wisdom">
-                  <Info className="h-4 w-4 mr-2" />
-                  Learn More
-                </Button>
-              </Link>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-teal-50 rounded-lg p-4 border border-teal-100">
-                <div className="text-2xl font-bold text-teal-700 mb-1">{contentStats.totalWords || 813}</div>
-                <div className="text-sm text-slate-600 mb-2">Words Mastered</div>
-                <div className="text-xs text-slate-500">95%+ Quranic Comprehension</div>
-              </div>
-              
-              <div className="bg-emerald-50 rounded-lg p-4 border border-emerald-100">
-                <div className="text-2xl font-bold text-emerald-700 mb-1">1,200-1,500</div>
-                <div className="text-sm text-slate-600 mb-2">Total Needed</div>
-                <div className="text-xs text-slate-500">For 100% Understanding</div>
-              </div>
-              
-              <div className="bg-sage-50 rounded-lg p-4 border border-sage-200">
-                <div className="text-2xl font-bold text-sage-700 mb-1">77,797</div>
-                <div className="text-sm text-slate-600 mb-2">Total Quran Words</div>
-                <div className="text-xs text-slate-500">High frequency optimization</div>
-              </div>
-            </div>
-            
-            <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
-              <div className="flex items-start">
-                <BookOpen className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
-                <div className="text-sm text-blue-800">
-                  <strong>Remarkable Efficiency:</strong> Due to Arabic's root system and high word repetition, you need only 
-                  <strong> 1,200-1,500 strategic words</strong> to understand the complete Quran - less than 2% of its total vocabulary!
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Quick Progress Overview - Simplified */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+          <div className="bg-teal-50 rounded-lg p-3 border border-teal-100 text-center">
+            <div className="text-lg font-bold text-teal-700">{contentStats.totalWords || 1049}</div>
+            <div className="text-xs text-slate-600">Words Available</div>
+          </div>
+          <div className="bg-emerald-50 rounded-lg p-3 border border-emerald-100 text-center">
+            <div className="text-lg font-bold text-emerald-700">{user?.level || 2}</div>
+            <div className="text-xs text-slate-600">Your Level</div>
+          </div>
+          <div className="bg-orange-50 rounded-lg p-3 border border-orange-100 text-center">
+            <div className="text-lg font-bold text-orange-700">{streakDays}</div>
+            <div className="text-xs text-slate-600">Day Streak</div>
+          </div>
+          <div className="bg-purple-50 rounded-lg p-3 border border-purple-100 text-center">
+            <div className="text-lg font-bold text-purple-700">{completedChapters}</div>
+            <div className="text-xs text-slate-600">Chapters Done</div>
+          </div>
+        </div>
 
         {/* Visual Journey Progress */}
         <div className="bg-gradient-to-r from-emerald-100 via-teal-100 to-cyan-100 rounded-3xl p-6 shadow-lg border border-emerald-200 shimmer-card hover-lift">

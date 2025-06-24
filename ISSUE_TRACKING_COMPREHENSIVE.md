@@ -241,6 +241,26 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 **Files Modified**: `client/src/pages/dashboard-redesigned.tsx`
 **Verification**: Desktop dashboard now displays unmissable phase status verification with header badge and gradient card
 
+### Issue #14: Phase Switching Not Updating Dashboard
+**Date**: June 24, 2025
+**Severity**: High
+**Problem**: Dashboard phase indicators don't update when switching phases in phase manager
+**Root Cause**: Missing API endpoints for phase selection and phase data not included in content-stats response
+**Solution**: Added `/api/user/:userId/select-phase` endpoint, phase info function, and phase data in content-stats API response with cache invalidation
+**Status**: ✅ RESOLVED
+**Files Modified**: `client/src/pages/dashboard-redesigned.tsx`, `client/src/components/admin-settings.tsx`, `server/routes.ts`
+**Verification**: Phase switching now works correctly - API responds with proper phase data and dashboard updates immediately with focus areas and target coverage
+
+### Issue #15: Dashboard Cluttered with Learning Path Details
+**Date**: June 24, 2025
+**Severity**: Medium
+**Problem**: Dashboard has too much explanatory text and statistics, making it slow for quick learning access
+**Root Cause**: Learning path explanation and detailed statistics section taking up valuable space
+**Solution**: Simplified to compact 4-card overview (Words Available, Level, Streak, Chapters Done), moved detailed explanation to About page
+**Status**: ✅ RESOLVED
+**Files Modified**: `client/src/pages/dashboard-redesigned.tsx`
+**Verification**: Dashboard now clean and focused on immediate learning actions
+
 *Last Updated: June 24, 2025*
-*Total Issues Tracked: 13*
-*Resolved: 12 | Pending: 1 (TypeScript errors)*
+*Total Issues Tracked: 15*
+*Resolved: 14 | Pending: 1 (TypeScript errors)*

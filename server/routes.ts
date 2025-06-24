@@ -9,6 +9,9 @@ import { learningEngine, LEARNING_PHASES } from "./learning-engine";
 import { streakSystem } from "./streak-system";
 import { offlineAI } from "./offline-ai";
 
+// Global phase storage (in production this would be in database)
+let globalSelectedPhase = 1;
+
 export async function registerRoutes(app: Express): Promise<Server> {
   
   // Authentication routes
@@ -132,9 +135,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Set current phase for user
+  app.post("/api/user/:userId/select-phase", async (req, res) => {
+    try {
+      const { phaseId } = req.body;
+      
+      if (typeof phaseId !== 'number' || phaseId < 1 || phaseId > 6) {
+        return res.status(400).json({ error: "Invalid phase ID" });
+      }
+
+      // Store selected phase globally
+      globalSelectedPhase = phaseId;
+      
+      console.log(`✅ Phase switched to: ${phaseId}`);
+      
+      res.json({ 
+        success: true, 
+        selectedPhase: phaseId,
+        message: `Phase ${phaseId} selected successfully`
+      });
+    } catch (error) {
+      console.error('Error selecting phase:', error);
+      res.status(500).json({ error: "Failed to select phase" });
+    }
+  });
+
+  function getPhaseInfo(phaseId: number) {
+    const phases: Record<number, any> = {
+      1: { current: 1, description: "Foundation Phase", nextCoverage: "40%", focusAreas: "Basic prayer vocabulary, Divine names, Essential verbs" },
+      2: { current: 2, description: "Building Phase", nextCoverage: "65%", focusAreas: "Prophetic names, Moral qualities, Natural phenomena" },
+      3: { current: 3, description: "Strengthening Phase", nextCoverage: "80%", focusAreas: "Story vocabulary, Descriptive terms, Complex grammar" },
+      4: { current: 4, description: "Expansion Phase", nextCoverage: "90%", focusAreas: "Scholarly terms, Theological concepts, Advanced expressions" },
+      5: { current: 5, description: "Mastery Phase", nextCoverage: "99%", focusAreas: "Complete mastery, Rare terms, Historical references" },
+      6: { current: 6, description: "Expert Phase", nextCoverage: "100%", focusAreas: "Expert level, Classical Arabic, Scholarly commentary" }
+    };
+    return phases[phaseId] || phases[1];
+  }
+
   app.get("/api/content-stats", async (req, res) => {
     try {
       const allWords = await storage.getWords(1000); // Get all available words without limit
+      
+      // Get phase info based on current selection
+      const phaseInfo = getPhaseInfo(globalSelectedPhase);
       
       // Precise Quranic vocabulary analysis based on corpus frequency research
       // Total unique words in Quran: ~14,870 (including inflections)
@@ -246,7 +289,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
           currentProgress: `${totalWords}/${TOTAL_QURAN_VOCABULARY} unique words`,
           frequencyProgress: `${totalFrequency}/${QURAN_FREQUENCY_TOTAL} total occurrences`,
           efficiencyNote: "High-frequency words provide maximum comprehension gain per word learned"
-        }
+        },
+        
+        // Phase information
+        phase: phaseInfo
       });
     } catch (error: any) {
       res.status(500).json({ message: "Failed to fetch content stats", error: error.message });

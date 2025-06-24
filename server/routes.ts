@@ -131,12 +131,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const phaseData = LEARNING_PHASES.find(p => p.id === selectedPhase);
         
         if (phaseData) {
-          // Use phase vocabulary but focus on structural elements
-          filteredWords = allWords.filter(word => 
+          // Get phase-specific vocabulary and prioritize structural words
+          const phaseWords = allWords.filter(word => 
             phaseData.vocabularyIds.includes(word.id)
           );
           
-          console.log(`🎯 Grammar mode Phase ${selectedPhase} (${phaseData.name}): ${filteredWords.length} words for sentence structure practice`);
+          // For grammar mode, prioritize structural elements within phase vocabulary
+          const structuralWords = phaseWords.filter(word => {
+            const structuralCategories = ['pronouns', 'verbs', 'particles', 'prepositions'];
+            const hasDefiniteArticle = word.arabic.includes('ال');
+            const isConnectiveWord = ['and', 'to', 'in', 'from', 'with', 'that'].some(
+              connector => word.meaning.toLowerCase().includes(connector)
+            );
+            
+            return structuralCategories.includes(word.category) || 
+                   hasDefiniteArticle || 
+                   isConnectiveWord ||
+                   word.category === 'essential'; // Include essential words for structure
+          });
+          
+          // Use structural words if available, otherwise use all phase words
+          filteredWords = structuralWords.length >= 3 ? structuralWords : phaseWords;
+          
+          console.log(`🎯 Grammar mode Phase ${selectedPhase} (${phaseData.name}): ${filteredWords.length} words (${structuralWords.length} structural)`);
           console.log(`📝 Grammar sample: ${filteredWords.slice(0, 3).map(w => `${w.arabic} (${w.meaning})`).join(', ')}`);
         } else {
           // Fallback structural vocabulary

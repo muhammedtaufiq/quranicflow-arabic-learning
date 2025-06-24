@@ -293,8 +293,8 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 - ✅ Phase switching working seamlessly with real-time dashboard updates
 
 *Last Updated: June 24, 2025*
-*Total Issues Tracked: 18*
-*Resolved: 18 | Pending: 0*
+*Total Issues Tracked: 21*
+*Resolved: 21 | Pending: 0*
 
 **ISSUE #18 - Phase-Specific Learning Content**
 **Problem**: User reported identical content across different phases despite successful phase switching in dashboard
@@ -315,9 +315,16 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 **Problem**: Sentence Structure mode showing basic "Allah" vocabulary instead of phase-specific content
 **Root Cause**: Grammar mode not implemented in server-side filtering + missing grammar data handling in frontend
 **Solution**: Added grammar mode to server filtering logic + implemented phase-specific grammar vocabulary + fixed frontend data handling
-**Status**: ✅ RESOLVED - Grammar mode now uses phase-specific vocabulary for sentence structure practice
-**Files Modified**: `server/routes.ts` (grammar mode filtering), `client/src/pages/learn.tsx` (grammar data handling)
-**Final Verification**: Grammar mode correctly serves phase-specific vocabulary instead of basic foundational words
+**Status**: ✅ RESOLVED - Enhanced grammar mode with structural word prioritization within phase vocabulary
+**Files Modified**: `server/routes.ts` (improved grammar filtering), `client/src/pages/learn.tsx` (grammar data handling)
+**Final Solution**: Grammar mode now prioritizes structural elements (verbs, particles, definite articles) within selected phase vocabulary
+
+**ISSUE #21 - Excessive Current-Phase API Calls**
+**Problem**: Frontend making continuous API calls to `/api/user/1/current-phase` every second causing server spam
+**Root Cause**: Aggressive refetchInterval set to 1000ms in learn.tsx causing unnecessary server load
+**Solution**: Optimize polling interval and implement smarter cache invalidation
+**Status**: ✅ RESOLVED - Reduced API polling from 1 second to 10 seconds with proper cache management
+**Files Modified**: `client/src/pages/learn.tsx` (optimized refetch intervals and stale time)
 
 **CRITICAL ISSUE IDENTIFIED AND RESOLVED**: Learning content was not using selected phase for vocabulary filtering - fixed by implementing phase-specific content delivery in `/api/words` endpoint with visual phase indicators.
 

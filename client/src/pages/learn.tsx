@@ -26,8 +26,8 @@ export default function Learn() {
   const { data: userPhaseData, refetch: refetchPhase } = useQuery({
     queryKey: [`/api/user/${MOCK_USER_ID}/current-phase`],
     refetchOnWindowFocus: true,
-    staleTime: 0, // Always fetch fresh phase data
-    refetchInterval: 1000 // Refetch every second to catch phase changes
+    staleTime: 10000, // Cache for 10 seconds
+    refetchInterval: 10000 // Refetch every 10 seconds to reduce server load
   });
 
   const currentPhaseId = (userPhaseData as any)?.currentPhase?.id || 1;

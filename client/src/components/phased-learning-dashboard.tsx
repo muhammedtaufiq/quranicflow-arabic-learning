@@ -314,34 +314,34 @@ export function PhasedLearningDashboard() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               <div>
                 <div className="text-lg font-semibold text-green-600">
-                  {analyticsData.totalWordsLearned || 0}
+                  {(analyticsData as any)?.totalWordsLearned || 0}
                 </div>
                 <div className="text-xs text-slate-600">Words Mastered</div>
               </div>
               <div>
                 <div className="text-lg font-semibold text-orange-600">
-                  {analyticsData.strugglingWordsCount || 0}
+                  {(analyticsData as any)?.strugglingWordsCount || 0}
                 </div>
                 <div className="text-xs text-slate-600">Need Review</div>
               </div>
               <div>
                 <div className="text-lg font-semibold text-blue-600">
-                  {analyticsData.reviewQueueSize || 0}
+                  {(analyticsData as any)?.reviewQueueSize || 0}
                 </div>
                 <div className="text-xs text-slate-600">In Queue</div>
               </div>
               <div>
                 <div className="text-lg font-semibold text-purple-600">
-                  {analyticsData.learningPattern?.averageSessionLength || 0}m
+                  {(analyticsData as any)?.learningPattern?.averageSessionLength || 0}m
                 </div>
                 <div className="text-xs text-slate-600">Avg Session</div>
               </div>
             </div>
 
-            {analyticsData.learningPattern?.bestTimeOfDay && (
+            {(analyticsData as any)?.learningPattern?.bestTimeOfDay && (
               <div className="mt-4 p-3 bg-purple-50 rounded-lg">
                 <div className="text-sm font-medium text-purple-800">
-                  Optimal Learning Time: {analyticsData.learningPattern.bestTimeOfDay}
+                  Optimal Learning Time: {(analyticsData as any).learningPattern.bestTimeOfDay}
                 </div>
                 <div className="text-xs text-purple-600">
                   Based on your learning patterns

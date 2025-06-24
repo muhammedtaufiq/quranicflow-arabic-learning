@@ -304,6 +304,21 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 **Files Modified**: `server/routes.ts` (phase filtering + current-phase fix), `client/src/pages/learn.tsx` (cache busting)
 **Final Verification**: Phase 4 correctly returns Character (Al-Akhlaq) vocabulary with focus on virtues, ethics, behavior. Server logs confirm proper phase switching and vocabulary filtering.
 
+**ISSUE #19 - Word Discovery Runtime Error**
+**Problem**: "Expected enabled to be a boolean" error crashing Word Discovery page
+**Root Cause**: useQuery enabled parameter receiving non-boolean values in conditional expressions
+**Solution**: Wrapped all enabled conditions with Boolean() constructor for proper type casting
+**Status**: ✅ RESOLVED - All enabled parameters now properly cast to boolean values
+**Files Modified**: `client/src/pages/learn.tsx` (Boolean casting for all useQuery enabled parameters)
+
+**ISSUE #20 - Grammar Mode Using Basic Vocabulary**
+**Problem**: Sentence Structure mode showing basic "Allah" vocabulary instead of phase-specific content
+**Root Cause**: Grammar mode not implemented in server-side filtering + missing grammar data handling in frontend
+**Solution**: Added grammar mode to server filtering logic + implemented phase-specific grammar vocabulary + fixed frontend data handling
+**Status**: ✅ RESOLVED - Grammar mode now uses phase-specific vocabulary for sentence structure practice
+**Files Modified**: `server/routes.ts` (grammar mode filtering), `client/src/pages/learn.tsx` (grammar data handling)
+**Final Verification**: Grammar mode correctly serves phase-specific vocabulary instead of basic foundational words
+
 **CRITICAL ISSUE IDENTIFIED AND RESOLVED**: Learning content was not using selected phase for vocabulary filtering - fixed by implementing phase-specific content delivery in `/api/words` endpoint with visual phase indicators.
 
 **VERIFICATION COMPLETED**: Phase 6 now serves 425 words from advanced vocabulary (anatomy, colors, etc.) instead of basic foundational words. Phase 5 serves 15 prophetic vocabulary words. Visual indicators added to learning session with teal banner showing active phase.

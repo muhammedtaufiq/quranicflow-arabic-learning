@@ -126,6 +126,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
                    word.frequency > 20;
           });
         }
+      } else if (mode === "grammar") {
+        // GRAMMAR MODE: Phase-specific vocabulary for sentence structure practice
+        const phaseData = LEARNING_PHASES.find(p => p.id === selectedPhase);
+        
+        if (phaseData) {
+          // Use phase vocabulary but focus on structural elements
+          filteredWords = allWords.filter(word => 
+            phaseData.vocabularyIds.includes(word.id)
+          );
+          
+          console.log(`🎯 Grammar mode Phase ${selectedPhase} (${phaseData.name}): ${filteredWords.length} words for sentence structure practice`);
+          console.log(`📝 Grammar sample: ${filteredWords.slice(0, 3).map(w => `${w.arabic} (${w.meaning})`).join(', ')}`);
+        } else {
+          // Fallback structural vocabulary
+          filteredWords = allWords.filter(word => {
+            const structuralCategories = ['pronouns', 'verbs', 'particles', 'prepositions'];
+            return structuralCategories.includes(word.category) || 
+                   word.arabic.includes('ال') || 
+                   word.frequency > 50;
+          });
+        }
       }
       
       // Apply difficulty filter if specified

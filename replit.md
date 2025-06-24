@@ -236,6 +236,8 @@ Mobile UX Priority: Minimize scrolling, prioritize core learning actions above i
 ✓ **PHASE-SPECIFIC LEARNING CONTENT FIXED**: Learning sessions now properly filter vocabulary by selected phase with visual indicators showing active phase and vocabulary set
 ✓ **LEARNING CONTENT VERIFICATION COMPLETED**: Phase 5 delivers 15 prophetic vocabulary words, Phase 6 delivers 425 advanced words (anatomy, colors), ensuring distinct learning experiences per phase
 ✓ **PHASE SYNC ISSUE RESOLVED**: Fixed frontend cache sync with server-side phase selection. Phase 4 now correctly serves Character (Al-Akhlaq) vocabulary focused on virtues and ethics instead of basic foundational words.
+✓ **RUNTIME ERROR FIXES COMPLETED**: Fixed "Expected enabled to be a boolean" crashes by casting all useQuery enabled parameters to boolean values
+✓ **GRAMMAR MODE PHASE INTEGRATION**: Sentence Structure learning now uses phase-specific vocabulary instead of basic words, maintaining educational progression consistency
 
 ## Changelog
 

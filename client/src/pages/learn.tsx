@@ -38,31 +38,36 @@ export default function Learn() {
       cache: 'no-cache',
       headers: { 'Cache-Control': 'no-cache' }
     }).then(res => res.json()),
-    enabled: (selectedType === 'words' || typeFromUrl === 'words') && currentPhaseId,
+    enabled: Boolean((selectedType === 'words' || typeFromUrl === 'words') && currentPhaseId),
     staleTime: 0 // Always fetch fresh vocabulary when phase changes
   });
 
   const { data: reviewData } = useQuery({
     queryKey: [`/api/user/${MOCK_USER_ID}/review`],
-    enabled: selectedType === 'review' || typeFromUrl === 'review'
+    enabled: Boolean(selectedType === 'review' || typeFromUrl === 'review')
   });
 
   const { data: dailyChallengeData } = useQuery({
     queryKey: [`/api/user/${MOCK_USER_ID}/daily-challenge`],
-    enabled: selectedType === 'daily' || typeFromUrl === 'daily'
+    enabled: Boolean(selectedType === 'daily' || typeFromUrl === 'daily')
   });
 
   // Get chapter from URL if chapter-specific learning
   const { data: chapterWordsData, isLoading: chapterWordsLoading } = useQuery({
     queryKey: [`/api/learn/chapter/${chapterFromUrl || selectedChapterId}`],
-    enabled: (selectedType === 'chapters' || typeFromUrl === 'chapters') && !!(chapterFromUrl || selectedChapterId)
+    enabled: Boolean((selectedType === 'chapters' || typeFromUrl === 'chapters') && (chapterFromUrl || selectedChapterId))
   });
 
 
 
   const { data: grammarData } = useQuery({
-    queryKey: ["/api/grammar-patterns"],
-    enabled: selectedType === 'grammar' || typeFromUrl === 'grammar'
+    queryKey: [`/api/words`, currentPhaseId, 'grammar'], // Phase-specific grammar vocabulary
+    queryFn: () => fetch(`/api/words?limit=12&difficulty=1&mode=grammar&phase=${currentPhaseId}`, {
+      cache: 'no-cache',
+      headers: { 'Cache-Control': 'no-cache' }
+    }).then(res => res.json()),
+    enabled: Boolean((selectedType === 'grammar' || typeFromUrl === 'grammar') && currentPhaseId),
+    staleTime: 0
   });
 
   const learningTypes = [

@@ -32,6 +32,7 @@ export default function DashboardRedesigned() {
   const challenges = (challengesData as any)?.challenges || [];
   const contentStats = (contentStatsData as any) || {};
   const chapterProgress = (chapterProgressData as any)?.progressList || [];
+  const chapterStats = (chapterProgressData as any)?.chapterProgress || {};
 
   // Transform technical stats into user-friendly visuals
   const learningProgress = Math.min(100, ((user?.xp || 0) / 1000) * 100);
@@ -40,12 +41,9 @@ export default function DashboardRedesigned() {
   const unlockedPaths = Math.min(totalLearningPaths, Math.floor((user?.xp || 0) / 50) + 1);
   
   // Chapter completion stats
-  const completedChapters = chapterProgress.filter((p: any) => p.isCompleted).length;
-  const inProgressChapters = chapterProgress.filter((p: any) => !p.isCompleted && p.masteryPercentage > 0).length;
-  const recentCompletions = chapterProgress
-    .filter((p: any) => p.isCompleted)
-    .sort((a: any, b: any) => new Date(b.completion?.completedAt || 0).getTime() - new Date(a.completion?.completedAt || 0).getTime())
-    .slice(0, 3);
+  const completedChapters = Object.values(chapterStats).filter((progress: any) => progress === 100).length;
+  const inProgressChapters = Object.values(chapterStats).filter((progress: any) => progress > 0 && progress < 100).length;
+  const totalChaptersStudied = Object.keys(chapterStats).length;
 
   if (userLoading || challengesLoading) {
     return (

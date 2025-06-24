@@ -245,6 +245,75 @@ export default function DashboardRedesigned() {
           </div>
         </div>
 
+        {/* Chapter Progress Overview */}
+        {totalChaptersStudied > 0 && (
+          <div className="space-y-4 mb-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                <Award className="w-5 h-5 text-amber-500" />
+                Chapter Progress
+              </h2>
+              <Link href="/progress">
+                <Button variant="ghost" size="sm" className="text-teal-600 hover:text-teal-700">
+                  View Details
+                </Button>
+              </Link>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <Card className="bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold text-emerald-600">{completedChapters}</div>
+                  <div className="text-sm text-emerald-700">Completed</div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold text-amber-600">{inProgressChapters}</div>
+                  <div className="text-sm text-amber-700">In Progress</div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-gradient-to-br from-slate-50 to-gray-50 border-slate-200">
+                <CardContent className="p-4 text-center">
+                  <div className="text-2xl font-bold text-slate-600">{totalChaptersStudied}</div>
+                  <div className="text-sm text-slate-700">Total Studied</div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Show completed chapters */}
+            {completedChapters > 0 && (
+              <div className="text-center p-4 bg-gradient-to-r from-emerald-100 to-teal-100 rounded-lg border border-emerald-200">
+                <div className="flex items-center justify-center gap-2 text-emerald-800 mb-2">
+                  <Trophy className="w-5 h-5" />
+                  <span className="font-semibold">Mastery Achieved!</span>
+                </div>
+                <div className="text-sm text-emerald-700">
+                  You have completed {completedChapters} chapter{completedChapters > 1 ? 's' : ''} with 100% mastery
+                </div>
+                <div className="text-xs text-emerald-600 mt-1">
+                  Chapters: {Object.entries(chapterStats)
+                    .filter(([_, progress]) => progress === 100)
+                    .map(([chapterId]) => {
+                      const chapterNames: Record<string, string> = {
+                        '1': 'Al-Fatiha',
+                        '36': 'Ya-Sin', 
+                        '112': 'Al-Ikhlas',
+                        '113': 'Al-Falaq',
+                        '114': 'An-Nas'
+                      };
+                      return chapterNames[chapterId] || `Chapter ${chapterId}`;
+                    })
+                    .join(', ')
+                  }
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Motivational Message */}
         <div className="text-center py-8">
           <div className="bg-gradient-to-r from-emerald-100 to-teal-100 rounded-2xl p-6 border border-emerald-200 shimmer-card hover-lift">

@@ -105,13 +105,27 @@ export function AdminSettings({ onPhaseSelect }: AdminSettingsProps) {
     }
   });
 
+  const [showPhaseAnimation, setShowPhaseAnimation] = useState(false);
+  const [animatingToPhase, setAnimatingToPhase] = useState<number | null>(null);
+
   const handlePhaseSelect = async (phaseId: number) => {
     try {
+      setAnimatingToPhase(phaseId);
+      setShowPhaseAnimation(true);
+      
       setSelectedPhase(phaseId);
       onPhaseSelect(phaseId);
       await phaseSelectMutation.mutateAsync(phaseId);
+      
+      // Hide animation after 3 seconds
+      setTimeout(() => {
+        setShowPhaseAnimation(false);
+        setAnimatingToPhase(null);
+      }, 3000);
     } catch (error) {
       console.error('Phase selection error:', error);
+      setShowPhaseAnimation(false);
+      setAnimatingToPhase(null);
     }
   };
 
@@ -146,6 +160,40 @@ export function AdminSettings({ onPhaseSelect }: AdminSettingsProps) {
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+        {/* Phase Celebration Animation */}
+        {showPhaseAnimation && animatingToPhase && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+            <div className="relative">
+              {/* Explosion Effect */}
+              <div className="absolute inset-0 animate-ping">
+                <div className="w-32 h-32 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-full opacity-75"></div>
+              </div>
+              <div className="absolute inset-0 animate-pulse">
+                <div className="w-32 h-32 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-full opacity-50"></div>
+              </div>
+              
+              {/* Center Content */}
+              <div className="relative z-10 bg-white rounded-2xl p-8 text-center shadow-2xl transform animate-bounce">
+                <div className="text-6xl mb-4 animate-pulse">🎉</div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                  Phase {animatingToPhase} Unlocked!
+                </h2>
+                <p className="text-teal-600 font-medium">
+                  {LEARNING_PHASES.find(p => p.id === animatingToPhase)?.name}
+                </p>
+                <div className="flex justify-center mt-4">
+                  <Sparkles className="h-8 w-8 text-yellow-500 animate-spin" />
+                </div>
+              </div>
+              
+              {/* Floating Sparkles */}
+              <div className="absolute top-0 left-0 w-2 h-2 bg-yellow-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+              <div className="absolute top-4 right-2 w-1 h-1 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></div>
+              <div className="absolute bottom-2 left-4 w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }}></div>
+              <div className="absolute bottom-0 right-0 w-2 h-2 bg-green-400 rounded-full animate-bounce" style={{ animationDelay: '0.7s' }}></div>
+            </div>
+          </div>
+        )}
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Settings className="h-5 w-5" />

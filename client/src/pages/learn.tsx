@@ -315,8 +315,8 @@ export default function Learn() {
               Back to Learning Types
             </Button>
             
-            {/* Phase Indicator for Main Learning */}
-            {selectedType === 'words' && currentPhaseId && (
+            {/* Phase Indicator for Learning Modes */}
+            {(selectedType === 'words' || selectedType === 'grammar') && currentPhaseId && (
               <Card className="bg-gradient-to-r from-teal-50 to-emerald-50 border-teal-200 mb-4">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
@@ -327,9 +327,17 @@ export default function Learn() {
                       <span className="text-sm font-medium text-teal-800">
                         {(userPhaseData as any)?.currentPhase?.name || `Phase ${currentPhaseId}`}
                       </span>
+                      {selectedType === 'grammar' && (
+                        <Badge className="bg-purple-100 text-purple-700 text-xs">
+                          Grammar Structure
+                        </Badge>
+                      )}
                     </div>
                     <div className="text-xs text-teal-600">
-                      {(userPhaseData as any)?.currentPhase?.description || 'Loading vocabulary set...'}
+                      {selectedType === 'grammar' 
+                        ? 'Sentence patterns and structural vocabulary'
+                        : (userPhaseData as any)?.currentPhase?.description || 'Loading vocabulary set...'
+                      }
                     </div>
                   </div>
                 </CardContent>

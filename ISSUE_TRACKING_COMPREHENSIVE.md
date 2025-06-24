@@ -293,8 +293,8 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 - ✅ Phase switching working seamlessly with real-time dashboard updates
 
 *Last Updated: June 24, 2025*
-*Total Issues Tracked: 21*
-*Resolved: 21 | Pending: 0*
+*Total Issues Tracked: 23*
+*Resolved: 23 | Pending: 0*
 
 **ISSUE #18 - Phase-Specific Learning Content**
 **Problem**: User reported identical content across different phases despite successful phase switching in dashboard
@@ -325,6 +325,20 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 **Solution**: Optimize polling interval and implement smarter cache invalidation
 **Status**: ✅ RESOLVED - Reduced API polling from 1 second to 10 seconds with proper cache management
 **Files Modified**: `client/src/pages/learn.tsx` (optimized refetch intervals and stale time)
+
+**ISSUE #22 - Missing Phase Indicator in Grammar Mode**
+**Problem**: User requested phase indicator for grammar structure mode similar to word discovery
+**Root Cause**: Phase indicator only shown for 'words' mode, not for 'grammar' mode
+**Solution**: Extended phase indicator display to include grammar mode with purple "Grammar Structure" badge
+**Status**: ✅ RESOLVED - Grammar mode now shows phase indicator with specialized grammar badge
+**Files Modified**: `client/src/pages/learn.tsx` (extended phase indicator logic)
+
+**ISSUE #23 - Phase Transition Animation Request** 
+**Problem**: User requested exciting explosion animation when phases are selected on dashboard
+**Root Cause**: Phase selection provided minimal feedback, no celebratory animation
+**Solution**: Implemented animated phase transition with explosion effects, sparkles, and celebration modal
+**Status**: ✅ RESOLVED - Phase selection now shows exciting 3-second celebration animation with explosion effects and sparkles
+**Files Modified**: `client/src/components/admin-settings.tsx` (added animation state and celebration modal overlay)
 
 **CRITICAL ISSUE IDENTIFIED AND RESOLVED**: Learning content was not using selected phase for vocabulary filtering - fixed by implementing phase-specific content delivery in `/api/words` endpoint with visual phase indicators.
 

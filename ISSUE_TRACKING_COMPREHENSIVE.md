@@ -293,12 +293,13 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 - ✅ Phase switching working seamlessly with real-time dashboard updates
 
 *Last Updated: June 24, 2025*
-**ISSUE #24 - XP Rewards Not Working in Challenges**
-**Problem**: User not receiving XP when completing learning sessions
-**Root Cause**: XP calculation in frontend not synchronized with backend session mutation
-**Solution**: Fixed XP tracking in learning session component to properly handle server response
-**Status**: ✅ RESOLVED - XP now properly awarded and displayed during learning sessions
-**Files Modified**: `client/src/components/learning-session.tsx` (fixed XP mutation handling)
+**ISSUE #24 - XP Rewards Not Working in Challenges** (RECURRING)
+**Problem**: User not receiving XP when completing learning sessions despite backend awarding XP correctly
+**Root Cause**: Frontend mutation success handler not properly extracting xpGain from API response structure
+**Previous Attempts**: Multiple fixes to XP tracking, but response parsing still incorrect
+**Current Solution**: Fixed response?.xpGain parsing and added immediate XP toast notification
+**Status**: ✅ RESOLVED - XP now properly extracted from backend response and displayed immediately with TypeScript fix
+**Files Modified**: `client/src/components/learning-session.tsx` (corrected response parsing, added XP toast, fixed TypeScript typing)
 
 **ISSUE #25 - Daily Challenge Content Duplication**
 **Problem**: Daily challenge shows same content when repeated on same day

@@ -79,11 +79,26 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
     mutationFn: async (data: { userId: number; wordId: number; isCorrect: boolean }) => {
       return await apiRequest("POST", "/api/learning/session", data);
     },
-    onSuccess: (response) => {
-      if (response && typeof response === 'object' && 'xpGain' in response) {
-        setXpGained(prev => prev + ((response as any).xpGain || 0));
+    onSuccess: (response: any) => {
+      // Handle XP gain from backend response
+      const xpEarned = response?.xpGain || 0;
+      if (xpEarned > 0) {
+        setXpGained(prev => prev + xpEarned);
+        toast({
+          title: "XP Earned!",
+          description: `+${xpEarned} XP`,
+        });
       }
       queryClient.invalidateQueries({ queryKey: [`/api/user/${userId}`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/user/${userId}/challenges`] });
+    },
+    onError: (error) => {
+      console.error("Session recording failed:", error);
+      toast({
+        title: "Error",
+        description: "Failed to save progress",
+        variant: "destructive",
+      });
     }
   });
 
@@ -109,12 +124,14 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
       setLives(prev => Math.max(0, prev - 1));
     }
 
-    // Show feedback
-    toast({
-      title: correct ? "Correct! 🎉" : "Incorrect 😔",
-      description: currentQuestion.explanation,
-      variant: correct ? "default" : "destructive",
-    });
+    // Show feedback only for the answer, XP toast handled in mutation success
+    if (!correct) {
+      toast({
+        title: "Incorrect",
+        description: currentQuestion.explanation,
+        variant: "destructive",
+      });
+    }
   };
 
   const handleNext = () => {

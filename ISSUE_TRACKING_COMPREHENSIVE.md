@@ -207,10 +207,40 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 **Problem**: After switching phases, users can't verify which phase is active or if vocabulary changed on dashboard
 **Root Cause**: No phase status indicators or vocabulary verification on main dashboard
 **Solution**: Added prominent gradient phase status card, multiple phase indicators, always-visible phase badges throughout dashboard
-**Status**: ✅ RESOLVED
-**Files Modified**: `client/src/pages/dashboard.tsx`
+**Status**: 🔄 IN PROGRESS - Fixed wrong file
+**Files Modified**: `client/src/pages/dashboard.tsx` (wrong file), `client/src/pages/dashboard-redesigned.tsx` (correct file)
 **Verification**: Dashboard now has unmissable teal gradient card showing "Currently Active: Phase X" plus multiple fallback indicators
 
+### Issue #11: Phase Indicators Added to Wrong Dashboard File
+**Date**: June 24, 2025
+**Severity**: Critical
+**Problem**: Phase status indicators were added to `dashboard.tsx` but App.tsx routes to `dashboard-redesigned.tsx`
+**Root Cause**: App.tsx imports `dashboard-redesigned` but phase indicators were added to regular `dashboard.tsx`
+**Solution**: Added prominent teal gradient phase status card and badge indicators to correct `dashboard-redesigned.tsx` file
+**Status**: ✅ RESOLVED
+**Files Modified**: `client/src/pages/dashboard-redesigned.tsx`
+**Verification**: Phase indicators now appear on actual dashboard with prominent "Currently Active: Phase X" card
+
+### Issue #12: TypeScript Errors in Phase Manager
+**Date**: June 24, 2025
+**Severity**: Medium
+**Problem**: LSP errors in `phased-learning-dashboard.tsx` line 184 and `offline-ai.ts` lines 45-46
+**Root Cause**: Type mismatches in React components (unknown to ReactNode) and AI system (string to never array)
+**Solution**: Fixed React node type casting and string array type annotations
+**Status**: ✅ RESOLVED
+**Files Modified**: `client/src/components/phased-learning-dashboard.tsx`, `server/offline-ai.ts`
+**Verification**: TypeScript compilation should be error-free
+
+### Issue #13: Desktop Dashboard Missing Phase Verification
+**Date**: June 24, 2025
+**Severity**: Critical
+**Problem**: User cannot see phase status indicators on desktop browser after switching phases
+**Root Cause**: Phase indicators were added to wrong dashboard file - App.tsx routes to dashboard-redesigned.tsx
+**Solution**: Added prominent teal gradient card showing "Currently Active: Phase X" with target coverage to correct dashboard file
+**Status**: ✅ RESOLVED
+**Files Modified**: `client/src/pages/dashboard-redesigned.tsx`
+**Verification**: Desktop dashboard now displays unmissable phase status verification with header badge and gradient card
+
 *Last Updated: June 24, 2025*
-*Total Issues Tracked: 10*
-*Resolved: 9 | Pending: 1*
+*Total Issues Tracked: 13*
+*Resolved: 12 | Pending: 1 (TypeScript errors)*

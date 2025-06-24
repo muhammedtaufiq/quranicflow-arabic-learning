@@ -2,6 +2,7 @@ import { NavigationHeader } from "@/components/navigation-header";
 import { BottomNavigation } from "@/components/bottom-navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import { Star, BookOpen, Clock, Trophy, Heart, Flame, Target, Gift, Crown, Calendar, Zap, TreePine, Award, Info } from "lucide-react";
 import { Link } from "wouter";
@@ -68,10 +69,38 @@ export default function DashboardRedesigned() {
                 As-salāmu ʿalaykum, {user?.displayName || 'Student'}
               </h1>
               <p className="text-slate-600">Continue your blessed journey of Quranic understanding</p>
+              
+              {/* Always visible phase indicator */}
+              <div className="flex items-center justify-center space-x-2 mt-3">
+                <Badge className="bg-teal-500 text-white text-sm px-3 py-1">
+                  Active: Phase {contentStatsData?.phase?.current || 5}
+                </Badge>
+                <span className="text-sm text-slate-700 font-medium">
+                  {contentStatsData?.phase?.description || 'Mastery Phase'}
+                </span>
+              </div>
             </div>
             <AdminSettings onPhaseSelect={(phaseId) => console.log('Selected phase:', phaseId)} />
           </div>
         </div>
+
+        {/* PROMINENT PHASE STATUS CARD - Always Visible */}
+        <Card className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white mb-6 shadow-lg">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="w-5 h-5 bg-white rounded-full animate-pulse"></div>
+                <div>
+                  <h3 className="text-xl font-bold">Currently Active: Phase {contentStatsData?.phase?.current || 5}</h3>
+                  <p className="text-emerald-100">{contentStatsData?.phase?.description || 'Mastery Phase'} - Target: {contentStatsData?.phase?.nextCoverage || '99%'} coverage</p>
+                </div>
+              </div>
+              <Badge className="bg-white text-teal-700 font-bold px-4 py-2 text-lg">
+                PHASE {contentStatsData?.phase?.current || 5}
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Learning Path Overview */}
         <Card className="card-tranquil mb-6">

@@ -41,8 +41,9 @@ export class OfflineAI {
       // Track mistake types
       if (!session.isCorrect && session.mistakeType) {
         pattern.mistakeTypes = pattern.mistakeTypes || [];
-        if (!pattern.mistakeTypes.includes(session.mistakeType as string)) {
-          pattern.mistakeTypes.push(session.mistakeType as string);
+        const mistakeType = session.mistakeType as string;
+        if (!pattern.mistakeTypes.includes(mistakeType)) {
+          pattern.mistakeTypes.push(mistakeType);
         }
       }
       

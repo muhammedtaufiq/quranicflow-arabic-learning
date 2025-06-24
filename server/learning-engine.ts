@@ -300,7 +300,7 @@ export class PersonalizedLearningEngine {
       .filter(id => !masteredIds.includes(id))
       .slice(0, newWordsNeeded)
       .forEach(wordId => {
-        const word = AUTHENTIC_QURANIC_VOCABULARY.find(w => w.id === wordId);
+        const word = AUTHENTIC_QURANIC_VOCABULARY[wordId];
         if (word) {
           lesson.push({
             word,
@@ -328,7 +328,7 @@ export class PersonalizedLearningEngine {
     return userData.reviewQueue
       .filter(review => review.nextReviewDate <= today)
       .map(review => {
-        const word = AUTHENTIC_QURANIC_VOCABULARY.find(w => w.id === review.wordId);
+        const word = AUTHENTIC_QURANIC_VOCABULARY[review.wordId];
         return {
           word,
           context: ISLAMIC_CONTEXTS[review.wordId],

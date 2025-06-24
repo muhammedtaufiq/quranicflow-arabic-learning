@@ -2,32 +2,41 @@
 import { storage } from "./storage";
 
 export async function syncUserAchievements(userId: number) {
-  console.log(`Syncing achievements for user ${userId}...`);
+  console.log(`=== Syncing achievements for user ${userId} ===`);
   
   // Get user data
   const user = await storage.getUser(userId);
   if (!user) {
     console.log(`User ${userId} not found`);
-    return;
+    return 0;
   }
   
-  console.log(`User data: Level ${user.level}, XP ${user.xp}, Streak ${user.streakDays}`);
+  // Get learned words data
+  const learnedWords = await storage.getUserLearnedWords(userId);
+  const masteredWords = learnedWords.filter(w => w.masteryLevel === 'gold');
+  
+  console.log(`User stats: Level ${user.level}, XP ${user.xp}, Streak ${user.streakDays}`);
+  console.log(`Words: ${learnedWords.length} learned, ${masteredWords.length} mastered`);
   
   // Get all achievements
   const achievements = await storage.getAchievements();
-  console.log(`Found ${achievements.length} total achievements`);
   
   // Get current user achievements
   const userAchievements = await storage.getUserAchievements(userId);
   const unlockedIds = new Set(userAchievements.map(ua => ua.achievementId));
-  console.log(`User currently has ${userAchievements.length} achievements unlocked`);
+  
+  console.log(`Current achievements: ${userAchievements.length}, unlocked IDs: [${Array.from(unlockedIds).join(', ')}]`);
   
   let newAchievements = 0;
   
   // Check each achievement for eligibility
   for (const achievement of achievements) {
+    console.log(`\n--- Checking "${achievement.name}" (ID: ${achievement.id}) ---`);
+    console.log(`Type: ${achievement.type}, Requirement: ${achievement.requirement}`);
+    
     if (unlockedIds.has(achievement.id)) {
-      continue; // Already unlocked
+      console.log(`✓ Already unlocked`);
+      continue;
     }
     
     let shouldUnlock = false;
@@ -36,32 +45,51 @@ export async function syncUserAchievements(userId: number) {
     switch (achievement.type) {
       case 'xp':
         shouldUnlock = user.xp >= achievement.requirement;
+        console.log(`XP check: ${user.xp} >= ${achievement.requirement} = ${shouldUnlock}`);
         break;
       case 'level':
         shouldUnlock = user.level >= achievement.requirement;
+        console.log(`Level check: ${user.level} >= ${achievement.requirement} = ${shouldUnlock}`);
         break;
       case 'streak':
         shouldUnlock = user.streakDays >= achievement.requirement;
+        console.log(`Streak check: ${user.streakDays} >= ${achievement.requirement} = ${shouldUnlock}`);
         break;
-      case 'chapter':
-        // For chapter achievements, we need to check completion
-        const chapterCompletions = await storage.getUserLearnedWords(userId);
-        const wordsLearned = chapterCompletions.filter(w => w.masteryLevel === 'gold').length;
-        shouldUnlock = wordsLearned >= achievement.requirement;
+      case 'words':
+        // For "First Steps" (requirement 1), use any learned words
+        // For higher requirements, use mastered words
+        const wordsToCheck = achievement.requirement === 1 ? learnedWords.length : masteredWords.length;
+        shouldUnlock = wordsToCheck >= achievement.requirement;
+        console.log(`Words check: ${wordsToCheck} >= ${achievement.requirement} = ${shouldUnlock}`);
+        break;
+      case 'challenge':
+        // Rough proxy based on XP
+        shouldUnlock = user.xp >= (achievement.requirement * 30);
+        console.log(`Challenge check: ${user.xp} >= ${achievement.requirement * 30} = ${shouldUnlock}`);
+        break;
+      default:
+        console.log(`Unknown achievement type: ${achievement.type}`);
         break;
     }
     
     if (shouldUnlock) {
-      console.log(`Unlocking achievement: ${achievement.name} (${achievement.type}: ${achievement.requirement})`);
-      await storage.createUserAchievement({
-        userId,
-        achievementId: achievement.id
-      });
-      newAchievements++;
+      console.log(`🎉 UNLOCKING: ${achievement.name}`);
+      try {
+        const newUserAchievement = await storage.createUserAchievement({
+          userId,
+          achievementId: achievement.id
+        });
+        console.log(`✓ Created UserAchievement record:`, newUserAchievement);
+        newAchievements++;
+      } catch (error) {
+        console.error(`❌ Failed to create UserAchievement:`, error);
+      }
+    } else {
+      console.log(`❌ Not eligible yet`);
     }
   }
   
-  console.log(`Synced ${newAchievements} new achievements for user ${userId}`);
+  console.log(`\n=== Sync complete: ${newAchievements} new achievements unlocked ===`);
   return newAchievements;
 }
 

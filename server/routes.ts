@@ -554,17 +554,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/user/:userId/achievements", async (req, res) => {
     try {
       const userId = parseInt(req.params.userId);
+      
+      // Run achievement sync first to ensure user has all eligible achievements
+      const { syncUserAchievements } = await import('./sync-achievements');
+      const newAchievements = await syncUserAchievements(userId);
+      
       const userAchievements = await storage.getUserAchievements(userId);
       const allAchievements = await storage.getAchievements();
       
-      const achievementsWithStatus = allAchievements.map(achievement => ({
-        ...achievement,
-        unlocked: userAchievements.some(ua => ua.achievementId === achievement.id),
-        unlockedAt: userAchievements.find(ua => ua.achievementId === achievement.id)?.unlockedAt
-      }));
+      console.log(`Achievement status check for user ${userId}:`);
+      console.log(`- Synced ${newAchievements} new achievements`);
+      console.log(`- Retrieved ${userAchievements.length} user achievements:`, userAchievements.map(ua => ua.achievementId));
+      console.log(`- Total achievements: ${allAchievements.length}`);
+      
+      const achievementsWithStatus = allAchievements.map(achievement => {
+        const isUnlocked = userAchievements.some(ua => ua.achievementId === achievement.id);
+        const unlockedRecord = userAchievements.find(ua => ua.achievementId === achievement.id);
+        
+        console.log(`Achievement ${achievement.id} (${achievement.name}): unlocked=${isUnlocked}`);
+        
+        return {
+          ...achievement,
+          unlocked: isUnlocked,
+          unlockedAt: unlockedRecord?.unlockedAt
+        };
+      });
 
       res.json({ achievements: achievementsWithStatus });
     } catch (error: any) {
+      console.error('Achievement API error:', error);
       res.status(500).json({ message: "Failed to get user achievements", error: error.message });
     }
   });

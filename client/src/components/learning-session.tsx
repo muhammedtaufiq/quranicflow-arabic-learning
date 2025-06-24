@@ -207,8 +207,17 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <span className="font-arabic text-5xl text-white block mb-3 peaceful-breath" dir="rtl">
-                {currentQuestion.word.arabic}
+              <span 
+                className="text-5xl text-white block mb-3 peaceful-breath" 
+                style={{ 
+                  fontFamily: "'Amiri', 'Arabic Typesetting', 'Traditional Arabic', 'Times New Roman', serif",
+                  fontFeatureSettings: "'liga' 1, 'dlig' 1",
+                  textRendering: "optimizeLegibility",
+                  unicodeBidi: "bidi-override"
+                }}
+                dir="rtl"
+              >
+                {currentQuestion.word.arabic || "اللَّهُ"}
               </span>
               <span className="text-xl text-white/90 italic block mb-3 font-medium">
                 {currentQuestion.word.transliteration}

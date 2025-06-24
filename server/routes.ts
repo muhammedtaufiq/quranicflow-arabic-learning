@@ -941,12 +941,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/user/:userId/current-phase", async (req, res) => {
     try {
-      const userId = parseInt(req.params.userId);
-      const analytics = learningEngine.getLearningAnalytics(userId);
-      const currentPhase = analytics?.recommendedPhase || 1;
-      const phase = LEARNING_PHASES.find(p => p.id === currentPhase);
+      // Return current phase based on global selection
+      const currentPhase = LEARNING_PHASES.find(phase => phase.id === globalSelectedPhase) || LEARNING_PHASES[0];
       
-      res.json({ currentPhase: phase });
+      console.log(`📚 Current phase requested: ${currentPhase.name} (ID: ${globalSelectedPhase})`);
+      
+      // Force cache refresh
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+      
+      res.json({
+        currentPhase,
+        selectedPhase: globalSelectedPhase
+      });
     } catch (error: any) {
       res.status(500).json({ message: "Failed to get current phase", error: error.message });
     }

@@ -109,6 +109,93 @@
   bottom: var(--safe-area-inset-bottom, 0px);
 }
 
+/* Shimmer Effect for Cards */
+.shimmer-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.8s;
+}
+
+.shimmer-card:hover::before {
+  left: 100%;
+}
+
+.card-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  transition: left 1s ease;
+}
+
+.card-shimmer:hover::before {
+  left: 100%;
+}
+
+/* Enhanced hover effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Mobile responsive improvements */
+@media (max-width: 640px) {
+  .mobile-text-center {
+    text-align: center;
+  }
+  
+  .mobile-full-width {
+    width: 100%;
+  }
+  
+  .mobile-compact {
+    padding: 1rem;
+  }
+  
+  /* Mobile button improvements */
+  .mobile-button-responsive {
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Ensure text is visible on mobile */
+  .mobile-text-visible {
+    display: block !important;
+  }
+}
+
 .dark {
   /* Dark mode with vibrant accents - Candy Crush inspired */
   --background: hsl(260, 15%, 8%);

@@ -47,7 +47,7 @@ export default function DashboardRedesigned() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
       <NavigationHeader />
-      <main className="px-4 pt-20 pb-20 space-y-6">
+      <main className="px-4 pt-20 pb-20 space-y-6 mobile-compact">
         {/* Warm Welcome */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
@@ -62,7 +62,7 @@ export default function DashboardRedesigned() {
         </div>
 
         {/* Visual Journey Progress */}
-        <div className="bg-gradient-to-r from-emerald-100 via-teal-100 to-cyan-100 rounded-3xl p-6 shadow-lg border border-emerald-200 card-shimmer">
+        <div className="bg-gradient-to-r from-emerald-100 via-teal-100 to-cyan-100 rounded-3xl p-6 shadow-lg border border-emerald-200 shimmer-card hover-lift">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
               {/* Journey Visualization */}
@@ -128,7 +128,7 @@ export default function DashboardRedesigned() {
         {/* Simple Progress Visualization */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Today's Goal */}
-          <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200 shadow-lg">
+          <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200 shadow-lg shimmer-card hover-lift">
             <CardContent className="p-6 text-center">
               <Target className="w-12 h-12 text-blue-500 mx-auto mb-4" />
               <h3 className="font-bold text-slate-800 mb-2">Today's Mission</h3>
@@ -141,7 +141,7 @@ export default function DashboardRedesigned() {
           </Card>
 
           {/* This Week */}
-          <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200 shadow-lg">
+          <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200 shadow-lg shimmer-card hover-lift">
             <CardContent className="p-6 text-center">
               <Calendar className="w-12 h-12 text-purple-500 mx-auto mb-4" />
               <h3 className="font-bold text-slate-800 mb-2">This Week</h3>
@@ -163,7 +163,7 @@ export default function DashboardRedesigned() {
           </Card>
 
           {/* Rewards */}
-          <Card className="bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200 shadow-lg">
+          <Card className="bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200 shadow-lg shimmer-card hover-lift">
             <CardContent className="p-6 text-center">
               <Gift className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
               <h3 className="font-bold text-slate-800 mb-2">Next Reward</h3>
@@ -181,52 +181,52 @@ export default function DashboardRedesigned() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Start Learning */}
             <Link href="/learn">
-              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-emerald-100 to-teal-100 border-emerald-300 group">
-                <CardContent className="p-8 text-center">
+              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-emerald-100 to-teal-100 border-emerald-300 group shimmer-card hover-lift">
+                <CardContent className="p-8 text-center mobile-compact">
                   <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                     <Zap className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-800 mb-2">Start Learning</h3>
-                  <p className="text-slate-600 text-sm">Begin your daily lesson</p>
+                  <h3 className="text-lg font-bold text-slate-800 mb-2 mobile-text-visible">Start Learning</h3>
+                  <p className="text-slate-600 text-sm mobile-text-visible">Begin your daily lesson</p>
                 </CardContent>
               </Card>
             </Link>
 
             {/* Review Words */}
-            <Link href="/review">
-              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-100 to-cyan-100 border-blue-300 group">
-                <CardContent className="p-8 text-center">
+            <Link href="/learn?mode=review">
+              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-100 to-cyan-100 border-blue-300 group shimmer-card hover-lift">
+                <CardContent className="p-8 text-center mobile-compact">
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                     <Clock className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-800 mb-2">Review Time</h3>
-                  <p className="text-slate-600 text-sm">Practice what you've learned</p>
+                  <h3 className="text-lg font-bold text-slate-800 mb-2 mobile-text-visible">Review Time</h3>
+                  <p className="text-slate-600 text-sm mobile-text-visible">Practice what you've learned</p>
                 </CardContent>
               </Card>
             </Link>
 
             {/* Chapter Learning */}
-            <Link href="/chapters">
-              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-100 to-indigo-100 border-blue-300 group">
-                <CardContent className="p-8 text-center">
+            <Link href="/learn?mode=chapter">
+              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-100 to-indigo-100 border-blue-300 group shimmer-card hover-lift">
+                <CardContent className="p-8 text-center mobile-compact">
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                     <BookOpen className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-800 mb-2">Sacred Chapters</h3>
-                  <p className="text-slate-600 text-sm">Learn from specific Surahs</p>
+                  <h3 className="text-lg font-bold text-slate-800 mb-2 mobile-text-visible">Sacred Chapters</h3>
+                  <p className="text-slate-600 text-sm mobile-text-visible">Learn from specific Surahs</p>
                 </CardContent>
               </Card>
             </Link>
 
             {/* Daily Challenge */}
-            <Link href="/challenges">
-              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-purple-100 to-pink-100 border-purple-300 group">
-                <CardContent className="p-8 text-center">
+            <Link href="/learn?mode=challenge">
+              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-purple-100 to-pink-100 border-purple-300 group shimmer-card hover-lift">
+                <CardContent className="p-8 text-center mobile-compact">
                   <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                     <Trophy className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-800 mb-2">Daily Challenge</h3>
-                  <p className="text-slate-600 text-sm">Test your knowledge</p>
+                  <h3 className="text-lg font-bold text-slate-800 mb-2 mobile-text-visible">Daily Challenge</h3>
+                  <p className="text-slate-600 text-sm mobile-text-visible">Test your knowledge</p>
                 </CardContent>
               </Card>
             </Link>
@@ -235,7 +235,7 @@ export default function DashboardRedesigned() {
 
         {/* Motivational Message */}
         <div className="text-center py-8">
-          <div className="bg-gradient-to-r from-emerald-100 to-teal-100 rounded-2xl p-6 border border-emerald-200 card-shimmer">
+          <div className="bg-gradient-to-r from-emerald-100 to-teal-100 rounded-2xl p-6 border border-emerald-200 shimmer-card hover-lift">
             <Heart className="w-8 h-8 text-red-400 mx-auto mb-3" />
             <p className="text-slate-700 font-medium">
               "And whoever relies upon Allah - then He is sufficient for him."

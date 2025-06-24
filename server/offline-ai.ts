@@ -40,8 +40,9 @@ export class OfflineAI {
       
       // Track mistake types
       if (!session.isCorrect && session.mistakeType) {
-        if (!pattern.mistakeTypes.includes(session.mistakeType)) {
-          pattern.mistakeTypes.push(session.mistakeType);
+        pattern.mistakeTypes = pattern.mistakeTypes || [];
+        if (!pattern.mistakeTypes.includes(session.mistakeType as string)) {
+          pattern.mistakeTypes.push(session.mistakeType as string);
         }
       }
       
@@ -49,12 +50,13 @@ export class OfflineAI {
       const wordData = this.getWordByIndex(session.wordIndex);
       if (wordData) {
         const category = wordData.category;
-        if (!pattern.successRates[category]) {
-          pattern.successRates[category] = 0;
+        pattern.successRates = pattern.successRates || {};
+        if (!(pattern.successRates as any)[category]) {
+          (pattern.successRates as any)[category] = 0;
         }
-        pattern.successRates[category] = session.isCorrect ? 
-          (pattern.successRates[category] + 1) / 2 : 
-          pattern.successRates[category] / 2;
+        (pattern.successRates as any)[category] = session.isCorrect ? 
+          ((pattern.successRates as any)[category] + 1) / 2 : 
+          (pattern.successRates as any)[category] / 2;
       }
     });
 
@@ -141,15 +143,15 @@ export class OfflineAI {
   }
 
   // Offline pattern recognition for mistake classification
-  classifyMistake(userAnswer: string, correctAnswer: string, wordData: any): string {
+  classifyMistake(userAnswer: string, correctAnswerParam: string, wordData: any): string {
     // Simple pattern matching for mistake classification
-    if (this.isPhoneticMistake(userAnswer, correctAnswer)) {
+    if (this.isPhoneticMistake(userAnswer, correctAnswerParam)) {
       return 'phonetic';
     }
     if (this.isSemanticMistake(userAnswer, wordData)) {
       return 'semantic';
     }
-    if (this.isOrthographicMistake(userAnswer, correctAnswer)) {
+    if (this.isOrthographicMistake(userAnswer, correctAnswerParam)) {
       return 'orthographic';
     }
     if (this.isGrammaticalMistake(userAnswer, wordData)) {
@@ -268,7 +270,7 @@ export class OfflineAI {
 
   private isGrammaticalMistake(userAnswer: string, wordData: any): boolean {
     // Simple grammatical pattern matching
-    return userAnswer.length > correctAnswer.length * 1.5;
+    return userAnswer.length > wordData.meaning.length * 1.5;
   }
 
   private hasCharacteristicsSimilarToMistakes(word: any, pattern: LearningPattern): boolean {

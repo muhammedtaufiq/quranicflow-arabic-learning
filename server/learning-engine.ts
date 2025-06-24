@@ -276,7 +276,7 @@ export class PersonalizedLearningEngine {
     
     if (!phase) return [];
 
-    const lesson = [];
+    const lesson: any[] = [];
     
     // Add struggling words for review (high priority)
     if (userData) {

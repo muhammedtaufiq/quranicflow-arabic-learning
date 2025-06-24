@@ -43,7 +43,6 @@ export class StreakSystem {
         userId,
         currentStreak: 1,
         longestStreak: 1,
-        lastStreakDate: today
       });
     } else {
       const lastDate = streak.lastStreakDate ? new Date(streak.lastStreakDate) : new Date(0);

@@ -81,7 +81,7 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
     },
     onSuccess: (response) => {
       if (response && typeof response === 'object' && 'xpGain' in response) {
-        setXpGained(prev => prev + (response.xpGain || 0));
+        setXpGained(prev => prev + ((response as any).xpGain || 0));
       }
       queryClient.invalidateQueries({ queryKey: [`/api/user/${userId}`] });
     }

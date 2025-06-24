@@ -314,8 +314,8 @@ export class MemStorage implements IStorage {
   async createAchievement(insertAchievement: InsertAchievement): Promise<Achievement> {
     const achievement: Achievement = {
       id: this.currentAchievementId++,
-      createdAt: new Date(),
       ...insertAchievement,
+      xpReward: insertAchievement.xpReward || 0,
     };
     this.achievements.set(achievement.id, achievement);
     return achievement;
@@ -407,9 +407,10 @@ export class MemStorage implements IStorage {
       id,
       userId: insertProgress.userId,
       challengeId: insertProgress.challengeId,
-      progress: insertProgress.progress || 0,
+      currentProgress: insertProgress.currentProgress || 0,
       isCompleted: insertProgress.isCompleted || false,
-      completedAt: insertProgress.completedAt || null,
+      completedAt: null,
+      updatedAt: null,
     };
     this.userChallengeProgress.set(id, progress);
     return progress;
@@ -467,6 +468,7 @@ export class MemStorage implements IStorage {
       inviteCode: insertFamily.inviteCode,
       createdBy: insertFamily.createdBy,
       createdAt: new Date(),
+      updatedAt: new Date(),
     };
     this.families.set(family.id, family);
     return family;
@@ -522,12 +524,14 @@ export class MemStorage implements IStorage {
       id: this.currentFamilyChallengeId++,
       familyId: insertChallenge.familyId,
       title: insertChallenge.title,
-      description: insertChallenge.description,
-      targetProgress: insertChallenge.targetProgress,
-      currentProgress: insertChallenge.currentProgress || 0,
-      startDate: insertChallenge.startDate || new Date(),
+      description: insertChallenge.description || null,
+      targetType: insertChallenge.targetType,
+      targetValue: insertChallenge.targetValue,
+      startDate: insertChallenge.startDate,
       endDate: insertChallenge.endDate,
+      xpReward: insertChallenge.xpReward || null,
       isActive: insertChallenge.isActive !== false,
+      createdAt: new Date(),
     };
     this.familyChallenges.set(challenge.id, challenge);
     return challenge;
@@ -548,8 +552,10 @@ export class MemStorage implements IStorage {
       id: this.currentFamilyChallengeProgressId++,
       challengeId: insertProgress.challengeId,
       userId: insertProgress.userId,
-      progress: insertProgress.progress || 0,
-      completedAt: insertProgress.completedAt || null,
+      currentProgress: insertProgress.currentProgress || 0,
+      isCompleted: insertProgress.isCompleted || false,
+      completedAt: null,
+      updatedAt: null,
     };
     this.familyChallengeProgress.set(progress.id, progress);
     return progress;
@@ -574,9 +580,12 @@ export class MemStorage implements IStorage {
     const reminder: DailyReminder = {
       id: this.currentReminderId++,
       userId: insertReminder.userId,
-      time: insertReminder.time,
-      isActive: insertReminder.isActive !== false,
-      message: insertReminder.message || null,
+      reminderTime: insertReminder.reminderTime,
+      isEnabled: insertReminder.isEnabled !== false,
+      timezone: insertReminder.timezone || null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      lastSentAt: null,
     };
     this.dailyReminders.set(reminder.id, reminder);
     return reminder;
@@ -593,7 +602,7 @@ export class MemStorage implements IStorage {
 
   async getRemindersToSend(): Promise<DailyReminder[]> {
     return Array.from(this.dailyReminders.values())
-      .filter(reminder => reminder.isActive);
+      .filter(reminder => reminder.isEnabled);
   }
 }
 

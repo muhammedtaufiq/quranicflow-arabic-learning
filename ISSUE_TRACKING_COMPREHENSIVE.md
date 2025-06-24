@@ -293,8 +293,22 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 - ✅ Phase switching working seamlessly with real-time dashboard updates
 
 *Last Updated: June 24, 2025*
-*Total Issues Tracked: 23*
-*Resolved: 23 | Pending: 0*
+**ISSUE #24 - XP Rewards Not Working in Challenges**
+**Problem**: User not receiving XP when completing learning sessions
+**Root Cause**: XP calculation in frontend not synchronized with backend session mutation
+**Solution**: Fixed XP tracking in learning session component to properly handle server response
+**Status**: ✅ RESOLVED - XP now properly awarded and displayed during learning sessions
+**Files Modified**: `client/src/components/learning-session.tsx` (fixed XP mutation handling)
+
+**ISSUE #25 - Daily Challenge Content Duplication**
+**Problem**: Daily challenge shows same content when repeated on same day
+**Root Cause**: Weak randomization algorithm using simple date-based seed
+**Solution**: Implemented improved shuffling with user-specific seed and better randomization
+**Status**: ✅ RESOLVED - Daily challenges now provide varied content for multiple attempts
+**Files Modified**: `server/routes.ts` (enhanced daily challenge randomization algorithm)
+
+*Total Issues Tracked: 25*
+*Resolved: 25 | Pending: 0*
 
 **ISSUE #18 - Phase-Specific Learning Content**
 **Problem**: User reported identical content across different phases despite successful phase switching in dashboard

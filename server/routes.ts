@@ -623,12 +623,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       console.log(`Daily challenge: Found ${challengeWords.length} words in categories:`, challengeCategories);
       
-      // Add seed for consistent daily challenge (same words for same day)
-      const today = new Date().toDateString();
-      const seed = today.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
-      const shuffled = challengeWords.sort(() => (seed % 2) - 0.5).slice(0, 7);
+      // Add seed for consistent daily challenge (same words for same day) but different from previous days
+      const today = new Date();
+      const dateString = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+      const userSeed = userId * 1000; // User-specific component
+      const seed = dateString.split('').reduce((a, b) => a + b.charCodeAt(0), userSeed);
       
-      res.json({ words: shuffled });
+      // Improved shuffling algorithm for better randomization
+      const shuffled = [...challengeWords];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(((seed + i) * 9301 + 49297) % 233280) / 233280 * (i + 1);
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      
+      const dailyWords = shuffled.slice(0, 7);
+      
+      console.log(`Daily challenge for user ${userId} on ${dateString}: ${dailyWords.length} words selected`);
+      res.json({ words: dailyWords });
     } catch (error: any) {
       res.status(500).json({ message: "Failed to get daily challenge", error: error.message });
     }

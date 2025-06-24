@@ -106,6 +106,7 @@ QuranicFlow is a gamified web application designed to help users learn Quranic A
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Mobile UX Priority: Minimize scrolling, prioritize core learning actions above informational content.
 
 ## Recent Changes
 

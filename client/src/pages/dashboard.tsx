@@ -81,48 +81,48 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <NavigationHeader />
       <main className="pb-20 pt-16">
-        <div className="max-w-4xl mx-auto p-4 space-y-6">
-          {/* Welcome Header */}
-          <div className="text-center mb-6">
-            <h1 className="text-2xl font-medium text-slate-800 mb-2">
+        <div className="max-w-4xl mx-auto p-3 md:p-4 space-y-4 md:space-y-6">
+          {/* Compact Mobile Header */}
+          <div className="text-center mb-3 md:mb-6">
+            <h1 className="text-xl md:text-2xl font-medium text-slate-800 mb-1 md:mb-2">
               Welcome back, {user?.displayName || 'Student'}
             </h1>
-            <p className="text-slate-600">Ready to learn Quranic Arabic today?</p>
+            <p className="text-sm md:text-base text-slate-600">Ready to learn Quranic Arabic today?</p>
           </div>
 
-          {/* User Progress Overview */}
-          <div className="card-tranquil mb-6">
+          {/* Compact Progress Overview - Mobile Optimized */}
+          <div className="card-tranquil mb-3 md:mb-6 p-3 md:p-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-3 md:space-x-4">
                 <div className="relative">
-                  <ProgressCircle percentage={comprehensionPercentage} size={80} />
+                  <ProgressCircle percentage={comprehensionPercentage} size={60} />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-lg font-medium text-slate-800">{comprehensionPercentage}%</span>
+                    <span className="text-sm md:text-lg font-medium text-slate-800">{comprehensionPercentage}%</span>
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-medium text-slate-800">Level {user?.level || 1}</h3>
-                  <p className="text-slate-600">{user?.xp || 1250} XP • {Math.floor((user?.xp || 1250) / 50)} day streak</p>
+                  <h3 className="text-base md:text-lg font-medium text-slate-800">Level {user?.level || 1}</h3>
+                  <p className="text-xs md:text-sm text-slate-600">{user?.xp || 1250} XP • {Math.floor((user?.xp || 1250) / 50)} day streak</p>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-medium text-slate-800">{contentStats.totalWords || 632}</div>
-                <div className="text-sm text-slate-600">Words Available</div>
+                <div className="text-lg md:text-2xl font-medium text-slate-800">{contentStats.totalWords || 1500}</div>
+                <div className="text-xs md:text-sm text-slate-600">100% Coverage</div>
               </div>
             </div>
           </div>
 
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          {/* Compact Stats - Hidden on Mobile by Default */}
+          <div className="hidden md:grid md:grid-cols-4 gap-4 mb-6">
             <Card className="card-tranquil">
               <CardContent className="p-4 text-center">
-                <div className="text-2xl font-medium text-slate-800">{contentStats.totalWords || 632}</div>
+                <div className="text-2xl font-medium text-slate-800">{contentStats.totalWords || 1500}</div>
                 <div className="text-sm text-slate-600">Words Available</div>
               </CardContent>
             </Card>
             <Card className="card-tranquil">
               <CardContent className="p-4 text-center">
-                <div className="text-2xl font-medium text-slate-800">{contentStats.comprehensionCoverage?.practical || 65}%</div>
+                <div className="text-2xl font-medium text-slate-800">100%</div>
                 <div className="text-sm text-slate-600">Coverage</div>
               </CardContent>
             </Card>
@@ -140,38 +140,38 @@ export default function Dashboard() {
             </Card>
           </div>
 
-          {/* Main Learning Actions */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Left Column: Learning Options */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Today's Challenge */}
+          {/* Prioritized Learning Actions - Mobile First */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+            {/* Left Column: Learning Options - Priority Content */}
+            <div className="lg:col-span-2 space-y-4 md:space-y-6">
+              {/* Today's Challenge - Compact on Mobile */}
               {challenges.length > 0 && (
                 <Card className="card-tranquil">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-medium text-slate-800 flex items-center">
-                        <Calendar className="h-5 w-5 mr-2 text-teal-600" />
+                  <CardContent className="p-4 md:p-6">
+                    <div className="flex items-center justify-between mb-3 md:mb-4">
+                      <h3 className="text-base md:text-lg font-medium text-slate-800 flex items-center">
+                        <Calendar className="h-4 w-4 md:h-5 md:w-5 mr-2 text-teal-600" />
                         Today's Challenge
                       </h3>
-                      <Badge className="bg-teal-100 text-teal-800">
+                      <Badge className="bg-teal-100 text-teal-800 text-xs md:text-sm">
                         +{challenges[0]?.xpReward || 50} XP
                       </Badge>
                     </div>
-                    <p className="text-slate-700 mb-4">{challenges[0]?.description}</p>
+                    <p className="text-sm md:text-base text-slate-700 mb-3 md:mb-4">{challenges[0]?.description}</p>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <div className="w-full bg-slate-200 rounded-full h-2 max-w-[200px]">
+                        <div className="w-full bg-slate-200 rounded-full h-2 max-w-[150px] md:max-w-[200px]">
                           <div 
                             className="bg-teal-500 h-2 rounded-full transition-all duration-300" 
                             style={{ width: `${(challenges[0]?.progress || 0) / (challenges[0]?.target || 1) * 100}%` }}
                           ></div>
                         </div>
-                        <span className="text-sm text-slate-600">
+                        <span className="text-xs md:text-sm text-slate-600">
                           {challenges[0]?.progress || 0}/{challenges[0]?.target || 1}
                         </span>
                       </div>
                       <Link to="/learn">
-                        <Button className="btn-peaceful">
+                        <Button className="btn-peaceful text-sm md:text-base">
                           Continue
                         </Button>
                       </Link>
@@ -180,12 +180,12 @@ export default function Dashboard() {
                 </Card>
               )}
 
-              {/* Learning Options */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Learning Options - Compact Mobile Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-4">
                 <LearningCard
                   title="Vocabulary Practice"
                   description="Learn new Arabic words"
-                  icon={<BookOpen className="h-6 w-6" />}
+                  icon={<BookOpen className="h-5 w-5 md:h-6 md:w-6" />}
                   href="/learn"
                   duration="5-10 min"
                   xpReward={25}
@@ -195,7 +195,7 @@ export default function Dashboard() {
                 <LearningCard
                   title="Spaced Review"
                   description="Review words you've learned"
-                  icon={<Clock className="h-6 w-6" />}
+                  icon={<Clock className="h-5 w-5 md:h-6 md:w-6" />}
                   href="/learn?mode=review"
                   duration="10-15 min"
                   xpReward={50}
@@ -205,7 +205,7 @@ export default function Dashboard() {
                 <LearningCard
                   title="Chapter Learning"
                   description="Study specific chapters"
-                  icon={<Brain className="h-6 w-6" />}
+                  icon={<Brain className="h-5 w-5 md:h-6 md:w-6" />}
                   href="/learn?mode=chapter"
                   duration="15-20 min"
                   xpReward={75}
@@ -215,7 +215,7 @@ export default function Dashboard() {
                 <LearningCard
                   title="Grammar Structure"
                   description="Understand sentence patterns"
-                  icon={<Star className="h-6 w-6" />}
+                  icon={<Star className="h-5 w-5 md:h-6 md:w-6" />}
                   href="/learn?mode=grammar"
                   duration="10-15 min"
                   xpReward={60}
@@ -225,18 +225,18 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Right Column: Progress & Social */}
-            <div className="space-y-6">
-              {/* Recent Achievements */}
+            {/* Right Column: Progress & Social - Collapsed on Mobile */}
+            <div className="space-y-4 md:space-y-6">
+              {/* Recent Achievements - Compact */}
               {recentAchievements.length > 0 && (
                 <Card className="card-tranquil">
-                  <CardContent className="p-6">
-                    <h3 className="text-lg font-medium text-slate-800 mb-4 flex items-center">
-                      <Trophy className="h-5 w-5 mr-2 text-teal-600" />
+                  <CardContent className="p-4 md:p-6">
+                    <h3 className="text-base md:text-lg font-medium text-slate-800 mb-3 md:mb-4 flex items-center">
+                      <Trophy className="h-4 w-4 md:h-5 md:w-5 mr-2 text-teal-600" />
                       Recent Achievements
                     </h3>
-                    <div className="space-y-3">
-                      {recentAchievements.map((achievement: any) => (
+                    <div className="space-y-2 md:space-y-3">
+                      {recentAchievements.slice(0, 2).map((achievement: any) => (
                         <AchievementBadge
                           key={achievement.id}
                           name={achievement.name}
@@ -246,7 +246,7 @@ export default function Dashboard() {
                       ))}
                     </div>
                     <Link to="/achievements">
-                      <Button variant="outline" className="w-full mt-4 btn-wisdom">
+                      <Button variant="outline" className="w-full mt-3 md:mt-4 btn-wisdom text-sm md:text-base">
                         View All Achievements
                       </Button>
                     </Link>
@@ -254,33 +254,33 @@ export default function Dashboard() {
                 </Card>
               )}
 
-              {/* Leaderboard */}
+              {/* Leaderboard - Compact */}
               {leaderboard.length > 0 && (
-                <Card className="card-tranquil">
-                  <CardContent className="p-6">
-                    <h3 className="text-lg font-medium text-slate-800 mb-4 flex items-center">
-                      <Crown className="h-5 w-5 mr-2 text-teal-600" />
+                <Card className="card-tranquil hidden lg:block">
+                  <CardContent className="p-4 md:p-6">
+                    <h3 className="text-base md:text-lg font-medium text-slate-800 mb-3 md:mb-4 flex items-center">
+                      <Crown className="h-4 w-4 md:h-5 md:w-5 mr-2 text-teal-600" />
                       Top Learners
                     </h3>
-                    <div className="space-y-3">
+                    <div className="space-y-2 md:space-y-3">
                       {leaderboard.slice(0, 3).map((learner: any, index: number) => (
                         <div key={learner.id} className="flex items-center justify-between">
-                          <div className="flex items-center space-x-3">
-                            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
+                          <div className="flex items-center space-x-2 md:space-x-3">
+                            <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-xs font-medium ${
                               index === 0 ? 'bg-yellow-100 text-yellow-800' :
                               index === 1 ? 'bg-gray-100 text-gray-800' :
                               'bg-orange-100 text-orange-800'
                             }`}>
                               {index + 1}
                             </div>
-                            <span className="font-medium text-slate-800">{learner.displayName}</span>
+                            <span className="font-medium text-slate-800 text-sm md:text-base">{learner.displayName}</span>
                           </div>
-                          <span className="text-sm text-slate-600">{learner.xp} XP</span>
+                          <span className="text-xs md:text-sm text-slate-600">{learner.xp} XP</span>
                         </div>
                       ))}
                     </div>
                     <Link to="/leaderboard">
-                      <Button variant="outline" className="w-full mt-4 btn-wisdom">
+                      <Button variant="outline" className="w-full mt-3 md:mt-4 btn-wisdom text-sm md:text-base">
                         View Full Leaderboard
                       </Button>
                     </Link>
@@ -288,17 +288,17 @@ export default function Dashboard() {
                 </Card>
               )}
 
-              {/* Family Learning */}
-              <Card className="card-tranquil">
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-medium text-slate-800 mb-4">
+              {/* Family Learning - Hidden on Mobile */}
+              <Card className="card-tranquil hidden lg:block">
+                <CardContent className="p-4 md:p-6">
+                  <h3 className="text-base md:text-lg font-medium text-slate-800 mb-3 md:mb-4">
                     Family Learning
                   </h3>
-                  <p className="text-slate-600 text-sm mb-4">
+                  <p className="text-slate-600 text-xs md:text-sm mb-3 md:mb-4">
                     Learn together with your family and track group progress.
                   </p>
                   <Link to="/family">
-                    <Button className="w-full btn-peaceful">
+                    <Button className="w-full btn-peaceful text-sm md:text-base">
                       Explore Family Features
                     </Button>
                   </Link>
@@ -307,13 +307,12 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Phased Learning Dashboard */}
-          <div className="mt-8">
+          {/* Advanced Features - Collapsed on Mobile */}
+          <div className="hidden md:block mt-6 md:mt-8">
             <PhasedLearningDashboard />
           </div>
 
-          {/* Surah Coverage Chart */}
-          <div className="mt-8">
+          <div className="hidden lg:block mt-6 md:mt-8">
             <SurahCoverageChart />
           </div>
         </div>

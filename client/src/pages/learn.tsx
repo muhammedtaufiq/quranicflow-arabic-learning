@@ -24,14 +24,18 @@ export default function Learn() {
 
   // Get current user's selected phase
   const { data: userPhaseData } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}/current-phase`]
+    queryKey: [`/api/user/${MOCK_USER_ID}/current-phase`],
+    refetchOnWindowFocus: true,
+    staleTime: 0 // Always fetch fresh phase data
   });
 
   const currentPhaseId = (userPhaseData as any)?.currentPhase?.id || 1;
 
   const { data: wordsData } = useQuery({
-    queryKey: [`/api/words?limit=12&difficulty=1&mode=learning&phase=${currentPhaseId}`],
-    enabled: (selectedType === 'words' || typeFromUrl === 'words') && currentPhaseId
+    queryKey: [`/api/words`, currentPhaseId, 'learning'], // Include phase in key structure
+    queryFn: () => fetch(`/api/words?limit=12&difficulty=1&mode=learning&phase=${currentPhaseId}`).then(res => res.json()),
+    enabled: (selectedType === 'words' || typeFromUrl === 'words') && currentPhaseId,
+    staleTime: 0 // Always fetch fresh vocabulary when phase changes
   });
 
   const { data: reviewData } = useQuery({

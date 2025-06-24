@@ -298,11 +298,11 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 
 **ISSUE #18 - Phase-Specific Learning Content**
 **Problem**: User reported identical content across different phases despite successful phase switching in dashboard
-**Root Cause**: `/api/words` endpoint not using phase parameter for vocabulary filtering 
-**Solution**: Implemented phase-specific vocabulary filtering with visual indicators
-**Status**: ✅ RESOLVED
-**Files Modified**: `server/routes.ts` (phase filtering), `client/src/pages/learn.tsx` (visual indicators)
-**Verification**: Phase 5 serves 15 prophetic words, Phase 6 serves 425 advanced words, user sees active phase banner
+**Root Cause**: `/api/words` endpoint not using phase parameter for vocabulary filtering + frontend query cache not invalidating on phase changes
+**Solution**: Implemented phase-specific vocabulary filtering with visual indicators + fixed query cache invalidation
+**Status**: ✅ RESOLVED 
+**Files Modified**: `server/routes.ts` (phase filtering), `client/src/pages/learn.tsx` (visual indicators + cache fix)
+**Verification**: Server logs show Phase 2 serves 15 "Pillars" vocabulary words, frontend cache now updates with phase changes
 
 **CRITICAL ISSUE IDENTIFIED AND RESOLVED**: Learning content was not using selected phase for vocabulary filtering - fixed by implementing phase-specific content delivery in `/api/words` endpoint with visual phase indicators.
 

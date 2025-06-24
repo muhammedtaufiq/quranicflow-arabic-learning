@@ -5,6 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { BookOpen, Target, Clock, Award, Bell, Brain, TrendingUp } from "lucide-react";
 import { useState } from "react";
+import type { ReactNode } from "react";
 
 const MOCK_USER_ID = 1;
 
@@ -217,7 +218,7 @@ export function PhasedLearningDashboard() {
               <div className="bg-slate-50 p-3 rounded-lg">
                 <span className="text-slate-600 block mb-1">Focus Areas:</span>
                 <div className="flex flex-wrap gap-1">
-                  {currentPhase?.focusAreas?.slice(0, 3).map((area, index) => (
+                  {currentPhase?.focusAreas?.slice(0, 3).map((area: string, index: number) => (
                     <Badge key={index} variant="secondary" className="text-xs">
                       {area}
                     </Badge>

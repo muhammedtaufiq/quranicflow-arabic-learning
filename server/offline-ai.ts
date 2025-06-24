@@ -27,11 +27,11 @@ export class OfflineAI {
     mistakeType?: string;
     sessionHour: number;
   }>): LearningPattern {
-    let pattern = this.userPatterns.get(userId) || {
-      mistakeTypes: [],
-      difficultyAreas: [],
+    let pattern: LearningPattern = this.userPatterns.get(userId) || {
+      mistakeTypes: [] as string[],
+      difficultyAreas: [] as string[],
       timePatterns: new Array(24).fill(0),
-      successRates: {}
+      successRates: {} as Record<string, number>
     };
 
     sessionData.forEach(session => {

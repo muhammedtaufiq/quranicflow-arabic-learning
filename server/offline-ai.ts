@@ -259,7 +259,8 @@ export class OfflineAI {
     ) || false;
   }
 
-  private isOrthographicMistake(userAnswer: string, correctAnswer: string): boolean {
+  private isOrthographicMistake(userAnswer: string, correctAnswerParam: string): boolean {
+    const correctAnswer = correctAnswerParam;
     // Check for spelling mistakes
     const distance = this.calculateLevenshteinDistance(userAnswer, correctAnswer);
     return distance > 0 && distance <= 2;

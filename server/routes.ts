@@ -88,12 +88,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Learning content routes
   app.get("/api/words", async (req, res) => {
     try {
-      const { limit = "20", difficulty } = req.query;
-      const words = await storage.getWords(
-        parseInt(limit as string), 
-        difficulty ? parseInt(difficulty as string) : undefined
-      );
-      res.json({ words });
+      const { limit = "20", difficulty, mode = "learning" } = req.query;
+      const allWords = await storage.getWords(500);
+      
+      let filteredWords = allWords;
+      
+      // MAIN LEARNING: Progressive vocabulary based on user level and learning phases
+      if (mode === "learning" || !mode) {
+        // Focus on systematic learning progression through phases
+        const targetDifficulty = difficulty ? parseInt(difficulty as string) : 2;
+        filteredWords = allWords.filter(word => {
+          // Prioritize foundational categories for main learning
+          const foundationalCategories = [
+            'divine', 'attributes', 'pronouns', 'verbs', 'essential', 
+            'worship', 'prophets', 'family', 'creation'
+          ];
+          
+          return word.difficulty <= targetDifficulty + 1 && 
+                 foundationalCategories.includes(word.category) &&
+                 word.frequency > 20; // Medium to high frequency
+        });
+      }
+      
+      // Apply difficulty filter if specified
+      if (difficulty) {
+        filteredWords = filteredWords.filter(word => word.difficulty === parseInt(difficulty as string));
+      }
+      
+      const selectedWords = filteredWords.slice(0, parseInt(limit as string));
+      res.json({ words: selectedWords });
     } catch (error: any) {
       res.status(500).json({ message: "Failed to get words", error: error.message });
     }
@@ -235,24 +258,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const chapterId = parseInt(req.params.chapterId);
       const { limit = "10" } = req.query;
       
-      // Get words from specific chapter
-      const allWords = await storage.getWords(300); // Get larger set to filter
+      // CHAPTER-SPECIFIC LEARNING: Authentic vocabulary from specific Quranic chapters
+      const allWords = await storage.getWords(500);
       const chapterWords = allWords.filter(word => word.chapter === chapterId);
       
       console.log(`Chapter ${chapterId}: Found ${chapterWords.length} words`);
       
-      // If no words from specific chapter, get words from related chapters or by difficulty
       if (chapterWords.length === 0) {
-        // Map chapter numbers to difficulty levels
-        let difficulty = 1;
-        if (chapterId === 1) difficulty = 1; // Al-Fatiha - easiest
-        else if ([2, 112, 113, 114].includes(chapterId)) difficulty = 2; // Common chapters
-        else if ([36, 67, 56, 55].includes(chapterId)) difficulty = 3; // Medium chapters
-        else difficulty = Math.min(Math.ceil(chapterId / 30), 5);
+        // Provide thematically related words instead of random fallbacks
+        let thematicWords = [];
         
-        const fallbackWords = await storage.getWords(parseInt(limit as string), difficulty);
-        console.log(`Using fallback words for chapter ${chapterId}, difficulty ${difficulty}: ${fallbackWords.length} words`);
-        res.json({ words: fallbackWords });
+        if (chapterId === 1) { // Al-Fatiha
+          thematicWords = allWords.filter(w => 
+            ['divine', 'attributes', 'worship', 'essential'].includes(w.category)
+          );
+        } else if ([112, 113, 114].includes(chapterId)) { // Protection surahs
+          thematicWords = allWords.filter(w => 
+            ['divine', 'attributes', 'protection', 'worship'].includes(w.category)
+          );
+        } else if ([36, 67, 55].includes(chapterId)) { // Popular chapters
+          thematicWords = allWords.filter(w => 
+            ['afterlife', 'creation', 'divine', 'attributes', 'worship'].includes(w.category)
+          );
+        } else {
+          // General foundational vocabulary
+          thematicWords = allWords.filter(w => 
+            ['divine', 'attributes', 'essential', 'worship'].includes(w.category)
+          );
+        }
+        
+        console.log(`Using thematic words for chapter ${chapterId}: ${thematicWords.length} words`);
+        res.json({ words: thematicWords.slice(0, parseInt(limit as string)) });
       } else {
         res.json({ words: chapterWords.slice(0, parseInt(limit as string)) });
       }
@@ -263,14 +299,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/grammar-patterns", async (req, res) => {
     try {
-      // Get grammar-focused words that show sentence structure patterns
-      const allWords = await storage.getWords(50);
-      const grammarWords = allWords.filter(word => 
-        ['particles', 'pronouns', 'verbs'].includes(word.category) ||
-        word.rootWord === 'ف ع ل' || // verb patterns
-        word.arabic.includes('ال') || // definite article
-        word.meaning.includes('and') || word.meaning.includes('to') || word.meaning.includes('in')
-      ).slice(0, 10);
+      // GRAMMAR PATTERNS: Focus specifically on structural elements and sentence building
+      const allWords = await storage.getWords(300);
+      
+      const grammarWords = allWords.filter(word => {
+        // Focus on grammatical structure words
+        const grammarCategories = ['particles', 'pronouns', 'prepositions', 'conjunctions'];
+        const hasDefiniteArticle = word.arabic.includes('ال');
+        const isVerbPattern = word.category === 'verbs' && word.frequency > 30;
+        const isStructuralWord = ['and', 'to', 'in', 'from', 'with', 'that', 'which', 'who'].some(
+          connector => word.meaning.toLowerCase().includes(connector)
+        );
+        
+        return grammarCategories.includes(word.category) || 
+               hasDefiniteArticle || 
+               isVerbPattern || 
+               isStructuralWord;
+      }).slice(0, 12);
       
       res.json({ words: grammarWords });
     } catch (error: any) {
@@ -381,18 +426,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/user/:userId/review", async (req, res) => {
     try {
       const userId = parseInt(req.params.userId);
+      
+      // SPACED REVIEW: Focus on words user has previously studied but needs reinforcement
       const wordProgress = await storage.getUserWordsForReview(userId);
       
-      // Get actual words from the progress data
-      const words = [];
-      for (const progress of wordProgress) {
-        const word = await storage.getWord(progress.wordId);
-        if (word) {
-          words.push(word);
+      if (wordProgress.length === 0) {
+        // If no review words, provide previously seen words for reinforcement
+        const allWords = await storage.getWords(300);
+        const reviewCandidates = allWords.filter(word => 
+          word.difficulty <= 3 && // Earlier difficulty words for review
+          ['divine', 'attributes', 'pronouns', 'verbs', 'particles'].includes(word.category)
+        ).slice(0, 15);
+        
+        res.json({ words: reviewCandidates });
+      } else {
+        // Get actual words from the progress data
+        const words = [];
+        for (const progress of wordProgress) {
+          const word = await storage.getWord(progress.wordId);
+          if (word) {
+            words.push(word);
+          }
         }
+        res.json({ words });
       }
-      
-      res.json({ words });
     } catch (error: any) {
       res.status(500).json({ message: "Failed to get review words", error: error.message });
     }
@@ -407,29 +464,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const user = await storage.getUser(userId);
       const userLevel = user?.level || 1;
       
-      // Calculate difficulty based on user level (1-5 scale)
-      const difficulty = Math.min(Math.ceil(userLevel / 2), 5);
+      // DAILY CHALLENGE: Focus on high-frequency, essential vocabulary for daily consistency
+      // Select words from core categories: divine attributes, basic verbs, common nouns
+      const allWords = await storage.getWords(300);
+      const challengeCategories = ['divine', 'attributes', 'verbs', 'essential', 'pronouns', 'worship'];
       
-      // Get words appropriate for daily challenge (mix of new and review)
-      const newWords = await storage.getWords(5, difficulty);
-      const reviewProgress = await storage.getUserWordsForReview(userId);
+      let challengeWords = allWords.filter(word => 
+        challengeCategories.includes(word.category) && 
+        word.difficulty <= Math.min(userLevel + 1, 5) // Appropriate difficulty
+      );
       
-      // Get actual word objects for review words
-      const reviewWords = [];
-      for (const progress of reviewProgress.slice(0, 3)) {
-        const word = await storage.getWord(progress.wordId);
-        if (word) {
-          reviewWords.push(word);
-        }
+      // If not enough high-frequency words, include medium frequency
+      if (challengeWords.length < 7) {
+        challengeWords = allWords.filter(word => 
+          challengeCategories.includes(word.category) && 
+          word.frequency > 20 && // Medium frequency words
+          word.difficulty <= Math.min(userLevel + 1, 5)
+        );
       }
       
-      // Combine review words with new words
-      const challengeWords = [
-        ...reviewWords, // Up to 3 review words
-        ...newWords.slice(0, 7 - reviewWords.length) // Fill remaining with new words
-      ];
+      console.log(`Daily challenge: Found ${challengeWords.length} words in categories:`, challengeCategories);
       
-      res.json({ words: challengeWords });
+      // Add seed for consistent daily challenge (same words for same day)
+      const today = new Date().toDateString();
+      const seed = today.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
+      const shuffled = challengeWords.sort(() => (seed % 2) - 0.5).slice(0, 7);
+      
+      res.json({ words: shuffled });
     } catch (error: any) {
       res.status(500).json({ message: "Failed to get daily challenge", error: error.message });
     }

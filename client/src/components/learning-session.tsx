@@ -80,9 +80,8 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
       return await apiRequest("POST", "/api/learning/session", data);
     },
     onSuccess: (response) => {
-      const data = response.json();
-      if (data.xpGain) {
-        setXpGained(prev => prev + data.xpGain);
+      if (response && typeof response === 'object' && 'xpGain' in response) {
+        setXpGained(prev => prev + (response.xpGain || 0));
       }
       queryClient.invalidateQueries({ queryKey: [`/api/user/${userId}`] });
     }

@@ -87,17 +87,22 @@ export default function Dashboard() {
             <h1 className="text-lg md:text-2xl font-medium text-slate-800 mb-1 md:mb-2">
               Welcome back, {user?.displayName || 'Student'}
             </h1>
-            <div className="flex items-center justify-center space-x-2 mb-1">
+            <div className="flex flex-col items-center space-y-1 mb-1">
               <p className="text-xs md:text-base text-slate-600">Ready to learn Quranic Arabic today?</p>
               {contentStats?.phase && (
-                <Badge variant="outline" className="text-xs">
-                  Phase {contentStats.phase.current}: {contentStats.phase.description}
-                </Badge>
+                <div className="flex items-center space-x-2">
+                  <Badge className="bg-teal-500 text-white text-xs">
+                    Active: Phase {contentStats.phase.current}
+                  </Badge>
+                  <span className="text-xs text-slate-600">
+                    {contentStats.phase.description}
+                  </span>
+                </div>
               )}
             </div>
           </div>
 
-          {/* Ultra Compact Progress Overview - Mobile Optimized */}
+          {/* Ultra Compact Progress Overview with Phase Status */}
           <div className="card-tranquil mb-2 md:mb-6 p-2 md:p-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2 md:space-x-4">
@@ -110,11 +115,26 @@ export default function Dashboard() {
                 <div>
                   <h3 className="text-sm md:text-lg font-medium text-slate-800">Level {user?.level || 1}</h3>
                   <p className="text-xs md:text-sm text-slate-600">{user?.xp || 1250} XP • {Math.floor((user?.xp || 1250) / 50)} day streak</p>
+                  {/* Active Phase Indicator */}
+                  {contentStats?.phase && (
+                    <div className="flex items-center space-x-1 mt-1">
+                      <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
+                      <span className="text-xs text-teal-700 font-medium">
+                        Phase {contentStats.phase.current}: {contentStats.phase.description}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="text-right">
                 <div className="text-base md:text-2xl font-medium text-slate-800">{contentStats.totalWords || 1500}</div>
                 <div className="text-xs md:text-sm text-slate-600">100% Coverage</div>
+                {/* Phase-specific word count */}
+                {contentStats?.phase && (
+                  <div className="text-xs text-teal-600 mt-1">
+                    Phase Focus: {contentStats.phase.description}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -191,12 +211,12 @@ export default function Dashboard() {
               <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-4">
                 <LearningCard
                   title="Vocabulary Practice"
-                  description="Learn new Arabic words"
+                  description={`Phase ${contentStats?.phase?.current || 1} words: ${contentStats?.phase?.description || 'Foundation'}`}
                   icon={<BookOpen className="h-5 w-5 md:h-6 md:w-6" />}
                   href="/learn?type=words"
                   duration="5-10 min"
                   xpReward={25}
-                  badge="New"
+                  badge={`Phase ${contentStats?.phase?.current || 1}`}
                   badgeColor="green"
                 />
                 <LearningCard

@@ -116,6 +116,19 @@ export class ChapterCompletionService {
       return progress.completion;
     }
     
+    // Award XP for chapter completion (50 XP per word learned)
+    const xpReward = progress.wordsLearned * 50;
+    const user = await storage.getUser(userId);
+    if (user) {
+      await storage.updateUser(userId, { 
+        xp: user.xp + xpReward,
+        level: Math.floor((user.xp + xpReward) / 100) + 1
+      });
+    }
+    
+    // Create chapter completion achievement
+    await this.createChapterAchievement(userId, chapterId, progress.chapterName);
+    
     const completionData: InsertChapterCompletion = {
       userId,
       chapterId,

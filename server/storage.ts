@@ -311,6 +311,16 @@ export class MemStorage implements IStorage {
     return word;
   }
 
+  async createAchievement(insertAchievement: InsertAchievement): Promise<Achievement> {
+    const achievement: Achievement = {
+      id: this.currentAchievementId++,
+      createdAt: new Date(),
+      ...insertAchievement,
+    };
+    this.achievements.set(achievement.id, achievement);
+    return achievement;
+  }
+
   async getWordsByFrequency(limit: number): Promise<Word[]> {
     return Array.from(this.words.values())
       .sort((a, b) => b.frequency - a.frequency)

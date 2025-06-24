@@ -22,8 +22,15 @@ export default function Learn() {
   const typeFromUrl = urlParams.get('type');
   const chapterFromUrl = urlParams.get('chapter');
 
+  // Get current user's selected phase
+  const { data: userPhaseData } = useQuery({
+    queryKey: [`/api/user/${MOCK_USER_ID}/current-phase`]
+  });
+
+  const currentPhaseId = (userPhaseData as any)?.currentPhase?.id || 1;
+
   const { data: wordsData } = useQuery({
-    queryKey: ["/api/words?limit=12&difficulty=1&mode=learning"],
+    queryKey: [`/api/words?limit=12&difficulty=1&mode=learning&phase=${currentPhaseId}`],
     enabled: selectedType === 'words' || typeFromUrl === 'words'
   });
 

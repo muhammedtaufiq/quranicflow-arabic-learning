@@ -91,26 +91,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Learning content routes
   app.get("/api/words", async (req, res) => {
     try {
-      const { limit = "20", difficulty, mode = "learning" } = req.query;
+      const { limit = "20", difficulty, mode = "learning", phase } = req.query;
       const allWords = await storage.getWords(500);
       
       let filteredWords = allWords;
       
+      // Use phase from query parameter or global selection
+      const selectedPhase = phase ? parseInt(phase as string) : globalSelectedPhase;
+      
       // VOCABULARY PRACTICE: Progressive foundational learning
       if (mode === "learning" || !mode) {
-        // Focus on systematic learning progression through phases
-        const targetDifficulty = difficulty ? parseInt(difficulty as string) : 1;
-        filteredWords = allWords.filter(word => {
-          // Prioritize foundational categories for main learning
-          const foundationalCategories = [
-            'divine', 'attributes', 'pronouns', 'verbs', 'essential', 
-            'worship', 'prophets', 'family', 'creation'
-          ];
+        // Get phase-specific vocabulary using learning engine
+        const phaseData = LEARNING_PHASES.find(p => p.id === selectedPhase);
+        
+        if (phaseData) {
+          // Filter words based on phase vocabulary IDs
+          filteredWords = allWords.filter(word => 
+            phaseData.vocabularyIds.includes(word.id)
+          );
           
-          return word.difficulty <= targetDifficulty + 1 && 
-                 foundationalCategories.includes(word.category) &&
-                 word.frequency > 20; // Medium to high frequency
-        });
+          console.log(`🎯 Phase ${selectedPhase} filtering: ${filteredWords.length} words from phase vocabulary`);
+        } else {
+          // Fallback to foundational vocabulary if phase not found
+          const targetDifficulty = difficulty ? parseInt(difficulty as string) : 1;
+          filteredWords = allWords.filter(word => {
+            const foundationalCategories = [
+              'divine', 'attributes', 'pronouns', 'verbs', 'essential', 
+              'worship', 'prophets', 'family', 'creation'
+            ];
+            
+            return word.difficulty <= targetDifficulty + 1 && 
+                   foundationalCategories.includes(word.category) &&
+                   word.frequency > 20;
+          });
+        }
       }
       
       // Apply difficulty filter if specified

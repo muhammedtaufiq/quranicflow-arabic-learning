@@ -207,7 +207,20 @@ Preferred communication style: Simple, everyday language.
 ✓ **LEARNING PATH DIFFERENTIATION COMPLETED**: Fixed critical content repetition issue where all learning modes were sharing vocabulary pools
 ✓ **DISTINCT VOCABULARY SELECTION**: Each learning mode now provides purpose-built content (Daily Challenge: worship vocabulary, Chapter Learning: authentic chapter words, Spaced Review: previously studied words, Grammar Patterns: structural elements, Main Learning: progressive foundational vocabulary)
 ✓ **TESTING VERIFIED**: All learning paths confirmed to provide distinct, non-overlapping vocabulary sets appropriate to their educational purpose
+✓ **CHAPTER-SPECIFIC API ROUTES IMPLEMENTED**: Added missing `/api/learn/chapter/:chapterId` endpoints to serve authentic vocabulary for specific chapters
+✓ **AL-FALAQ AND AN-NAS ACCESSIBILITY FIXED**: Chapter 113 (Al-Falaq) now serves 9 authentic words, Chapter 114 (An-Nas) serves 8 authentic words from authoritative sources
+✓ **FRONTEND QUERY CORRECTION**: Updated learn.tsx to use correct `/api/learn/chapter/` endpoint instead of `/api/words/chapter/` for proper JSON responses
+✓ **COMPLETE VOCABULARY INTEGRATION**: All 766 words from authentic Islamic sources (Ibn Kathir, Lane's Lexicon, etc.) now accessible through proper API routing
+✓ **CHAPTER LEARNING FUNCTIONALITY RESTORED**: Users can now access Al-Falaq, An-Nas, and all other chapters with their authentic vocabulary sets
 
 ## Changelog
 
+- June 24, 2025. Fixed missing chapter learning API routes - Al-Falaq and An-Nas now accessible
 - June 19, 2025. Initial setup and complete offline Arabic learning implementation
+
+## Technical Documentation Created
+
+- `API_ROUTING_DOCUMENTATION.md`: Comprehensive documentation of chapter learning API fix
+- `PROJECT_DOCUMENTATION.md`: Complete software architecture and development effort overview  
+- `VOCABULARY_SOURCES.md`: Authoritative Islamic sources and academic verification
+- `TECHNICAL_ARCHITECTURE.md`: Full technical implementation details and system design

@@ -54,7 +54,7 @@ export default function Leaderboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 safe-area-pb">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/30 to-teal-50/20 safe-area-pb">
       <NavigationHeader />
       
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -77,16 +77,16 @@ export default function Leaderboard() {
                 <div className="w-20 h-16 bg-gradient-to-r from-slate-400 to-slate-500 rounded-t-lg flex items-center justify-center mb-2">
                   <span className="text-white font-medium text-lg">2</span>
                 </div>
-                <div className="bg-white rounded-lg p-4 shadow-md border-2 border-slate-300 card-tranquil">
+                <div className="bg-white rounded-lg p-4 shadow-md border-2 border-slate-300 card-tranquil shimmer-card hover-lift">
                   <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2">
                     <span className="text-lg font-bold text-gray-600">
                       {leaderboard[1]?.displayName?.charAt(0) || 'U'}
                     </span>
                   </div>
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-gray-900 mobile-text-visible">
                     {leaderboard[1]?.displayName}
                   </p>
-                  <p className="text-xs text-gray-600">{leaderboard[1]?.xp} XP</p>
+                  <p className="text-xs text-gray-600 mobile-text-visible">{leaderboard[1]?.xp} XP</p>
                 </div>
               </div>
 
@@ -95,16 +95,16 @@ export default function Leaderboard() {
                 <div className="w-24 h-20 bg-gradient-to-r from-amber-500 to-amber-600 rounded-t-lg flex items-center justify-center mb-2">
                   <Crown className="w-8 h-8 text-white" />
                 </div>
-                <div className="bg-white rounded-lg p-4 shadow-lg border-2 border-amber-400 card-tranquil">
+                <div className="bg-white rounded-lg p-4 shadow-lg border-2 border-amber-400 card-tranquil shimmer-card hover-lift">
                   <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-2">
                     <span className="text-xl font-bold text-yellow-600">
                       {leaderboard[0]?.displayName?.charAt(0) || 'U'}
                     </span>
                   </div>
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-gray-900 mobile-text-visible">
                     {leaderboard[0]?.displayName}
                   </p>
-                  <p className="text-xs text-gray-600">{leaderboard[0]?.xp} XP</p>
+                  <p className="text-xs text-gray-600 mobile-text-visible">{leaderboard[0]?.xp} XP</p>
                   <Badge className="mt-2 bg-yellow-500 text-white">
                     Champion
                   </Badge>

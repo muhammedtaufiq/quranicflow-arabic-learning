@@ -98,14 +98,14 @@ export default function Profile() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 safe-area-pb md:pb-0">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/30 to-teal-50/20 safe-area-pb md:pb-0">
       <NavigationHeader />
       
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         {/* Profile Header */}
-        <Card className="mb-8">
-          <CardContent className="p-8">
+        <Card className="mb-8 shimmer-card hover-lift">
+          <CardContent className="p-8 mobile-compact">
             <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
               
               {/* Avatar */}
@@ -120,10 +120,10 @@ export default function Profile() {
 
               {/* Profile Info */}
               <div className="flex-1 text-center md:text-left">
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                <h1 className="text-2xl font-bold text-gray-900 mb-2 mobile-text-visible">
                   {user?.displayName || 'Student'}
                 </h1>
-                <p className="text-gray-600 mb-4">@{user?.username || 'student'}</p>
+                <p className="text-gray-600 mb-4 mobile-text-visible">@{user?.username || 'student'}</p>
                 
                 <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-4">
                   <Badge variant="secondary">Level {user?.level || 1}</Badge>
@@ -169,21 +169,21 @@ export default function Profile() {
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
           {profileStats.map((stat, index) => (
-            <Card key={index}>
-              <CardContent className="p-4 text-center">
+            <Card key={index} className="shimmer-card hover-lift">
+              <CardContent className="p-4 text-center mobile-compact">
                 <div className="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center mx-auto mb-2">
                   {stat.icon}
                 </div>
                 <div className={`text-lg font-bold ${stat.color}`}>{stat.value}</div>
-                <div className="text-xs text-gray-600">{stat.label}</div>
+                <div className="text-xs text-gray-600 mobile-text-visible">{stat.label}</div>
               </CardContent>
             </Card>
           ))}
         </div>
 
         {/* Language Preferences */}
-        <Card className="mb-8">
-          <CardContent className="p-6">
+        <Card className="mb-8 shimmer-card hover-lift">
+          <CardContent className="p-6 mobile-compact">
             <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
               <Languages className="w-5 h-5 mr-2 text-primary" />
               Language Preferences

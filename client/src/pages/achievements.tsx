@@ -39,7 +39,7 @@ export default function Achievements() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 safe-area-pb md:pb-0">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/30 to-teal-50/20 safe-area-pb md:pb-0">
       <NavigationHeader />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -52,35 +52,35 @@ export default function Achievements() {
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="card-tranquil gentle-reveal">
-            <CardContent className="p-6 text-center">
+          <Card className="card-tranquil gentle-reveal shimmer-card hover-lift">
+            <CardContent className="p-6 text-center mobile-compact">
               <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mx-auto mb-3">
                 <Trophy className="w-6 h-6 text-teal-600" />
               </div>
               <div className="text-2xl font-medium text-slate-800">{stats.unlockedCount}</div>
-              <div className="text-sm text-slate-600">Milestones Achieved</div>
+              <div className="text-sm text-slate-600 mobile-text-visible">Milestones Achieved</div>
             </CardContent>
           </Card>
           
-          <Card className="card-tranquil gentle-reveal">
-            <CardContent className="p-6 text-center">
+          <Card className="card-tranquil gentle-reveal shimmer-card hover-lift">
+            <CardContent className="p-6 text-center mobile-compact">
               <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-3">
                 <Star className="w-6 h-6 text-emerald-600" />
               </div>
               <div className="text-2xl font-medium text-slate-800">{stats.totalXpFromAchievements}</div>
-              <div className="text-sm text-slate-600">Points Earned</div>
+              <div className="text-sm text-slate-600 mobile-text-visible">Points Earned</div>
             </CardContent>
           </Card>
           
-          <Card className="card-tranquil gentle-reveal">
-            <CardContent className="p-6 text-center">
+          <Card className="card-tranquil gentle-reveal shimmer-card hover-lift">
+            <CardContent className="p-6 text-center mobile-compact">
               <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mx-auto mb-3">
                 <Target className="w-6 h-6 text-amber-600" />
               </div>
               <div className="text-2xl font-medium text-slate-800">
                 {Math.round((stats.unlockedCount / stats.totalAchievements) * 100)}%
               </div>
-              <div className="text-sm text-slate-600">Progress Rate</div>
+              <div className="text-sm text-slate-600 mobile-text-visible">Progress Rate</div>
             </CardContent>
           </Card>
         </div>
@@ -94,8 +94,8 @@ export default function Achievements() {
           {unlockedAchievements.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {unlockedAchievements.map((achievement: any) => (
-                <Card key={achievement.id} className="border-2 border-accent/20 bg-gradient-to-br from-accent/5 to-accent/10">
-                  <CardContent className="p-6">
+                <Card key={achievement.id} className="border-2 border-accent/20 bg-gradient-to-br from-accent/5 to-accent/10 shimmer-card hover-lift">
+                  <CardContent className="p-6 mobile-compact">
                     <div className="flex items-start justify-between mb-3">
                       <div className="text-3xl">{getAchievementIcon(achievement.type, achievement.icon)}</div>
                       <Badge variant="secondary" className="bg-accent/20 text-accent-foreground">

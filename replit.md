@@ -109,6 +109,7 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+✓ **ACHIEVEMENT SYSTEM BUG RESOLUTION COMPLETED**: Fixed critical UserAchievement storage and retrieval - achievements now properly unlock and persist (June 24, 2025)
 ✓ **LEARNING SYSTEM INTEGRATION COMPLETED**: Connected all learning components into unified flow (June 24, 2025)
 ✓ Completed offline Arabic learning app with gamification
 ✓ Integrated offline question generation system (no API costs)
@@ -236,3 +237,4 @@ Preferred communication style: Simple, everyday language.
 - `PROJECT_DOCUMENTATION.md`: Complete software architecture and development effort overview  
 - `VOCABULARY_SOURCES.md`: Authoritative Islamic sources and academic verification
 - `TECHNICAL_ARCHITECTURE.md`: Full technical implementation details and system design
+- `QURANIC_COVERAGE_STRATEGY.md`: Complete explanation of vocabulary coverage strategy and path to 100% Quranic comprehension

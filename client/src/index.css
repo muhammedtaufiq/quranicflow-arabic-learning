@@ -3,51 +3,51 @@
 @tailwind utilities;
 
 :root {
-  /* Candy Crush Inspired - Vibrant and Engaging Colors */
-  --background: hsl(320, 50%, 98%);
-  --foreground: hsl(340, 80%, 20%);
-  --muted: hsl(300, 20%, 92%);
-  --muted-foreground: hsl(340, 30%, 50%);
+  /* Islamic Tranquil Theme - Warm, Calming, and Reverent Colors */
+  --background: hsl(45, 25%, 97%);
+  --foreground: hsl(25, 25%, 25%);
+  --muted: hsl(35, 15%, 90%);
+  --muted-foreground: hsl(25, 20%, 45%);
   --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(340, 80%, 20%);
+  --popover-foreground: hsl(25, 25%, 25%);
   --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(340, 80%, 20%);
-  --border: hsl(300, 30%, 85%);
-  --input: hsl(300, 30%, 95%);
+  --card-foreground: hsl(25, 25%, 25%);
+  --border: hsl(35, 20%, 85%);
+  --input: hsl(35, 20%, 95%);
   
-  /* Bright Purple (Achievement/Success) */
-  --primary: hsl(280, 100%, 65%);
+  /* Warm Teal (Achievement/Success) - Islamic Green */
+  --primary: hsl(165, 45%, 50%);
   --primary-foreground: hsl(0, 0%, 100%);
   
-  /* Sweet Orange (Learning/Progress) */
-  --secondary: hsl(30, 100%, 65%);
+  /* Warm Orange (Learning/Progress) - Sunset Colors */
+  --secondary: hsl(25, 65%, 60%);
   --secondary-foreground: hsl(0, 0%, 100%);
   
-  /* Vibrant Green (Correct Answers) */
-  --accent: hsl(120, 80%, 55%);
+  /* Sage Green (Correct Answers) - Natural and Peaceful */
+  --accent: hsl(155, 35%, 55%);
   --accent-foreground: hsl(0, 0%, 100%);
   
-  /* Bright Red (Lives/Mistakes) */
-  --destructive: hsl(0, 100%, 65%);
+  /* Gentle Red (Lives/Mistakes) - Subdued Alert */
+  --destructive: hsl(5, 55%, 60%);
   --destructive-foreground: hsl(0, 0%, 100%);
   
-  --ring: hsl(280, 100%, 65%);
+  --ring: hsl(165, 45%, 50%);
   --radius: 1rem;
   
   /* Mobile safe area for bottom navigation */
   --safe-area-inset-bottom: env(safe-area-inset-bottom);
   
-  /* Custom game colors - Candy Crush inspired */
-  --success: hsl(120, 80%, 55%);
-  --error: hsl(0, 100%, 65%);
-  --warning: hsl(45, 100%, 60%);
-  --info: hsl(200, 100%, 60%);
+  /* Custom colors - Islamic inspired */
+  --success: hsl(155, 35%, 55%);
+  --error: hsl(5, 55%, 60%);
+  --warning: hsl(35, 65%, 55%);
+  --info: hsl(195, 45%, 55%);
   
-  /* Gradient backgrounds for visual appeal */
-  --gradient-primary: linear-gradient(135deg, hsl(280, 100%, 75%) 0%, hsl(320, 100%, 70%) 100%);
-  --gradient-secondary: linear-gradient(135deg, hsl(30, 100%, 75%) 0%, hsl(45, 100%, 70%) 100%);
-  --gradient-success: linear-gradient(135deg, hsl(140, 70%, 65%) 0%, hsl(120, 80%, 60%) 100%);
-  --gradient-background: linear-gradient(135deg, hsl(320, 50%, 98%) 0%, hsl(300, 30%, 95%) 100%);
+  /* Warm gradient backgrounds for tranquil learning */
+  --gradient-primary: linear-gradient(135deg, hsl(165, 50%, 60%) 0%, hsl(175, 45%, 55%) 100%);
+  --gradient-secondary: linear-gradient(135deg, hsl(25, 70%, 65%) 0%, hsl(35, 65%, 60%) 100%);
+  --gradient-success: linear-gradient(135deg, hsl(155, 40%, 60%) 0%, hsl(165, 35%, 55%) 100%);
+  --gradient-background: linear-gradient(135deg, hsl(45, 25%, 97%) 0%, hsl(35, 20%, 94%) 100%);
 }
 
 /* Safe area utilities for mobile navigation */

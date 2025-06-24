@@ -67,16 +67,19 @@ export default function DashboardRedesigned() {
             <div className="flex items-center space-x-6">
               {/* Journey Visualization */}
               <div className="relative">
-        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-400 via-teal-400 to-cyan-400 flex items-center justify-center shadow-xl">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-400 via-teal-400 to-cyan-400 flex items-center justify-center shadow-xl border-4 border-white">
                   <BookOpen className="w-10 h-10 text-white" />
                 </div>
                 {streakDays > 0 && (
-                  <div className="absolute -top-2 -right-2 bg-red-500 rounded-full p-2 shadow-lg">
+                  <div className="absolute -top-2 -right-2 bg-gradient-to-br from-orange-400 to-red-500 rounded-full p-2 shadow-lg">
                     <Flame className="w-4 h-4 text-white" />
                   </div>
                 )}
-                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-white rounded-full px-3 py-1 shadow-md border-2 border-emerald-300">
-                  <span className="text-xs font-bold text-emerald-600">Level {user?.level || 1}</span>
+                <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg px-4 py-2 shadow-lg border border-emerald-400">
+                  <div className="flex items-center space-x-1">
+                    <Crown className="w-3 h-3 text-yellow-300" />
+                    <span className="text-sm font-semibold text-white">Level {user?.level || 1}</span>
+                  </div>
                 </div>
               </div>
               

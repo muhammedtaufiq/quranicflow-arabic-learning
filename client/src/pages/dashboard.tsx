@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
-import { Star, Brain, Clock, Trophy, Crown, Calendar, BookOpen } from "lucide-react";
+import { Star, Brain, Clock, Trophy, Crown, Calendar, BookOpen, Info, Target, BookOpen as BookIcon } from "lucide-react";
 import { Link } from "wouter";
 
 // Mock user data - in a real app this would come from authentication

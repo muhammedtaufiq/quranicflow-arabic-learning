@@ -3,7 +3,7 @@ import { BottomNavigation } from "@/components/bottom-navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
-import { Star, BookOpen, Clock, Trophy, Heart, Flame, Target, Gift, Crown, Calendar, Zap, TreePine, Award } from "lucide-react";
+import { Star, BookOpen, Clock, Trophy, Heart, Flame, Target, Gift, Crown, Calendar, Zap, TreePine, Award, Info } from "lucide-react";
 import { Link } from "wouter";
 import { AdminSettings } from "@/components/admin-settings";
 import { ChapterCompletionBadge } from "@/components/chapter-completion-badge";
@@ -72,6 +72,57 @@ export default function DashboardRedesigned() {
             <AdminSettings onPhaseSelect={(phaseId) => console.log('Selected phase:', phaseId)} />
           </div>
         </div>
+
+        {/* Learning Path Overview */}
+        <Card className="card-tranquil mb-6">
+          <CardContent className="p-6">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center">
+                <Target className="h-6 w-6 text-teal-600 mr-3" />
+                <div>
+                  <h3 className="text-lg font-semibold text-slate-800">Your Learning Path to Complete Quranic Understanding</h3>
+                  <p className="text-slate-600 text-sm">Strategic vocabulary mastery for 100% comprehension</p>
+                </div>
+              </div>
+              <Link to="/about">
+                <Button variant="outline" size="sm" className="btn-wisdom">
+                  <Info className="h-4 w-4 mr-2" />
+                  Learn More
+                </Button>
+              </Link>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-teal-50 rounded-lg p-4 border border-teal-100">
+                <div className="text-2xl font-bold text-teal-700 mb-1">{contentStats.totalWords || 813}</div>
+                <div className="text-sm text-slate-600 mb-2">Words Mastered</div>
+                <div className="text-xs text-slate-500">95%+ Quranic Comprehension</div>
+              </div>
+              
+              <div className="bg-emerald-50 rounded-lg p-4 border border-emerald-100">
+                <div className="text-2xl font-bold text-emerald-700 mb-1">1,200-1,500</div>
+                <div className="text-sm text-slate-600 mb-2">Total Needed</div>
+                <div className="text-xs text-slate-500">For 100% Understanding</div>
+              </div>
+              
+              <div className="bg-sage-50 rounded-lg p-4 border border-sage-200">
+                <div className="text-2xl font-bold text-sage-700 mb-1">77,797</div>
+                <div className="text-sm text-slate-600 mb-2">Total Quran Words</div>
+                <div className="text-xs text-slate-500">High frequency optimization</div>
+              </div>
+            </div>
+            
+            <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
+              <div className="flex items-start">
+                <BookOpen className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                <div className="text-sm text-blue-800">
+                  <strong>Remarkable Efficiency:</strong> Due to Arabic's root system and high word repetition, you need only 
+                  <strong> 1,200-1,500 strategic words</strong> to understand the complete Quran - less than 2% of its total vocabulary!
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Visual Journey Progress */}
         <div className="bg-gradient-to-r from-emerald-100 via-teal-100 to-cyan-100 rounded-3xl p-6 shadow-lg border border-emerald-200 shimmer-card hover-lift">

@@ -170,9 +170,9 @@ export default function Dashboard() {
                           {challenges[0]?.progress || 0}/{challenges[0]?.target || 1}
                         </span>
                       </div>
-                      <Link to="/learn">
+                      <Link to="/learn?type=daily">
                         <Button className="btn-peaceful text-xs md:text-base px-2 md:px-4 py-1 md:py-2">
-                          Continue
+                          Start Challenge
                         </Button>
                       </Link>
                     </div>
@@ -186,7 +186,7 @@ export default function Dashboard() {
                   title="Vocabulary Practice"
                   description="Learn new Arabic words"
                   icon={<BookOpen className="h-5 w-5 md:h-6 md:w-6" />}
-                  href="/learn"
+                  href="/learn?type=words"
                   duration="5-10 min"
                   xpReward={25}
                   badge="New"
@@ -196,7 +196,7 @@ export default function Dashboard() {
                   title="Spaced Review"
                   description="Review words you've learned"
                   icon={<Clock className="h-5 w-5 md:h-6 md:w-6" />}
-                  href="/learn?mode=review"
+                  href="/learn?type=review"
                   duration="10-15 min"
                   xpReward={50}
                   badge="Review"
@@ -206,7 +206,7 @@ export default function Dashboard() {
                   title="Chapter Learning"
                   description="Study specific chapters"
                   icon={<Brain className="h-5 w-5 md:h-6 md:w-6" />}
-                  href="/learn?mode=chapter"
+                  href="/learn?type=chapters"
                   duration="15-20 min"
                   xpReward={75}
                   badge="Study"
@@ -216,7 +216,7 @@ export default function Dashboard() {
                   title="Grammar Structure"
                   description="Understand sentence patterns"
                   icon={<Star className="h-5 w-5 md:h-6 md:w-6" />}
-                  href="/learn?mode=grammar"
+                  href="/learn?type=grammar"
                   duration="10-15 min"
                   xpReward={60}
                   badge="Grammar"

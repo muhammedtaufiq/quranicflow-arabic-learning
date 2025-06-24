@@ -82,12 +82,19 @@ export default function Dashboard() {
       <NavigationHeader />
       <main className="pb-20 pt-16">
         <div className="max-w-4xl mx-auto p-2 md:p-4 space-y-3 md:space-y-6">
-          {/* Compact Mobile Header */}
+          {/* Compact Mobile Header with Phase Info */}
           <div className="text-center mb-2 md:mb-6">
             <h1 className="text-lg md:text-2xl font-medium text-slate-800 mb-1 md:mb-2">
               Welcome back, {user?.displayName || 'Student'}
             </h1>
-            <p className="text-xs md:text-base text-slate-600">Ready to learn Quranic Arabic today?</p>
+            <div className="flex items-center justify-center space-x-2 mb-1">
+              <p className="text-xs md:text-base text-slate-600">Ready to learn Quranic Arabic today?</p>
+              {contentStats?.phase && (
+                <Badge variant="outline" className="text-xs">
+                  Phase {contentStats.phase.current}: {contentStats.phase.description}
+                </Badge>
+              )}
+            </div>
           </div>
 
           {/* Ultra Compact Progress Overview - Mobile Optimized */}

@@ -181,39 +181,42 @@ export function PhasedLearningDashboard() {
         </CardContent>
       </Card>
 
-      {/* Current Phase Overview */}
-      <Card className="card-tranquil">
+      {/* Current Active Phase Status */}
+      <Card className="card-tranquil border-l-4 border-l-teal-500">
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Target className="h-5 w-5 text-teal-600" />
-              <span>Current Phase: {currentPhase?.name}</span>
+              <span>Active Learning Phase</span>
             </div>
-            <Badge variant="outline" className="text-teal-700 border-teal-300">
-              Phase {currentPhase?.id}
+            <Badge className="bg-teal-500 text-white">
+              Phase {currentPhase?.id}: {currentPhase?.name}
             </Badge>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-slate-600 mb-4">{currentPhase?.description}</p>
+          <div className="bg-teal-50 p-3 rounded-lg mb-4">
+            <p className="text-sm text-teal-800 font-medium mb-1">You are currently in: {currentPhase?.name}</p>
+            <p className="text-xs text-teal-700">{currentPhase?.description}</p>
+          </div>
           
           <div className="space-y-3">
             <div>
               <div className="flex justify-between text-sm mb-1">
-                <span>Progress</span>
-                <span>{Math.round(getPhaseProgress(currentPhase))}%</span>
+                <span>Phase Progress</span>
+                <span className="font-medium text-teal-600">{Math.round(getPhaseProgress(currentPhase))}% Complete</span>
               </div>
-              <Progress value={getPhaseProgress(currentPhase)} className="h-2" />
+              <Progress value={getPhaseProgress(currentPhase)} className="h-3" />
             </div>
 
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="text-slate-600">Daily Word Limit:</span>
-                <span className="ml-2 font-medium">{currentPhase?.maxDailyWords}</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div className="bg-slate-50 p-3 rounded-lg">
+                <span className="text-slate-600 block mb-1">Daily Word Limit:</span>
+                <span className="text-lg font-bold text-slate-800">{currentPhase?.maxDailyWords} words</span>
               </div>
-              <div>
-                <span className="text-slate-600">Focus Areas:</span>
-                <div className="mt-1 flex flex-wrap gap-1">
+              <div className="bg-slate-50 p-3 rounded-lg">
+                <span className="text-slate-600 block mb-1">Focus Areas:</span>
+                <div className="flex flex-wrap gap-1">
                   {currentPhase?.focusAreas?.slice(0, 3).map((area, index) => (
                     <Badge key={index} variant="secondary" className="text-xs">
                       {area}

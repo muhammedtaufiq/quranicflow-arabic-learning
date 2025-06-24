@@ -263,14 +263,24 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 
 ### Issue #16: Phase Selection Promise Rejection Error
 **Date**: June 24, 2025
-**Severity**: Medium
+**Severity**: High
 **Problem**: Unhandled promise rejection when selecting phases in phase manager
-**Root Cause**: Duplicate 'phase' property in API response causing JSON parsing issues and missing error handling
-**Solution**: Removed duplicate phase property from content-stats API, added proper error handling in mutation
+**Root Cause**: Incorrect apiRequest function call - URL passed as HTTP method parameter instead of proper method/URL order
+**Solution**: Fixed apiRequest call to use correct parameter order: apiRequest('POST', url, data) instead of apiRequest(url, {method, body})
 **Status**: ✅ RESOLVED
-**Files Modified**: `server/routes.ts`, `client/src/components/admin-settings.tsx`
-**Verification**: Phase selection now works without errors, proper error logging added
+**Files Modified**: `client/src/components/admin-settings.tsx`
+**Verification**: Phase selection now works without fetch API errors
+
+### Issue #17: TypeScript Errors in Offline AI and Phase Dashboard
+**Date**: June 24, 2025
+**Severity**: Low
+**Problem**: TypeScript compilation errors in offline-ai.ts (string assignment to never) and phased-learning-dashboard.tsx (unknown type)
+**Root Cause**: Missing type annotations and implicit any types
+**Solution**: Added explicit type casting and proper type annotations
+**Status**: ✅ RESOLVED
+**Files Modified**: `server/offline-ai.ts`, `client/src/components/phased-learning-dashboard.tsx`
+**Verification**: Clean TypeScript compilation without errors
 
 *Last Updated: June 24, 2025*
-*Total Issues Tracked: 16*
-*Resolved: 16 | Pending: 0*
+*Total Issues Tracked: 17*
+*Resolved: 17 | Pending: 0*

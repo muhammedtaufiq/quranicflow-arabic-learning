@@ -93,10 +93,7 @@ export function AdminSettings({ onPhaseSelect }: AdminSettingsProps) {
   // Phase selection mutation
   const phaseSelectMutation = useMutation({
     mutationFn: async (phaseId: number) => {
-      return apiRequest(`/api/user/1/select-phase`, {
-        method: 'POST',
-        body: { phaseId }
-      });
+      return apiRequest('POST', `/api/user/1/select-phase`, { phaseId });
     },
     onSuccess: () => {
       // Invalidate all queries that depend on phase data

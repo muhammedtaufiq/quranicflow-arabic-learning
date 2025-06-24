@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { Star, BookOpen, Clock, Trophy, Heart, Flame, Target, Gift, Crown, Calendar, Zap, TreePine } from "lucide-react";
 import { Link } from "wouter";
+import { AdminSettings } from "@/components/admin-settings";
 
 // Mock user data - in a real app this would come from authentication
 const MOCK_USER_ID = 1;
@@ -48,11 +49,16 @@ export default function DashboardRedesigned() {
       <NavigationHeader />
       <main className="px-4 pt-20 pb-20 space-y-6">
         {/* Warm Welcome */}
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-slate-800 mb-2">
-            As-salāmu ʿalaykum, {user?.displayName || 'Student'}
-          </h1>
-          <p className="text-slate-600">Your Quranic journey continues...</p>
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-center flex-1">
+              <h1 className="text-2xl font-bold text-slate-800 mb-2">
+                As-salāmu ʿalaykum, {user?.displayName || 'Student'}
+              </h1>
+              <p className="text-slate-600">Continue your blessed journey of Quranic understanding</p>
+            </div>
+            <AdminSettings onPhaseSelect={(phaseId) => console.log('Selected phase:', phaseId)} />
+          </div>
         </div>
 
         {/* Visual Journey Progress */}
@@ -75,7 +81,7 @@ export default function DashboardRedesigned() {
               </div>
               
               <div className="space-y-3">
-                <h3 className="text-xl font-bold text-slate-800">Your Sacred Journey</h3>
+                <h3 className="text-xl font-bold text-slate-800">Your Path of Knowledge</h3>
                 
                 {/* Visual Progress Indicators */}
                 <div className="flex items-center space-x-6">

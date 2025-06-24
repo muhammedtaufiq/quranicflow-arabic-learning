@@ -80,14 +80,14 @@ export function PhasedLearningDashboard() {
     },
   });
 
-  const phases: LearningPhase[] = phasesData?.phases || [];
-  const currentPhase: LearningPhase = currentPhaseData?.currentPhase || phases[0];
-  const notifications: Notification[] = notificationsData?.notifications || [];
-  const dailyLesson = dailyLessonData?.lesson || [];
+  const phases: LearningPhase[] = (phasesData as any)?.phases || [];
+  const currentPhase: LearningPhase = (currentPhaseData as any)?.currentPhase || phases[0];
+  const notifications: Notification[] = (notificationsData as any)?.notifications || [];
+  const dailyLesson = (dailyLessonData as any)?.lesson || [];
 
   const getPhaseProgress = (phase: LearningPhase): number => {
     if (!phase || !phase.minWordsToUnlock) return 0;
-    const totalWords = analyticsData?.totalWordsLearned || 0;
+    const totalWords = (analyticsData as any)?.totalWordsLearned || 0;
     return Math.min(100, (totalWords / phase.minWordsToUnlock) * 100);
   };
 

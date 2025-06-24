@@ -407,7 +407,7 @@ export class MemStorage implements IStorage {
       id,
       userId: insertProgress.userId,
       challengeId: insertProgress.challengeId,
-      progress: insertProgress.currentProgress || 0,
+      progress: insertProgress.progress || 0,
       isCompleted: insertProgress.isCompleted || false,
       completedAt: null,
     };

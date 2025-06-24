@@ -220,7 +220,10 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
                 {currentQuestion.word.arabic || "اللَّهُ"}
               </span>
               <span className="text-xl text-white/90 italic block mb-3 font-medium">
-                {currentQuestion.word.transliteration}
+                {currentQuestion.word.transliteration || "Loading..."}
+              </span>
+              <span className="text-lg text-white/85 block mb-2 font-medium">
+                {currentQuestion.word.meaning || "Loading translation..."}
               </span>
               {showUrduTranslations && currentQuestion.word.meaningUrdu && (
                 <span className="text-base text-white/80 font-medium block" dir="rtl">

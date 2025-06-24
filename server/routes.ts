@@ -412,12 +412,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Get words appropriate for daily challenge (mix of new and review)
       const newWords = await storage.getWords(5, difficulty);
-      const reviewWords = await storage.getUserWordsForReview(userId);
+      const reviewProgress = await storage.getUserWordsForReview(userId);
       
-      // Combine new words with review words, prioritizing review
+      // Get actual word objects for review words
+      const reviewWords = [];
+      for (const progress of reviewProgress.slice(0, 3)) {
+        const word = await storage.getWord(progress.wordId);
+        if (word) {
+          reviewWords.push(word);
+        }
+      }
+      
+      // Combine review words with new words
       const challengeWords = [
-        ...reviewWords.slice(0, 3), // Up to 3 review words
-        ...newWords.slice(0, 7 - reviewWords.slice(0, 3).length) // Fill remaining with new words
+        ...reviewWords, // Up to 3 review words
+        ...newWords.slice(0, 7 - reviewWords.length) // Fill remaining with new words
       ];
       
       res.json({ words: challengeWords });

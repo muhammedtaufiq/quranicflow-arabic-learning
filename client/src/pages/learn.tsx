@@ -23,7 +23,7 @@ export default function Learn() {
   const chapterFromUrl = urlParams.get('chapter');
 
   const { data: wordsData } = useQuery({
-    queryKey: ["/api/words?limit=10&difficulty=1"],
+    queryKey: ["/api/words?limit=12&difficulty=1&mode=learning"],
     enabled: selectedType === 'words' || typeFromUrl === 'words'
   });
 

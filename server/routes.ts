@@ -93,10 +93,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       let filteredWords = allWords;
       
-      // MAIN LEARNING: Progressive vocabulary based on user level and learning phases
+      // VOCABULARY PRACTICE: Progressive foundational learning
       if (mode === "learning" || !mode) {
         // Focus on systematic learning progression through phases
-        const targetDifficulty = difficulty ? parseInt(difficulty as string) : 2;
+        const targetDifficulty = difficulty ? parseInt(difficulty as string) : 1;
         filteredWords = allWords.filter(word => {
           // Prioritize foundational categories for main learning
           const foundationalCategories = [

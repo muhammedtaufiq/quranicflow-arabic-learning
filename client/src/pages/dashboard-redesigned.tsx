@@ -4,15 +4,20 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
-import { Star, BookOpen, Clock, Trophy, Heart, Flame, Target, Gift, Crown, Calendar, Zap, TreePine, Award, Info } from "lucide-react";
+import { Star, BookOpen, Clock, Trophy, Heart, Flame, Target, Gift, Crown, Calendar, Zap, TreePine, Award, Info, Sparkles } from "lucide-react";
 import { Link } from "wouter";
 import { AdminSettings } from "@/components/admin-settings";
 import { ChapterCompletionBadge } from "@/components/chapter-completion-badge";
+import { useState, useEffect } from "react";
 
 // Mock user data - in a real app this would come from authentication
 const MOCK_USER_ID = 1;
 
 export default function DashboardRedesigned() {
+  const [showPhaseUnlockAnimation, setShowPhaseUnlockAnimation] = useState(false);
+  const [unlockedPhase, setUnlockedPhase] = useState<number | null>(null);
+  const [lastKnownPhase, setLastKnownPhase] = useState<number | null>(null);
+
   const { data: userData, isLoading: userLoading } = useQuery({
     queryKey: [`/api/user/${MOCK_USER_ID}`],
   });
@@ -32,6 +37,25 @@ export default function DashboardRedesigned() {
   
   // Get focus areas for current phase
   const phaseFocusAreas = getPhaseFocusAreas(currentPhase);
+
+  // Phase unlock detection and animation trigger
+  useEffect(() => {
+    if (currentPhase && lastKnownPhase && currentPhase > lastKnownPhase) {
+      // New phase unlocked! Trigger celebration
+      setUnlockedPhase(currentPhase);
+      setShowPhaseUnlockAnimation(true);
+      
+      // Hide animation after 4 seconds
+      setTimeout(() => {
+        setShowPhaseUnlockAnimation(false);
+        setUnlockedPhase(null);
+      }, 4000);
+    }
+    
+    if (currentPhase && currentPhase !== lastKnownPhase) {
+      setLastKnownPhase(currentPhase);
+    }
+  }, [currentPhase, lastKnownPhase]);
   
   function getPhaseFocusAreas(phaseId: number): string {
     const phaseMap: Record<number, string> = {
@@ -80,6 +104,93 @@ export default function DashboardRedesigned() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
       <NavigationHeader />
+      
+      {/* Phase Unlock Celebration Animation */}
+      {showPhaseUnlockAnimation && unlockedPhase && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm">
+          <div className="relative">
+            {/* Multiple Explosion Rings */}
+            <div className="absolute inset-0 animate-ping">
+              <div className="w-48 h-48 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-full opacity-75"></div>
+            </div>
+            <div className="absolute inset-0 animate-pulse" style={{ animationDelay: '0.2s' }}>
+              <div className="w-48 h-48 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-full opacity-50"></div>
+            </div>
+            <div className="absolute inset-0 animate-ping" style={{ animationDelay: '0.4s' }}>
+              <div className="w-48 h-48 bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 rounded-full opacity-60"></div>
+            </div>
+            
+            {/* Center Content */}
+            <div className="relative z-10 bg-white rounded-3xl p-12 text-center shadow-2xl transform animate-bounce border-4 border-yellow-400">
+              <div className="text-8xl mb-6 animate-pulse">🎉</div>
+              <h1 className="text-4xl font-bold text-gray-900 mb-4 animate-pulse">
+                Phase {unlockedPhase} Unlocked!
+              </h1>
+              <p className="text-xl text-teal-600 font-semibold mb-2">
+                Congratulations!
+              </p>
+              <p className="text-lg text-gray-700">
+                You've progressed to a new learning phase
+              </p>
+              <div className="flex justify-center mt-6">
+                <Sparkles className="h-12 w-12 text-yellow-500 animate-spin" />
+              </div>
+            </div>
+            
+            {/* Enhanced Floating Elements */}
+            <div className="absolute -top-4 -left-4 w-4 h-4 bg-yellow-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+            <div className="absolute top-8 -right-2 w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></div>
+            <div className="absolute -bottom-2 -left-6 w-3 h-3 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }}></div>
+            <div className="absolute -bottom-4 -right-4 w-4 h-4 bg-green-400 rounded-full animate-bounce" style={{ animationDelay: '0.7s' }}></div>
+            <div className="absolute top-0 left-1/2 w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.9s' }}></div>
+            <div className="absolute bottom-0 left-1/4 w-3 h-3 bg-red-400 rounded-full animate-bounce" style={{ animationDelay: '1.1s' }}></div>
+          </div>
+        </div>
+      )}
+      
+      {/* Phase Unlock Celebration Animation */}
+      {showPhaseUnlockAnimation && unlockedPhase && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm">
+          <div className="relative">
+            {/* Multiple Explosion Rings */}
+            <div className="absolute inset-0 animate-ping">
+              <div className="w-48 h-48 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-full opacity-75"></div>
+            </div>
+            <div className="absolute inset-0 animate-pulse" style={{ animationDelay: '0.2s' }}>
+              <div className="w-48 h-48 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-full opacity-50"></div>
+            </div>
+            <div className="absolute inset-0 animate-ping" style={{ animationDelay: '0.4s' }}>
+              <div className="w-48 h-48 bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 rounded-full opacity-60"></div>
+            </div>
+            
+            {/* Center Content */}
+            <div className="relative z-10 bg-white rounded-3xl p-12 text-center shadow-2xl transform animate-bounce border-4 border-yellow-400">
+              <div className="text-8xl mb-6 animate-pulse">🎉</div>
+              <h1 className="text-4xl font-bold text-gray-900 mb-4 animate-pulse">
+                Phase {unlockedPhase} Unlocked!
+              </h1>
+              <p className="text-xl text-teal-600 font-semibold mb-2">
+                Congratulations!
+              </p>
+              <p className="text-lg text-gray-700">
+                You've progressed to a new learning phase
+              </p>
+              <div className="flex justify-center mt-6">
+                <Sparkles className="h-12 w-12 text-yellow-500 animate-spin" />
+              </div>
+            </div>
+            
+            {/* Enhanced Floating Elements */}
+            <div className="absolute -top-4 -left-4 w-4 h-4 bg-yellow-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+            <div className="absolute top-8 -right-2 w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></div>
+            <div className="absolute -bottom-2 -left-6 w-3 h-3 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }}></div>
+            <div className="absolute -bottom-4 -right-4 w-4 h-4 bg-green-400 rounded-full animate-bounce" style={{ animationDelay: '0.7s' }}></div>
+            <div className="absolute top-0 left-1/2 w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0.9s' }}></div>
+            <div className="absolute bottom-0 left-1/4 w-3 h-3 bg-red-400 rounded-full animate-bounce" style={{ animationDelay: '1.1s' }}></div>
+          </div>
+        </div>
+      )}
+      
       <main className="px-4 pt-20 pb-20 space-y-6 mobile-compact">
         {/* Warm Welcome */}
         <div className="mb-8">

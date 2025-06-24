@@ -54,10 +54,11 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
   useEffect(() => {
     if (words.length === 0) return;
 
-    const generatedQuestions: Question[] = words.slice(0, 10).map((word) => {
+    const validWords = words.filter(w => w && w.id && w.arabic && w.meaning);
+    const generatedQuestions: Question[] = validWords.slice(0, 10).map((word) => {
       // Create wrong answers by shuffling other word meanings
-      const wrongAnswers = words
-        .filter(w => w && w.id && w.id !== word.id)
+      const wrongAnswers = validWords
+        .filter(w => w.id !== word.id)
         .map(w => w.meaning)
         .slice(0, 3);
       

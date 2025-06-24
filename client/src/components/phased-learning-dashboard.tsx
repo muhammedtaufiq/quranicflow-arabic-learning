@@ -5,7 +5,20 @@ import { Progress } from "@/components/ui/progress";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { BookOpen, Target, Clock, Award, Bell, Brain, TrendingUp } from "lucide-react";
 import { useState } from "react";
-import type { ReactNode } from "react";
+interface Notification {
+  type: "warning" | "celebration" | "milestone";
+  message: string;
+}
+
+interface AnalyticsData {
+  totalWordsLearned?: number;
+  strugglingWordsCount?: number;
+  reviewQueueSize?: number;
+  learningPattern?: {
+    averageSessionLength?: number;
+    bestTimeOfDay?: string;
+  };
+}
 
 const MOCK_USER_ID = 1;
 
@@ -84,11 +97,11 @@ export function PhasedLearningDashboard() {
   const phases: LearningPhase[] = (phasesData as any)?.phases || [];
   const currentPhase: LearningPhase = (currentPhaseData as any)?.currentPhase || phases[0];
   const notifications: Notification[] = (notificationsData as any)?.notifications || [];
-  const dailyLesson = (dailyLessonData as any)?.lesson || [];
+  const dailyLesson: any[] = (dailyLessonData as any)?.lesson || [];
 
   const getPhaseProgress = (phase: LearningPhase): number => {
     if (!phase || !phase.minWordsToUnlock) return 0;
-    const totalWords = (analyticsData as any)?.totalWordsLearned || 0;
+    const totalWords: number = (analyticsData as AnalyticsData)?.totalWordsLearned || 0;
     return Math.min(100, (totalWords / phase.minWordsToUnlock) * 100);
   };
 
@@ -105,7 +118,7 @@ export function PhasedLearningDashboard() {
           <CardContent className="pt-4">
             <div className="flex items-start justify-between">
               <div className="space-y-2">
-                {notifications.map((notification: any, index: number) => (
+                {(notifications || []).map((notification: any, index: number) => (
                   <div key={index} className="flex items-center space-x-2">
                     <Bell className="h-4 w-4 text-orange-600" />
                     <span className={`text-sm ${
@@ -182,7 +195,6 @@ export function PhasedLearningDashboard() {
         </CardContent>
       </Card>
 
-      {/* Current Active Phase Status */}
       <Card className="card-tranquil border-l-4 border-l-teal-500">
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
@@ -197,7 +209,7 @@ export function PhasedLearningDashboard() {
         </CardHeader>
         <CardContent>
           <div className="bg-teal-50 p-3 rounded-lg mb-4">
-            <p className="text-sm text-teal-800 font-medium mb-1">You are currently in: {currentPhase?.name}</p>
+            <p className="text-sm text-teal-800 font-medium mb-1">You are currently in: {currentPhase?.name || 'Foundation'}</p>
             <p className="text-xs text-teal-700">{currentPhase?.description}</p>
           </div>
           
@@ -218,7 +230,7 @@ export function PhasedLearningDashboard() {
               <div className="bg-slate-50 p-3 rounded-lg">
                 <span className="text-slate-600 block mb-1">Focus Areas:</span>
                 <div className="flex flex-wrap gap-1">
-                  {currentPhase?.focusAreas?.slice(0, 3).map((area: string, index: number) => (
+                  {(currentPhase?.focusAreas || []).slice(0, 3).map((area: string, index: number) => (
                     <Badge key={index} variant="secondary" className="text-xs">
                       {area}
                     </Badge>
@@ -318,34 +330,34 @@ export function PhasedLearningDashboard() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               <div>
                 <div className="text-lg font-semibold text-green-600">
-                  {(analyticsData as any)?.totalWordsLearned || 0}
+                  {String((analyticsData as AnalyticsData)?.totalWordsLearned || 0)}
                 </div>
                 <div className="text-xs text-slate-600">Words Mastered</div>
               </div>
               <div>
                 <div className="text-lg font-semibold text-orange-600">
-                  {(analyticsData as any)?.strugglingWordsCount || 0}
+                  {String((analyticsData as AnalyticsData)?.strugglingWordsCount || 0)}
                 </div>
                 <div className="text-xs text-slate-600">Need Review</div>
               </div>
               <div>
                 <div className="text-lg font-semibold text-blue-600">
-                  {(analyticsData as any)?.reviewQueueSize || 0}
+                  {String((analyticsData as AnalyticsData)?.reviewQueueSize || 0)}
                 </div>
                 <div className="text-xs text-slate-600">In Queue</div>
               </div>
               <div>
                 <div className="text-lg font-semibold text-purple-600">
-                  {(analyticsData as any)?.learningPattern?.averageSessionLength || 0}m
+                  {String((analyticsData as AnalyticsData)?.learningPattern?.averageSessionLength || 0)}m
                 </div>
                 <div className="text-xs text-slate-600">Avg Session</div>
               </div>
             </div>
 
-            {(analyticsData as any)?.learningPattern?.bestTimeOfDay && (
+            {(analyticsData as AnalyticsData)?.learningPattern?.bestTimeOfDay && (
               <div className="mt-4 p-3 bg-purple-50 rounded-lg">
                 <div className="text-sm font-medium text-purple-800">
-                  Optimal Learning Time: {(analyticsData as any).learningPattern.bestTimeOfDay}
+                  Optimal Learning Time: {(analyticsData as AnalyticsData)?.learningPattern?.bestTimeOfDay}
                 </div>
                 <div className="text-xs text-purple-600">
                   Based on your learning patterns

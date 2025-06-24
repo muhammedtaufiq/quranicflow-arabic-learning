@@ -44,7 +44,7 @@ export default function DashboardRedesigned() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-orange-50 to-amber-50">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
       <NavigationHeader />
       <main className="px-4 pt-20 pb-20 space-y-6">
         {/* Warm Welcome */}
@@ -56,12 +56,12 @@ export default function DashboardRedesigned() {
         </div>
 
         {/* Visual Journey Progress */}
-        <div className="bg-gradient-to-r from-orange-100 via-amber-100 to-yellow-100 rounded-3xl p-6 shadow-lg border border-orange-200">
+        <div className="bg-gradient-to-r from-emerald-100 via-teal-100 to-cyan-100 rounded-3xl p-6 shadow-lg border border-emerald-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
               {/* Journey Visualization */}
               <div className="relative">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-orange-400 via-amber-400 to-yellow-400 flex items-center justify-center shadow-xl">
+        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-400 via-teal-400 to-cyan-400 flex items-center justify-center shadow-xl">
                   <BookOpen className="w-10 h-10 text-white" />
                 </div>
                 {streakDays > 0 && (
@@ -69,8 +69,8 @@ export default function DashboardRedesigned() {
                     <Flame className="w-4 h-4 text-white" />
                   </div>
                 )}
-                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-white rounded-full px-3 py-1 shadow-md border-2 border-orange-300">
-                  <span className="text-xs font-bold text-orange-600">Level {user?.level || 1}</span>
+                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-white rounded-full px-3 py-1 shadow-md border-2 border-emerald-300">
+                  <span className="text-xs font-bold text-emerald-600">Level {user?.level || 1}</span>
                 </div>
               </div>
               
@@ -106,7 +106,7 @@ export default function DashboardRedesigned() {
             </div>
             
             {/* Achievement Badge */}
-            <div className="bg-white rounded-2xl p-4 shadow-lg border border-orange-200">
+            <div className="bg-white rounded-2xl p-4 shadow-lg border border-emerald-200">
               <div className="text-center">
                 <TreePine className="w-8 h-8 text-emerald-500 mx-auto mb-2" />
                 <div className="text-2xl font-bold text-emerald-600">{unlockedPaths}</div>
@@ -172,9 +172,9 @@ export default function DashboardRedesigned() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Start Learning */}
             <Link href="/learn">
-              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-orange-100 to-red-100 border-orange-300 group">
+              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-emerald-100 to-teal-100 border-emerald-300 group">
                 <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                  <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                     <Zap className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-lg font-bold text-slate-800 mb-2">Start Learning</h3>
@@ -198,9 +198,9 @@ export default function DashboardRedesigned() {
 
             {/* Chapter Learning */}
             <Link href="/chapters">
-              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-emerald-100 to-teal-100 border-emerald-300 group">
+              <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-100 to-indigo-100 border-blue-300 group">
                 <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                     <BookOpen className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-lg font-bold text-slate-800 mb-2">Sacred Chapters</h3>
@@ -226,7 +226,7 @@ export default function DashboardRedesigned() {
 
         {/* Motivational Message */}
         <div className="text-center py-8">
-          <div className="bg-gradient-to-r from-amber-100 to-orange-100 rounded-2xl p-6 border border-amber-200">
+          <div className="bg-gradient-to-r from-emerald-100 to-teal-100 rounded-2xl p-6 border border-emerald-200">
             <Heart className="w-8 h-8 text-red-400 mx-auto mb-3" />
             <p className="text-slate-700 font-medium">
               "And whoever relies upon Allah - then He is sufficient for him."

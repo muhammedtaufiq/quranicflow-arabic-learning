@@ -142,6 +142,21 @@ export const dailyReminders = pgTable("daily_reminders", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+export const chapterCompletions = pgTable("chapter_completions", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  chapterId: integer("chapter_id").notNull(), // 1-114 for Quran chapters
+  chapterName: text("chapter_name").notNull(), // Al-Fatiha, Al-Baqarah, etc.
+  wordsLearned: integer("words_learned").notNull().default(0),
+  totalWords: integer("total_words").notNull().default(0),
+  masteryPercentage: integer("mastery_percentage").notNull().default(0), // 0-100
+  completedAt: timestamp("completed_at").defaultNow(),
+  certificateIssued: boolean("certificate_issued").default(false),
+  studyTimeMinutes: integer("study_time_minutes").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,

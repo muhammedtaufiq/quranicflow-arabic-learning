@@ -3,9 +3,10 @@ import { BottomNavigation } from "@/components/bottom-navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
-import { Star, BookOpen, Clock, Trophy, Heart, Flame, Target, Gift, Crown, Calendar, Zap, TreePine } from "lucide-react";
+import { Star, BookOpen, Clock, Trophy, Heart, Flame, Target, Gift, Crown, Calendar, Zap, TreePine, Award } from "lucide-react";
 import { Link } from "wouter";
 import { AdminSettings } from "@/components/admin-settings";
+import { ChapterCompletionBadge } from "@/components/chapter-completion-badge";
 
 // Mock user data - in a real app this would come from authentication
 const MOCK_USER_ID = 1;
@@ -23,15 +24,28 @@ export default function DashboardRedesigned() {
     queryKey: ["/api/content-stats"],
   });
 
+  const { data: chapterProgressData } = useQuery({
+    queryKey: [`/api/user/${MOCK_USER_ID}/chapter-progress`],
+  });
+
   const user = (userData as any)?.user;
   const challenges = (challengesData as any)?.challenges || [];
   const contentStats = (contentStatsData as any) || {};
+  const chapterProgress = (chapterProgressData as any)?.progressList || [];
 
   // Transform technical stats into user-friendly visuals
   const learningProgress = Math.min(100, ((user?.xp || 0) / 1000) * 100);
   const streakDays = user?.streak || 0;
   const totalLearningPaths = Math.ceil((contentStats.totalWords || 632) / 20); // 20 words per path
   const unlockedPaths = Math.min(totalLearningPaths, Math.floor((user?.xp || 0) / 50) + 1);
+  
+  // Chapter completion stats
+  const completedChapters = chapterProgress.filter((p: any) => p.isCompleted).length;
+  const inProgressChapters = chapterProgress.filter((p: any) => !p.isCompleted && p.masteryPercentage > 0).length;
+  const recentCompletions = chapterProgress
+    .filter((p: any) => p.isCompleted)
+    .sort((a: any, b: any) => new Date(b.completion?.completedAt || 0).getTime() - new Date(a.completion?.completedAt || 0).getTime())
+    .slice(0, 3);
 
   if (userLoading || challengesLoading) {
     return (

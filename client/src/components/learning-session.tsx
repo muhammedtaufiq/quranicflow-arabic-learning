@@ -57,7 +57,7 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
     const generatedQuestions: Question[] = words.slice(0, 10).map((word) => {
       // Create wrong answers by shuffling other word meanings
       const wrongAnswers = words
-        .filter(w => w.id !== word.id)
+        .filter(w => w && w.id && w.id !== word.id)
         .map(w => w.meaning)
         .slice(0, 3);
       

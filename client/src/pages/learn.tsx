@@ -31,7 +31,7 @@ export default function Learn() {
 
   const { data: wordsData } = useQuery({
     queryKey: [`/api/words?limit=12&difficulty=1&mode=learning&phase=${currentPhaseId}`],
-    enabled: selectedType === 'words' || typeFromUrl === 'words'
+    enabled: (selectedType === 'words' || typeFromUrl === 'words') && currentPhaseId
   });
 
   const { data: reviewData } = useQuery({
@@ -301,6 +301,27 @@ export default function Learn() {
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Learning Types
             </Button>
+            
+            {/* Phase Indicator for Main Learning */}
+            {selectedType === 'words' && currentPhaseId && (
+              <Card className="bg-gradient-to-r from-teal-50 to-emerald-50 border-teal-200 mb-4">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <Badge className="bg-teal-600 text-white font-medium">
+                        Phase {currentPhaseId}
+                      </Badge>
+                      <span className="text-sm font-medium text-teal-800">
+                        {(userPhaseData as any)?.currentPhase?.name || `Phase ${currentPhaseId}`}
+                      </span>
+                    </div>
+                    <div className="text-xs text-teal-600">
+                      {(userPhaseData as any)?.currentPhase?.description || 'Loading vocabulary set...'}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           <LearningSession

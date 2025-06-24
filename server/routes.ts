@@ -110,7 +110,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             phaseData.vocabularyIds.includes(word.id)
           );
           
-          console.log(`🎯 Phase ${selectedPhase} filtering: ${filteredWords.length} words from phase vocabulary`);
+          console.log(`🎯 Phase ${selectedPhase} (${phaseData.name}) filtering: ${filteredWords.length} words from phase vocabulary`);
+          console.log(`📝 Sample words: ${filteredWords.slice(0, 3).map(w => `${w.arabic} (${w.meaning})`).join(', ')}`);
         } else {
           // Fallback to foundational vocabulary if phase not found
           const targetDifficulty = difficulty ? parseInt(difficulty as string) : 1;

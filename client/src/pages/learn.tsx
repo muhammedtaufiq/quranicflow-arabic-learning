@@ -39,7 +39,7 @@ export default function Learn() {
 
   // Get chapter from URL if chapter-specific learning
   const { data: chapterWordsData, isLoading: chapterWordsLoading } = useQuery({
-    queryKey: [`/api/words/chapter/${chapterFromUrl || selectedChapterId}`],
+    queryKey: [`/api/learn/chapter/${chapterFromUrl || selectedChapterId}`],
     enabled: (selectedType === 'chapters' || typeFromUrl === 'chapters') && !!(chapterFromUrl || selectedChapterId)
   });
 

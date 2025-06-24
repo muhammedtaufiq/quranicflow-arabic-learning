@@ -193,6 +193,7 @@ export class MemStorage implements IStorage {
     });
 
     // Initialize comprehensive authentic Quranic vocabulary from verified sources
+    // Initialize comprehensive authentic Quranic vocabulary from verified sources
     const authenticWords: Word[] = AUTHENTIC_QURANIC_VOCABULARY.map((vocabWord, index) => ({
       id: index + 1,
       arabic: vocabWord.arabic,

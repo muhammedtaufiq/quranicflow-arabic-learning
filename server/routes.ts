@@ -455,6 +455,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Chapter-specific learning routes
+  app.get("/api/learn/chapter/:chapterId", async (req, res) => {
+    try {
+      const chapterId = parseInt(req.params.chapterId);
+      const { limit = "10" } = req.query;
+      
+      // Get all words from storage
+      const allWords = await storage.getWords(800); // Get all available words
+      const chapterWords = allWords.filter(word => word.chapter === chapterId);
+      
+      console.log(`Learn Chapter ${chapterId}: Found ${chapterWords.length} authentic words`);
+      
+      if (chapterWords.length === 0) {
+        // Provide thematically related words for chapters without specific vocabulary
+        let thematicWords = [];
+        
+        if (chapterId === 1) { // Al-Fatiha
+          thematicWords = allWords.filter(w => 
+            ['divine', 'attributes', 'worship', 'essential'].includes(w.category)
+          );
+        } else if ([112, 113, 114].includes(chapterId)) { // Protection surahs
+          thematicWords = allWords.filter(w => 
+            ['divine', 'attributes', 'protection', 'worship'].includes(w.category)
+          );
+        } else if ([36, 67, 55].includes(chapterId)) { // Popular chapters
+          thematicWords = allWords.filter(w => 
+            ['afterlife', 'creation', 'divine', 'attributes', 'worship'].includes(w.category)
+          );
+        } else {
+          // General foundational vocabulary
+          thematicWords = allWords.filter(w => 
+            ['divine', 'attributes', 'essential', 'worship'].includes(w.category)
+          );
+        }
+        
+        console.log(`Using thematic words for chapter ${chapterId}: ${thematicWords.length} words`);
+        res.json({ words: thematicWords.slice(0, parseInt(limit as string)) });
+      } else {
+        res.json({ words: chapterWords.slice(0, parseInt(limit as string)) });
+      }
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get chapter words for learning", error: error.message });
+    }
+  });
+
   // Daily challenge route
   app.get("/api/user/:userId/daily-challenge", async (req, res) => {
     try {

@@ -247,13 +247,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           description: `${practicalComprehension}% practical Quran comprehension`
         },
         
-        // Phase tracking for systematic expansion
-        phase: {
-          current: totalWords <= 50 ? 1 : totalWords <= 200 ? 2 : totalWords <= 500 ? 3 : totalWords <= 1000 ? 4 : totalWords <= 2000 ? 5 : 6,
-          description: totalWords <= 50 ? "Foundation Phase" : totalWords <= 200 ? "Core Vocabulary Phase" : totalWords <= 500 ? "Intermediate Phase" : totalWords <= 1000 ? "Advanced Phase" : totalWords <= 2000 ? "Mastery Phase" : "Complete Coverage Phase",
-          nextTarget: totalWords <= 50 ? 200 : totalWords <= 200 ? 500 : totalWords <= 500 ? 1000 : totalWords <= 1000 ? 2000 : totalWords <= 2000 ? 3000 : 14870,
-          nextCoverage: totalWords <= 50 ? "45%" : totalWords <= 200 ? "65%" : totalWords <= 500 ? "80%" : totalWords <= 1000 ? "95%" : totalWords <= 2000 ? "99%" : "100%"
-        },
+        // Phase tracking removed to prevent duplicate with phaseInfo below
         
         // Detailed chapter distribution
         chapterBreakdown: chapterStats.map(ch => ({

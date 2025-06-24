@@ -102,13 +102,20 @@ export function AdminSettings({ onPhaseSelect }: AdminSettingsProps) {
       // Invalidate all queries that depend on phase data
       queryClient.invalidateQueries({ queryKey: ["/api/content-stats"] });
       queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+    },
+    onError: (error) => {
+      console.error('Phase selection mutation error:', error);
     }
   });
 
   const handlePhaseSelect = async (phaseId: number) => {
-    setSelectedPhase(phaseId);
-    onPhaseSelect(phaseId);
-    await phaseSelectMutation.mutateAsync(phaseId);
+    try {
+      setSelectedPhase(phaseId);
+      onPhaseSelect(phaseId);
+      await phaseSelectMutation.mutateAsync(phaseId);
+    } catch (error) {
+      console.error('Phase selection error:', error);
+    }
   };
 
   const getPhaseIcon = (phaseId: number) => {

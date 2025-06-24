@@ -261,6 +261,16 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 **Files Modified**: `client/src/pages/dashboard-redesigned.tsx`
 **Verification**: Dashboard now clean and focused on immediate learning actions
 
+### Issue #16: Phase Selection Promise Rejection Error
+**Date**: June 24, 2025
+**Severity**: Medium
+**Problem**: Unhandled promise rejection when selecting phases in phase manager
+**Root Cause**: Duplicate 'phase' property in API response causing JSON parsing issues and missing error handling
+**Solution**: Removed duplicate phase property from content-stats API, added proper error handling in mutation
+**Status**: ✅ RESOLVED
+**Files Modified**: `server/routes.ts`, `client/src/components/admin-settings.tsx`
+**Verification**: Phase selection now works without errors, proper error logging added
+
 *Last Updated: June 24, 2025*
-*Total Issues Tracked: 15*
-*Resolved: 14 | Pending: 1 (TypeScript errors)*
+*Total Issues Tracked: 16*
+*Resolved: 16 | Pending: 0*

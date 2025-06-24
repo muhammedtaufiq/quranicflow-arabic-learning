@@ -281,7 +281,7 @@ export class PersonalizedLearningEngine {
     // Add struggling words for review (high priority)
     if (userData) {
       userData.strugglingWords.slice(0, 3).forEach(wordId => {
-        const word = AUTHENTIC_QURANIC_VOCABULARY.find(w => w.id === wordId);
+        const word = AUTHENTIC_QURANIC_VOCABULARY[wordId];
         if (word) {
           lesson.push({
             word,

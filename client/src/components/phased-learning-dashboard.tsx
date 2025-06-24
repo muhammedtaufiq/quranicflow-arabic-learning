@@ -104,7 +104,7 @@ export function PhasedLearningDashboard() {
           <CardContent className="pt-4">
             <div className="flex items-start justify-between">
               <div className="space-y-2">
-                {notifications.map((notification, index) => (
+                {notifications.map((notification: any, index: number) => (
                   <div key={index} className="flex items-center space-x-2">
                     <Bell className="h-4 w-4 text-orange-600" />
                     <span className={`text-sm ${

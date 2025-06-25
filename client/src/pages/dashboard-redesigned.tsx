@@ -263,11 +263,28 @@ export default function DashboardRedesigned() {
             <CardContent className="p-6 text-center">
               <Target className="w-12 h-12 text-blue-500 mx-auto mb-4" />
               <h3 className="font-bold text-slate-800 mb-2">Today's Mission</h3>
-              <p className="text-slate-600 text-sm mb-4">Learn 5 new words</p>
-              <div className="w-full bg-blue-200 rounded-full h-3">
-                <div className="bg-blue-500 h-3 rounded-full" style={{ width: '20%' }}></div>
-              </div>
-              <p className="text-xs text-slate-500 mt-2">1 of 5 complete</p>
+              {challenges.length > 0 ? (
+                <>
+                  <p className="text-slate-600 text-sm mb-4">{challenges[0].description}</p>
+                  <div className="w-full bg-blue-200 rounded-full h-3">
+                    <div 
+                      className="bg-blue-500 h-3 rounded-full transition-all duration-300" 
+                      style={{ width: `${Math.min(100, (challenges[0].progress / challenges[0].requirement) * 100)}%` }}
+                    ></div>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2">
+                    {challenges[0].progress} of {challenges[0].requirement} complete
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-slate-600 text-sm mb-4">Start learning today</p>
+                  <div className="w-full bg-blue-200 rounded-full h-3">
+                    <div className="bg-blue-500 h-3 rounded-full" style={{ width: '0%' }}></div>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2">No active challenge</p>
+                </>
+              )}
             </CardContent>
           </Card>
 
@@ -276,20 +293,31 @@ export default function DashboardRedesigned() {
             <CardContent className="p-6 text-center">
               <Calendar className="w-12 h-12 text-purple-500 mx-auto mb-4" />
               <h3 className="font-bold text-slate-800 mb-2">This Week</h3>
-              <p className="text-slate-600 text-sm mb-4">Study every day</p>
+              <p className="text-slate-600 text-sm mb-4">Current streak: {streakDays} days</p>
               <div className="flex justify-center space-x-1 mb-2">
-                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
-                  <div 
-                    key={i} 
-                    className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                      i < streakDays ? 'bg-purple-500 text-white' : 'bg-purple-200 text-purple-400'
-                    }`}
-                  >
-                    {day}
-                  </div>
-                ))}
+                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => {
+                  const dayOfWeek = new Date().getDay();
+                  const isToday = i === dayOfWeek;
+                  const isCompleted = i < dayOfWeek && streakDays > 0;
+                  const isCurrent = i === dayOfWeek && streakDays > 0;
+                  
+                  return (
+                    <div 
+                      key={i} 
+                      className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                        isCompleted || isCurrent ? 'bg-purple-500 text-white' : 
+                        isToday ? 'bg-purple-300 text-purple-700 ring-2 ring-purple-500' : 
+                        'bg-purple-200 text-purple-400'
+                      }`}
+                    >
+                      {day}
+                    </div>
+                  );
+                })}
               </div>
-              <p className="text-xs text-slate-500">{streakDays} days strong</p>
+              <p className="text-xs text-slate-500">
+                {streakDays > 0 ? `${streakDays} day streak` : 'Start your streak today'}
+              </p>
             </CardContent>
           </Card>
 
@@ -298,6 +326,28 @@ export default function DashboardRedesigned() {
             <CardContent className="p-6 text-center">
               <Gift className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
               <h3 className="font-bold text-slate-800 mb-2">Next Reward</h3>
+              {(() => {
+                const nextLevel = (user?.level || 1) + 1;
+                const xpNeeded = (nextLevel * 1000) - (user?.xp || 0);
+                const nextAchievement = user?.xp < 1000 ? 'Scholar Badge' : 'Word Master';
+                const xpForNext = user?.xp < 1000 ? 1000 - (user?.xp || 0) : 5000 - (user?.xp || 0);
+                
+                return (
+                  <>
+                    <p className="text-slate-600 text-sm mb-4">{nextAchievement}</p>
+                    <div className="flex items-center justify-center space-x-2 mb-2">
+                      <Star className="w-4 h-4 text-yellow-500" />
+                      <span className="text-sm font-medium">{xpForNext} XP needed</span>
+                    </div>
+                    <div className="w-full bg-emerald-200 rounded-full h-2">
+                      <div 
+                        className="bg-emerald-500 h-2 rounded-full transition-all duration-300" 
+                        style={{ width: `${Math.min(100, ((user?.xp || 0) % 1000) / 10)}%` }}
+                      ></div>
+                    </div>
+                  </>
+                );
+              })()}
               <p className="text-slate-600 text-sm mb-4">7-day streak badge</p>
               <div className="text-2xl font-bold text-emerald-600 mb-1">{Math.max(0, 7 - streakDays)}</div>
               <p className="text-xs text-slate-500">days to go</p>

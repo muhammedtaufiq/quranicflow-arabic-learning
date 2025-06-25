@@ -110,8 +110,14 @@ Mobile UX Priority: Minimize scrolling, prioritize core learning actions above i
 
 ## Recent Changes
 
-**COMPREHENSIVE UX IMPROVEMENTS COMPLETED (June 25, 2025 - 6:49 AM)**
-Fixed phase-specific learning across all modes, improved celebration animations, and optimized navigation flow.
+**COMPREHENSIVE UX IMPROVEMENTS COMPLETED (June 25, 2025 - 6:53 AM)**
+Fixed phase-specific learning across all modes, replaced intrusive celebration modal with Candy Crush fireworks, and optimized navigation flow.
+
+✓ Fixed Spaced Review to use phase-specific vocabulary
+✓ Fixed Daily Challenge to use phase-specific vocabulary 
+✓ Replaced blocking celebration modal with non-intrusive fireworks animation
+✓ Fixed Start Learning button scroll position
+✓ All learning modes now properly filter vocabulary by selected phase
 
 ✓ **ACHIEVEMENT SYSTEM BUG RESOLUTION COMPLETED**: Fixed critical UserAchievement storage and retrieval - achievements now properly unlock and persist (June 24, 2025)
 ✓ **LEARNING SYSTEM INTEGRATION COMPLETED**: Connected all learning components into unified flow (June 24, 2025)

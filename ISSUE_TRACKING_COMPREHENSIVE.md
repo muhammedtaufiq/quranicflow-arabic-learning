@@ -366,10 +366,10 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 
 **ISSUE #33 - Intrusive Celebration Modal**
 **Problem**: Phase unlock celebration shows blocking modal card that covers entire screen
-**Root Cause**: Modal design blocks user interaction and doesn't match Candy Crush celebratory style
-**Solution**: Replaced modal with full-screen Candy Crush-style fireworks that fade away without blocking
-**Status**: ✅ RESOLVED - Celebration now shows colorful fireworks across entire screen that fade naturally
-**Files Modified**: `client/src/components/phased-learning-dashboard.tsx`, `client/src/index.css` (new fireworks animation system)
+**Root Cause**: Old celebration modal in dashboard-redesigned.tsx was still active, blocking user interaction
+**Solution**: Replaced blocking modal with Candy Crush-style fireworks that cover screen without blocking interaction
+**Status**: ✅ RESOLVED - Celebration shows colorful fireworks across screen that fade naturally without blocking UI
+**Files Modified**: `client/src/pages/dashboard-redesigned.tsx`, `client/src/index.css` (fireworks animation system)
 
 *Total Issues Tracked: 33*
 *Resolved: 33 | Pending: 0*

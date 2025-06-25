@@ -55,26 +55,49 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
     if (words.length === 0) return;
 
     const validWords = words.filter(w => w && w.id && w.arabic && w.meaning);
-    const generatedQuestions: Question[] = validWords.slice(0, 10).map((word) => {
+    console.log('Valid words for questions:', validWords.length);
+    
+    // Create more questions by cycling through available words
+    const questionsToGenerate = Math.max(15, Math.min(validWords.length * 2, 25));
+    const extendedWords = [];
+    
+    for (let i = 0; i < questionsToGenerate; i++) {
+      extendedWords.push(validWords[i % validWords.length]);
+    }
+    
+    console.log('Generating', questionsToGenerate, 'questions from', validWords.length, 'unique words');
+    
+    const generatedQuestions: Question[] = extendedWords.map((word, index) => {
       // Create wrong answers by shuffling other word meanings
+      const correctAnswer = showUrduTranslations && word.meaningUrdu ? word.meaningUrdu : word.meaning;
       const wrongAnswers = validWords
         .filter(w => w.id !== word.id)
-        .map(w => w.meaning)
+        .map(w => showUrduTranslations && w.meaningUrdu ? w.meaningUrdu : w.meaning)
         .slice(0, 3);
       
-      const options = [word.meaning, ...wrongAnswers].sort(() => Math.random() - 0.5);
+      // Ensure we have enough options
+      while (wrongAnswers.length < 3 && wrongAnswers.length < validWords.length - 1) {
+        const randomWord = validWords[Math.floor(Math.random() * validWords.length)];
+        const answer = showUrduTranslations && randomWord.meaningUrdu ? randomWord.meaningUrdu : randomWord.meaning;
+        if (answer !== correctAnswer && !wrongAnswers.includes(answer)) {
+          wrongAnswers.push(answer);
+        }
+      }
+      
+      const options = [correctAnswer, ...wrongAnswers].sort(() => Math.random() - 0.5);
       
       return {
         word,
         question: `What does this word mean?`,
         options,
-        correctAnswer: word.meaning,
+        correctAnswer,
         explanation: `${word.arabic} (${word.transliteration}) means "${word.meaning}"`
       };
     });
 
+    console.log('Generated', generatedQuestions.length, 'questions');
     setQuestions(generatedQuestions);
-  }, [words]);
+  }, [words, showUrduTranslations]);
 
   const recordSessionMutation = useMutation({
     mutationFn: async (data: { userId: number; wordId: number; isCorrect: boolean }) => {

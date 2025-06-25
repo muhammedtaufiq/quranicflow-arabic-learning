@@ -371,8 +371,22 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 **Status**: ✅ RESOLVED - Celebration shows colorful fireworks across screen that fade naturally without blocking UI
 **Files Modified**: `client/src/pages/dashboard-redesigned.tsx`, `client/src/index.css` (fireworks animation system)
 
-*Total Issues Tracked: 33*
-*Resolved: 33 | Pending: 0*
+**ISSUE #34 - Learning Session Shows Only 1 Question**
+**Problem**: Learning sessions show only 1 question instead of multiple questions for proper learning experience
+**Root Cause**: Question generation limited to 10 words with slice() and not creating enough questions from available vocabulary
+**Solution**: Enhanced question generation to create 15-25 questions by cycling through available words and improved Urdu translation support
+**Status**: ✅ RESOLVED - Learning sessions now generate appropriate number of questions from available vocabulary
+**Files Modified**: `client/src/components/learning-session.tsx` (improved question generation algorithm)
+
+**ISSUE #35 - Fireworks Celebration Too Fast**
+**Problem**: Phase unlock celebration fireworks animation too fast to appreciate properly
+**Root Cause**: Animation duration set to 4 seconds with fast transitions
+**Solution**: Extended fireworks to 8 seconds with slower, more dramatic animations and larger firework bursts
+**Status**: ✅ RESOLVED - Celebration now lasts 8 seconds with enhanced visual effects for better user experience
+**Files Modified**: `client/src/index.css`, `client/src/pages/dashboard-redesigned.tsx`, `client/src/components/phased-learning-dashboard.tsx`
+
+*Total Issues Tracked: 35*
+*Resolved: 35 | Pending: 0*
 
 ## DEPLOYMENT READINESS CHECKLIST ✅
 

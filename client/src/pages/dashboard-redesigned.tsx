@@ -45,11 +45,11 @@ export default function DashboardRedesigned() {
       setUnlockedPhase(currentPhase);
       setShowPhaseUnlockAnimation(true);
       
-      // Hide animation after 4 seconds
+      // Hide animation after 8 seconds
       setTimeout(() => {
         setShowPhaseUnlockAnimation(false);
         setUnlockedPhase(null);
-      }, 4000);
+      }, 8000);
     }
     
     if (currentPhase && currentPhase !== lastKnownPhase) {

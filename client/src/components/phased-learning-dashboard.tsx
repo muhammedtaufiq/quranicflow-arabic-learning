@@ -124,7 +124,7 @@ export function PhasedLearningDashboard() {
     if (showCelebration) {
       const timer = setTimeout(() => {
         setShowCelebration(false);
-      }, 4000);
+      }, 8000); // Extended to 8 seconds to match the fireworks duration
       return () => clearTimeout(timer);
     }
   }, [showCelebration]);

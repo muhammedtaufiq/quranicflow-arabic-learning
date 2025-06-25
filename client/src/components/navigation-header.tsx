@@ -47,6 +47,11 @@ export function NavigationHeader() {
               </Button>
             </Link>
 
+            {/* Grey Book Icon */}
+            <Button variant="ghost" size="sm" className="text-slate-500 hover:text-slate-600 hover:bg-slate-50">
+              <BookOpen className="w-4 h-4" />
+            </Button>
+
             {/* User Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

@@ -25,14 +25,15 @@ export function NavigationHeader() {
             </div>
           </div>
           
-          {/* Stats - Hidden on mobile */}
-          <div className="hidden md:flex items-center space-x-6">
-            <div className="flex items-center space-x-2 bg-gray-100 px-3 py-1 rounded-full">
-              <Flame className="text-orange-500 w-4 h-4 streak-fire" />
+          {/* Center - User Stats */}
+          <div className="flex items-center space-x-6 text-sm">
+            <div className="flex items-center space-x-2">
+              <Flame className="w-4 h-4 text-orange-500" />
               <span className="text-sm font-medium">{user?.streakDays || 0}</span>
             </div>
-            <div className="flex items-center space-x-2 bg-accent/10 px-3 py-1 rounded-full">
-              <Star className="text-accent w-4 h-4" />
+            
+            <div className="flex items-center space-x-2">
+              <Star className="w-4 h-4 text-yellow-500" />
               <span className="text-sm font-medium">{user?.xp || 0}</span>
             </div>
           </div>

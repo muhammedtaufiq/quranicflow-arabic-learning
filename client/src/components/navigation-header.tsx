@@ -20,7 +20,7 @@ export function NavigationHeader() {
           {/* Logo */}
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <BookOpen className="text-secondary text-2xl" />
+              <BookOpen className="w-6 h-6 text-orange-600" />
               <span className="text-xl font-bold text-gray-900">QuranicFlow</span>
             </div>
           </div>

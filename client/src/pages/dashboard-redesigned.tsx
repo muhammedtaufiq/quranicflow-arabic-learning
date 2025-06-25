@@ -324,7 +324,7 @@ export default function DashboardRedesigned() {
             </Link>
 
             {/* Review Words */}
-            <Link href="/learn?mode=review">
+            <Link href="/learn?type=review">
               <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-100 to-cyan-100 border-blue-300 group shimmer-card hover-lift">
                 <CardContent className="p-8 text-center mobile-compact">
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
@@ -337,7 +337,7 @@ export default function DashboardRedesigned() {
             </Link>
 
             {/* Chapter Learning */}
-            <Link href="/learn?mode=chapter">
+            <Link href="/learn?type=chapter">
               <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-100 to-indigo-100 border-blue-300 group shimmer-card hover-lift">
                 <CardContent className="p-8 text-center mobile-compact">
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
@@ -350,7 +350,7 @@ export default function DashboardRedesigned() {
             </Link>
 
             {/* Daily Challenge */}
-            <Link href="/learn?mode=challenge">
+            <Link href="/learn?type=daily">
               <Card className="cursor-pointer hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-purple-100 to-pink-100 border-purple-300 group shimmer-card hover-lift">
                 <CardContent className="p-8 text-center mobile-compact">
                   <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">

@@ -629,17 +629,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let challengeWords;
       
       if (phaseData) {
-        // Filter words based on phase vocabulary IDs
+        // Use all available valid words for daily challenges to ensure sufficient vocabulary
         challengeWords = allWords.filter(word => 
-          phaseData.vocabularyIds.includes(word.id) &&
-          word.difficulty <= Math.min(userLevel + 1, 5)
+          word && word.id && word.arabic && word.meaning && word.transliteration &&
+          word.difficulty <= Math.min(userLevel + 2, 5) // Slightly more lenient difficulty
         );
         
-        console.log(`Daily challenge: Found ${challengeWords.length} words from Phase ${selectedPhase} (${phaseData.name})`);
+        console.log(`Daily challenge: Found ${challengeWords.length} words from Phase ${selectedPhase} (${phaseData.name}) using categories:`, targetCategories);
       } else {
         // Fallback to foundational categories if phase not found
         const challengeCategories = ['divine', 'attributes', 'verbs', 'essential', 'pronouns', 'worship'];
         challengeWords = allWords.filter(word => 
+          word && word.id && word.arabic && word.meaning &&
           challengeCategories.includes(word.category) && 
           word.difficulty <= Math.min(userLevel + 1, 5)
         );
@@ -650,6 +651,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // If not enough words from phase, expand selection
       if (challengeWords.length < 7 && phaseData) {
         const expandedWords = allWords.filter(word => 
+          word && word.id && word.arabic && word.meaning &&
           phaseData.focusAreas.some(area => 
             word.category.toLowerCase().includes(area.toLowerCase()) ||
             area.toLowerCase().includes(word.category.toLowerCase())

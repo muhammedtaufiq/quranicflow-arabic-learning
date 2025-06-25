@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Bell, BookOpen, Flame, Star, User, Info } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "wouter";
 
 const MOCK_USER_ID = 1;
 
@@ -41,11 +42,18 @@ export function NavigationHeader() {
 
           {/* Right side */}
           <div className="flex items-center space-x-4">
-            {/* Sources & About Dialog */}
+            {/* Info Icon - Navigate to About Page */}
+            <Link to="/about">
+              <Button variant="ghost" size="sm" className="text-teal-600 hover:text-teal-700 hover:bg-teal-50">
+                <Info className="w-5 h-5" />
+              </Button>
+            </Link>
+
+            {/* Sources Dialog - Keep for reference but secondary */}
             <Dialog>
               <DialogTrigger asChild>
-                <Button variant="ghost" size="sm" className="text-teal-600 hover:text-teal-700 hover:bg-teal-50">
-                  <Info className="w-5 h-5" />
+                <Button variant="ghost" size="sm" className="text-slate-500 hover:text-slate-600 hover:bg-slate-50">
+                  <BookOpen className="w-4 h-4" />
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">

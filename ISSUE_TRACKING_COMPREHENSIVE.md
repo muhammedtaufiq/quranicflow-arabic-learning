@@ -60,6 +60,11 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 **Solution**: Updated About page with comprehensive sections covering coverage metrics, recent improvements, development achievements, and academic foundation
 **Status**: COMPLETED - All information now accessible through info icon with detailed explanations of 89% coverage rationale and system improvements
 
+### ISSUE 30: Info Icon Navigation Fix ✅ RESOLVED
+**Problem**: Info icon in navigation header was linking to /profile instead of /about page where comprehensive documentation is located
+**Solution**: Updated NavigationHeader component to route info icon to /about instead of /profile
+**Status**: FIXED - Info icon now properly navigates to About page with complete coverage explanations and system documentation
+
 ---
 
 ## MAJOR ISSUES & SOLUTIONS LOG

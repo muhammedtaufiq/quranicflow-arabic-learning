@@ -81,8 +81,8 @@ export default function DashboardRedesigned() {
 
   // Transform technical stats into user-friendly visuals
   const learningProgress = Math.min(100, ((user?.xp || 0) / 1000) * 100);
-  const streakDays = user?.streak || 0;
-  const totalLearningPaths = Math.ceil((contentStats.totalWords || 632) / 20); // 20 words per path
+  const streakDays = user?.streakDays || 0;
+  const totalLearningPaths = Math.ceil((contentStats.totalWords || 1611) / 20); // 20 words per path
   const unlockedPaths = Math.min(totalLearningPaths, Math.floor((user?.xp || 0) / 50) + 1);
   
   // Chapter completion stats

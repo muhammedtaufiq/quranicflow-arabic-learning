@@ -624,41 +624,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const selectedPhase = globalSelectedPhase || 1;
       const phaseData = LEARNING_PHASES.find(p => p.id === selectedPhase);
       
-      // DAILY CHALLENGE: Use phase-specific vocabulary for targeted learning
+      // DAILY CHALLENGE: Use all available valid words for reliable vocabulary selection
       const allWords = await storage.getWords(500);
-      let challengeWords;
       
-      if (phaseData) {
-        // Use all available valid words for daily challenges to ensure sufficient vocabulary
-        challengeWords = allWords.filter(word => 
-          word && word.id && word.arabic && word.meaning && word.transliteration &&
-          word.difficulty <= Math.min(userLevel + 2, 5) // Slightly more lenient difficulty
-        );
-        
-        console.log(`Daily challenge: Found ${challengeWords.length} words from Phase ${selectedPhase} (${phaseData.name}) using categories:`, targetCategories);
-      } else {
-        // Fallback to foundational categories if phase not found
-        const challengeCategories = ['divine', 'attributes', 'verbs', 'essential', 'pronouns', 'worship'];
-        challengeWords = allWords.filter(word => 
-          word && word.id && word.arabic && word.meaning &&
-          challengeCategories.includes(word.category) && 
-          word.difficulty <= Math.min(userLevel + 1, 5)
-        );
-        
-        console.log(`Daily challenge: Found ${challengeWords.length} words in fallback categories:`, challengeCategories);
-      }
+      // Filter for valid words with all required fields
+      const challengeWords = allWords.filter(word => 
+        word && 
+        word.id && 
+        word.arabic && 
+        word.meaning && 
+        word.transliteration &&
+        word.difficulty <= Math.min(userLevel + 2, 5)
+      );
       
-      // If not enough words from phase, expand selection
-      if (challengeWords.length < 7 && phaseData) {
-        const expandedWords = allWords.filter(word => 
-          word && word.id && word.arabic && word.meaning &&
-          phaseData.focusAreas.some(area => 
-            word.category.toLowerCase().includes(area.toLowerCase()) ||
-            area.toLowerCase().includes(word.category.toLowerCase())
-          ) && word.difficulty <= Math.min(userLevel + 1, 5)
-        );
-        challengeWords = [...challengeWords, ...expandedWords].slice(0, 15);
-        console.log(`Daily challenge: Expanded to ${challengeWords.length} words using focus areas:`, phaseData.focusAreas);
+      console.log(`Daily challenge: Found ${challengeWords.length} valid words for Phase ${selectedPhase}`);
+      
+      if (challengeWords.length === 0) {
+        return res.status(404).json({ message: "No suitable words found for daily challenge" });
       }
       
       // Add seed for consistent daily challenge (same words for same day) but different from previous days

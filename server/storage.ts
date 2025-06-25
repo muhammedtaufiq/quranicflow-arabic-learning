@@ -213,6 +213,8 @@ export class MemStorage implements IStorage {
       this.words.set(word.id, word);
       this.currentWordId = Math.max(this.currentWordId, word.id + 1);
     });
+    
+    console.log(`Storage initialized: ${authenticWords.length} valid words loaded from ${AUTHENTIC_QURANIC_VOCABULARY.length} total vocabulary entries`);
 
     // Initialize demo user progress for some words
     if (demoUser) {
@@ -276,14 +278,20 @@ export class MemStorage implements IStorage {
 
   // Word operations
   async getWords(limit = 50, difficulty?: number): Promise<Word[]> {
-    let words = Array.from(this.words.values());
+    let words = Array.from(this.words.values()).filter(word => 
+      word && word.id && word.arabic && word.meaning && word.transliteration
+    );
+    
     if (difficulty) {
       words = words.filter(word => word.difficulty === difficulty);
     }
+    
     // Return all words if limit is high enough (for content stats)
     if (limit >= 1000) {
       return words;
     }
+    
+    console.log(`Storage getWords: Returning ${Math.min(words.length, limit)} valid words out of ${words.length} total available`);
     return words.slice(0, limit);
   }
 

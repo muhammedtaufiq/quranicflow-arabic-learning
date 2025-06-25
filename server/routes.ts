@@ -624,23 +624,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const selectedPhase = globalSelectedPhase || 1;
       const phaseData = LEARNING_PHASES.find(p => p.id === selectedPhase);
       
-      // DAILY CHALLENGE: Use all available valid words for reliable vocabulary selection
-      const allWords = await storage.getWords(500);
+      // DAILY CHALLENGE: Get vocabulary from storage directly
+      const allWords = await storage.getWords(1000); // Get more words
       
-      // Filter for valid words with all required fields
+      // Filter for foundational categories regardless of phase for daily challenge variety
+      const challengeCategories = ['divine', 'attributes', 'worship', 'essential', 'verbs', 'pronouns', 'particles'];
       const challengeWords = allWords.filter(word => 
         word && 
         word.id && 
         word.arabic && 
         word.meaning && 
         word.transliteration &&
-        word.difficulty <= Math.min(userLevel + 2, 5)
+        challengeCategories.includes(word.category) &&
+        word.difficulty <= 3 // Keep difficulty manageable for daily challenges
       );
       
-      console.log(`Daily challenge: Found ${challengeWords.length} valid words for Phase ${selectedPhase}`);
+      console.log(`Daily challenge: Found ${challengeWords.length} valid words from categories: ${challengeCategories}`);
       
       if (challengeWords.length === 0) {
-        return res.status(404).json({ message: "No suitable words found for daily challenge" });
+        // Fallback to any valid words
+        const fallbackWords = allWords.filter(word => 
+          word && word.id && word.arabic && word.meaning && word.transliteration
+        ).slice(0, 20);
+        
+        if (fallbackWords.length === 0) {
+          return res.status(404).json({ message: "No vocabulary available for daily challenge" });
+        }
+        
+        console.log(`Daily challenge: Using fallback words: ${fallbackWords.length}`);
+        res.json({ words: fallbackWords.slice(0, 7) });
+        return;
       }
       
       // Add seed for consistent daily challenge (same words for same day) but different from previous days
@@ -649,14 +662,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userSeed = userId * 1000; // User-specific component
       const seed = dateString.split('').reduce((a, b) => a + b.charCodeAt(0), userSeed);
       
-      // Improved shuffling algorithm for better randomization
+      // Simple but reliable shuffling for daily selection
       const shuffled = [...challengeWords];
       for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(((seed + i) * 9301 + 49297) % 233280) / 233280 * (i + 1);
+        const j = Math.floor(Math.random() * (i + 1));
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
       }
       
-      const dailyWords = shuffled.slice(0, 7);
+      // Ensure we only take valid words
+      const dailyWords = shuffled
+        .filter(word => word && word.id && word.arabic && word.meaning)
+        .slice(0, 7);
       
       console.log(`Daily challenge for user ${userId} on ${dateString}: ${dailyWords.length} words selected`);
       res.json({ words: dailyWords });

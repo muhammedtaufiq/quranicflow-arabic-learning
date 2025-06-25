@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress as ProgressBar } from "@/components/ui/progress";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/use-auth";
-import { Trophy, Star, Calendar, Clock, Target, BookOpen, Award, Crown } from "lucide-react";
+import { Trophy, Star, Calendar, Clock, Target, BookOpen, Award, Crown, TrendingUp } from "lucide-react";
 
 export default function Progress() {
   const { user } = useAuth();

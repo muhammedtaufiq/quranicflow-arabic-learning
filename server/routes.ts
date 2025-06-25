@@ -8,13 +8,17 @@ import { generateOfflineQuestions } from "./services/offline-question-generator"
 import { learningEngine, LEARNING_PHASES } from "./learning-engine";
 import { streakSystem } from "./streak-system";
 import { offlineAI } from "./offline-ai";
+import { setupAuth } from "./auth";
 
 // Global phase storage (in production this would be in database)
 let globalSelectedPhase = 1;
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
-  // Authentication routes
+  // Setup authentication system
+  setupAuth(app);
+  
+  // Legacy authentication routes (keeping for compatibility)
   app.post("/api/auth/register", async (req, res) => {
     try {
       const userData = insertUserSchema.parse(req.body);

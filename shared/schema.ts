@@ -157,6 +157,12 @@ export const chapterCompletions = pgTable("chapter_completions", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Type exports
+export type User = typeof users.$inferSelect;
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type Word = typeof words.$inferSelect;
+export type InsertWord = z.infer<typeof insertWordSchema>;
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,

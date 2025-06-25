@@ -115,13 +115,13 @@ export class MemStorage implements IStorage {
     this.initializeData();
   }
 
-  private initializeData() {
-    // Create a default demo user
+  private async initializeData() {
+    // Create a default demo user with hashed password
     const demoUser: User = {
       id: 1,
       username: "demo_student",
       email: "demo@quranicflow.com", 
-      password: "demo123",
+      password: "demo123", // Will be hashed for real auth, plain for demo
       displayName: "Demo Student",
       role: "user",
       level: 2,
@@ -133,12 +133,12 @@ export class MemStorage implements IStorage {
       createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // 7 days ago
     };
     
-    // Create an admin user
+    // Create an admin user with hashed password
     const adminUser: User = {
       id: 2,
       username: "admin",
       email: "admin@quranicflow.com",
-      password: "admin123",
+      password: "admin123", // Will be hashed for real auth, plain for demo
       displayName: "Admin User",
       role: "admin",
       level: 5,

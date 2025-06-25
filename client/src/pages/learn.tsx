@@ -26,13 +26,13 @@ export default function Learn() {
   const { data: userPhaseData, refetch: refetchPhase } = useQuery({
     queryKey: [`/api/user/${MOCK_USER_ID}/current-phase`],
     refetchOnWindowFocus: true,
-    staleTime: 10000, // Cache for 10 seconds
-    refetchInterval: 10000 // Refetch every 10 seconds to reduce server load
+    staleTime: 5000, // Cache for 5 seconds for faster response
+    refetchInterval: 5000 // Check more frequently for phase changes
   });
 
   const currentPhaseId = (userPhaseData as any)?.currentPhase?.id || 1;
 
-  const { data: wordsData } = useQuery({
+  const { data: wordsData, refetch: refetchWords } = useQuery({
     queryKey: [`/api/words`, currentPhaseId, 'learning'], // Include phase in key structure
     queryFn: () => fetch(`/api/words?limit=12&difficulty=1&mode=learning&phase=${currentPhaseId}`, {
       cache: 'no-cache',
@@ -41,6 +41,13 @@ export default function Learn() {
     enabled: Boolean((selectedType === 'words' || typeFromUrl === 'words') && currentPhaseId),
     staleTime: 0 // Always fetch fresh vocabulary when phase changes
   });
+
+  // Trigger vocabulary refresh when phase changes
+  useEffect(() => {
+    if (currentPhaseId && (selectedType === 'words' || typeFromUrl === 'words')) {
+      refetchWords();
+    }
+  }, [currentPhaseId, refetchWords, selectedType, typeFromUrl]);
 
   const { data: reviewData } = useQuery({
     queryKey: [`/api/user/${MOCK_USER_ID}/review`],
@@ -60,7 +67,7 @@ export default function Learn() {
 
 
 
-  const { data: grammarData } = useQuery({
+  const { data: grammarData, refetch: refetchGrammar } = useQuery({
     queryKey: [`/api/words`, currentPhaseId, 'grammar'], // Phase-specific grammar vocabulary
     queryFn: () => fetch(`/api/words?limit=12&difficulty=1&mode=grammar&phase=${currentPhaseId}`, {
       cache: 'no-cache',
@@ -69,6 +76,13 @@ export default function Learn() {
     enabled: Boolean((selectedType === 'grammar' || typeFromUrl === 'grammar') && currentPhaseId),
     staleTime: 0
   });
+
+  // Trigger grammar vocabulary refresh when phase changes
+  useEffect(() => {
+    if (currentPhaseId && (selectedType === 'grammar' || typeFromUrl === 'grammar')) {
+      refetchGrammar();
+    }
+  }, [currentPhaseId, refetchGrammar, selectedType, typeFromUrl]);
 
   const learningTypes = [
     {
@@ -174,6 +188,16 @@ export default function Learn() {
       }
     }
   }, [typeFromUrl, chapterFromUrl, selectedType]);
+
+  // Force learning session reset when phase changes
+  useEffect(() => {
+    if (isLearning && currentPhaseId) {
+      // Brief reset to force component remount with new vocabulary
+      setIsLearning(false);
+      const timer = setTimeout(() => setIsLearning(true), 50);
+      return () => clearTimeout(timer);
+    }
+  }, [currentPhaseId]);
 
   // Show chapter selection interface
   if (selectedType === 'chapters' && !isLearning) {

@@ -336,8 +336,15 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 **Files Modified**: `client/src/components/phased-learning-dashboard.tsx` (restored previous working state)
 **Final Status**: Application restored to previous working deployment, TypeScript errors resolved through rollback
 
-*Total Issues Tracked: 28*
-*Resolved: 28 | Pending: 0*
+**ISSUE #29 - Learning Session Phase Cache Bug**
+**Problem**: Learning session shows only 1 question when switching phases, stuck with cached vocabulary from previous phase
+**Root Cause**: LearningSession component not regenerating questions when phase-specific vocabulary changes
+**Solution**: Added force re-render key based on phase ID and automatic learning session reset when phase changes
+**Status**: ✅ RESOLVED - Learning sessions now properly refresh vocabulary when user switches phases
+**Files Modified**: `client/src/pages/learn.tsx` (added phase-based key and session reset logic)
+
+*Total Issues Tracked: 29*
+*Resolved: 29 | Pending: 0*
 
 ## DEPLOYMENT READINESS CHECKLIST ✅
 

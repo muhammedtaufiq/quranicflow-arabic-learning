@@ -3,8 +3,10 @@ import { BottomNavigation } from "@/components/bottom-navigation";
 import { ChapterCompletionList } from "@/components/chapter-completion-badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Progress as ProgressBar } from "@/components/ui/progress";
 import { useQuery } from "@tanstack/react-query";
-import { Trophy, BookOpen, Clock, Award, TrendingUp } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
+import { Trophy, Star, Calendar, Clock, Target, BookOpen, Award, Crown } from "lucide-react";
 
 export default function Progress() {
   const { user } = useAuth();

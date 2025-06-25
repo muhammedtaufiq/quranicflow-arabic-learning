@@ -1,0 +1,40 @@
+~/workspace$ git config --global user.name "Muhammed Taufiq"
+git config --global user.email "muhammedtaufiq@gmail.com"
+~/workspace$ git init
+error: could not lock config file /home/runner/workspace/.git/config: File exists
+fatal: could not set 'core.repositoryformatversion' to '0'
+~/workspace$ git add .
+~/workspace$ ^[[200~git commit -m "Initial commit: QuranicFlow Arabic Learning Platform
+> Complete production-ready application featuring:
+> - 1049+ authentic Quranic vocabulary words
+> - 6-phase progressive learning system
+> - Chapter-specific learning for major Quranic chapters  
+> - Offline AI personalization and gamification
+> - Mobile-optimized Islamic-inspired design
+> - Comprehensive documentation and infrastructure diagrams"~
+git commit -m \"Initial commit: QuranicFlow Arabic Learning Platform
+Complete production-ready application featuring:
+- 1049+ authentic Quranic vocabulary words
+- 6-phase progressive learning system
+- Chapter-specific learning for major Quranic chapters  
+- Offline AI personalization and gamification
+- Mobile-optimized Islamic-inspired design
+- Comprehensive documentation and infrastructure diagrams\"~bash: git: command not found
+~/workspace$ git  commit -m "Initial commit: QuranicFlow Arabic Learning Platform
+Complete production-ready application featuring:
+- 1049+ authentic Quranic vocabulary words
+- 6-phase progressive learning system
+- Chapter-specific learning for major Quranic chapters  
+- Offline AI personalization and gamification
+- Mobile-optimized Islamic-inspired design
+- Comprehensive documentation and infrastructure diagrams"
+On branch main
+nothing to commit, working tree clean
+~/workspace$ git remote add origin https://github.com/muhammedtaufiq/quranicflow-arabic-learning.git
+error: could not lock config file .git/config: File exists
+fatal: could not set 'remote.origin.url' to 'https://github.com/muhammedtaufiq/quranicflow-arabic-learning.git'
+~/workspace$ ^C
+~/workspace$ git branch -M main
+error: could not lock config file .git/config
+fatal: branch is renamed, but update of config-file failed
+~/workspace$ 

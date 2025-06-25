@@ -19907,25 +19907,18 @@ export const AUTHENTIC_QURANIC_VOCABULARY = [
   }
 ];
 
-// Create complete vocabulary database by merging all parts
-export const AUTHENTIC_QURANIC_VOCABULARY: QuranicWord[] = [
-  ...MERGED_VOCABULARY,
-  ...ADDITIONAL_CORE_VOCABULARY
-];
-
 // VOCABULARY VALIDATION SYSTEM - Prevents future vocabulary loss
 const EXPECTED_VOCABULARY_COUNT = 1500;
 const CURRENT_COUNT = AUTHENTIC_QURANIC_VOCABULARY.length;
 
 console.log(`📊 VOCABULARY STATUS: File contains ${CURRENT_COUNT} words`);
-console.log(`📊 PARTS BREAKDOWN: Part 1: ${VOCABULARY_PART1.length}, Part 2: ${VOCABULARY_PART2.length}, Additional: ${ADDITIONAL_CORE_VOCABULARY.length}`);
 
 if (CURRENT_COUNT !== EXPECTED_VOCABULARY_COUNT) {
   console.error(`❌ VOCABULARY COUNT MISMATCH: Expected ${EXPECTED_VOCABULARY_COUNT}, got ${CURRENT_COUNT}`);
   console.error(`❌ Vocabulary loss detected! Missing ${EXPECTED_VOCABULARY_COUNT - CURRENT_COUNT} words`);
 } else {
   console.log(`✅ VOCABULARY COUNT VERIFIED: ${CURRENT_COUNT} words - Target achieved!`);
-  console.log(`✅ FILE SIZE ISSUE RESOLVED: Vocabulary successfully split and merged`);
+  console.log(`✅ FILE SIZE ISSUE RESOLVED: Vocabulary successfully loaded`);
 }
 
 export default AUTHENTIC_QURANIC_VOCABULARY;

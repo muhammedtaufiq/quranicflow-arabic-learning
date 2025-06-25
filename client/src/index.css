@@ -598,82 +598,98 @@
   }
 }
 
-/* Candy Crush Style Celebration */
+/* Birthday Hat Celebration */
 .candy-crush-celebration {
   width: 100%;
   height: 100%;
   position: relative;
-  animation: celebration-fade 8s ease-out forwards;
+  animation: celebration-fade 6s ease-out forwards;
 }
 
-.firework {
+.birthday-hat {
   position: absolute;
-  width: 16px;
-  height: 16px;
-  animation: firework-burst 4s ease-out;
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  width: 24px;
+  height: 32px;
+  animation: hat-bounce 3s ease-out;
 }
 
-.firework-1 {
-  background: linear-gradient(45deg, #ff6b6b, #feca57);
-  top: 20%;
-  left: 10%;
+.birthday-hat::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(45deg, #34d399, #10b981);
+  border-radius: 50px;
+}
+
+.birthday-hat::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 24px solid #fbbf24;
+}
+
+.birthday-hat-1 {
+  top: 15%;
+  left: 20%;
   animation-delay: 0s;
 }
 
-.firework-2 {
-  background: linear-gradient(45deg, #48dbfb, #0abde3);
-  top: 30%;
-  right: 15%;
-  animation-delay: 0.3s;
-}
-
-.firework-3 {
-  background: linear-gradient(45deg, #ff9ff3, #f368e0);
-  top: 60%;
-  left: 20%;
-  animation-delay: 0.6s;
-}
-
-.firework-4 {
-  background: linear-gradient(45deg, #54a0ff, #2e86de);
-  top: 70%;
+.birthday-hat-2 {
+  top: 25%;
   right: 25%;
-  animation-delay: 0.9s;
+  animation-delay: 0.4s;
 }
 
-.firework-5 {
-  background: linear-gradient(45deg, #5f27cd, #341f97);
-  top: 40%;
-  left: 50%;
+.birthday-hat-3 {
+  top: 45%;
+  left: 15%;
+  animation-delay: 0.8s;
+}
+
+.birthday-hat-4 {
+  top: 65%;
+  right: 20%;
   animation-delay: 1.2s;
 }
 
-.firework-6 {
-  background: linear-gradient(45deg, #00d2d3, #54a0ff);
-  top: 80%;
+.birthday-hat-5 {
+  top: 35%;
   left: 60%;
-  animation-delay: 1.5s;
+  animation-delay: 1.6s;
 }
 
-.sparkle {
+.birthday-hat-6 {
+  top: 75%;
+  left: 70%;
+  animation-delay: 2s;
+}
+
+.confetti-piece {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  background: linear-gradient(45deg, #ffd700, #ffed4a, #fff59d);
-  animation: sparkle-twinkle 3s ease-in-out infinite;
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-  transform: rotate(0deg);
+  width: 6px;
+  height: 12px;
+  background: linear-gradient(45deg, #fbbf24, #f59e0b);
+  animation: confetti-fall 4s ease-out forwards;
+  border-radius: 2px;
 }
 
-.sparkle-1 { top: 15%; left: 30%; animation-delay: 0s; }
-.sparkle-2 { top: 25%; right: 20%; animation-delay: 0.2s; }
-.sparkle-3 { top: 45%; left: 15%; animation-delay: 0.4s; }
-.sparkle-4 { top: 55%; right: 30%; animation-delay: 0.6s; }
-.sparkle-5 { top: 75%; left: 40%; animation-delay: 0.8s; }
-.sparkle-6 { top: 35%; left: 70%; animation-delay: 1s; }
-.sparkle-7 { top: 65%; right: 10%; animation-delay: 1.2s; }
-.sparkle-8 { top: 85%; left: 80%; animation-delay: 1.4s; }
+.confetti-1 { top: 10%; left: 25%; background: #ef4444; animation-delay: 0.2s; }
+.confetti-2 { top: 15%; right: 30%; background: #3b82f6; animation-delay: 0.4s; }
+.confetti-3 { top: 20%; left: 40%; background: #10b981; animation-delay: 0.6s; }
+.confetti-4 { top: 12%; right: 45%; background: #8b5cf6; animation-delay: 0.8s; }
+.confetti-5 { top: 18%; left: 60%; background: #f59e0b; animation-delay: 1s; }
+.confetti-6 { top: 8%; left: 75%; background: #ec4899; animation-delay: 1.2s; }
+.confetti-7 { top: 25%; right: 15%; background: #06b6d4; animation-delay: 1.4s; }
+.confetti-8 { top: 5%; left: 85%; background: #84cc16; animation-delay: 1.6s; }
 
 .celebration-text {
   position: absolute;
@@ -691,57 +707,37 @@
   z-index: 10;
 }
 
-@keyframes firework-burst {
+@keyframes hat-bounce {
   0% {
-    transform: scale(0) rotate(0deg);
-    opacity: 1;
-    box-shadow: 0 0 0 0 currentColor;
+    transform: translateY(-200px) rotate(-15deg) scale(0);
+    opacity: 0;
   }
-  20% {
-    transform: scale(3) rotate(72deg);
+  40% {
+    transform: translateY(0) rotate(5deg) scale(1.1);
     opacity: 1;
-    box-shadow: 
-      0 0 20px 10px rgba(52, 211, 153, 0.7),
-      0 0 35px 18px rgba(45, 212, 191, 0.6),
-      0 0 50px 25px rgba(34, 197, 94, 0.5);
   }
   60% {
-    transform: scale(8) rotate(216deg);
-    opacity: 0.9;
-    box-shadow: 
-      0 0 30px 15px rgba(52, 211, 153, 0.6),
-      0 0 60px 30px rgba(45, 212, 191, 0.5),
-      0 0 90px 45px rgba(34, 197, 94, 0.4);
+    transform: translateY(-10px) rotate(-2deg) scale(1);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(0) rotate(1deg) scale(1);
+    opacity: 1;
   }
   100% {
-    transform: scale(15) rotate(360deg);
-    opacity: 0;
-    box-shadow: 
-      0 0 80px 40px transparent,
-      0 0 120px 60px transparent,
-      0 0 160px 80px transparent;
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 0.8;
   }
 }
 
-@keyframes sparkle-twinkle {
-  0%, 100% {
-    transform: scale(0) rotate(0deg);
-    opacity: 0;
-  }
-  25% {
-    transform: scale(0.8) rotate(90deg);
-    opacity: 0.8;
-    box-shadow: 0 0 15px #ffd700, 0 0 25px #ffed4a;
-  }
-  50% {
-    transform: scale(1.2) rotate(180deg);
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
     opacity: 1;
-    box-shadow: 0 0 20px #ffd700, 0 0 35px #ffed4a, 0 0 45px #fff59d;
   }
-  75% {
-    transform: scale(0.9) rotate(270deg);
-    opacity: 0.9;
-    box-shadow: 0 0 18px #ffd700, 0 0 30px #ffed4a;
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
   }
 }
 
@@ -772,7 +768,7 @@
 
 @keyframes celebration-fade {
   0% { opacity: 1; }
-  80% { opacity: 1; }
+  70% { opacity: 1; }
   100% { opacity: 0; }
 }
 

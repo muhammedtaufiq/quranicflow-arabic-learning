@@ -105,24 +105,24 @@ export default function DashboardRedesigned() {
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
       <NavigationHeader />
       
-      {/* Candy Crush Style Celebration Fireworks */}
+      {/* Birthday Hat Celebration */}
       {showPhaseUnlockAnimation && unlockedPhase && (
         <div className="fixed inset-0 z-50 pointer-events-none">
           <div className="candy-crush-celebration">
-            <div className="firework firework-1"></div>
-            <div className="firework firework-2"></div>
-            <div className="firework firework-3"></div>
-            <div className="firework firework-4"></div>
-            <div className="firework firework-5"></div>
-            <div className="firework firework-6"></div>
-            <div className="sparkle sparkle-1"></div>
-            <div className="sparkle sparkle-2"></div>
-            <div className="sparkle sparkle-3"></div>
-            <div className="sparkle sparkle-4"></div>
-            <div className="sparkle sparkle-5"></div>
-            <div className="sparkle sparkle-6"></div>
-            <div className="sparkle sparkle-7"></div>
-            <div className="sparkle sparkle-8"></div>
+            <div className="birthday-hat birthday-hat-1"></div>
+            <div className="birthday-hat birthday-hat-2"></div>
+            <div className="birthday-hat birthday-hat-3"></div>
+            <div className="birthday-hat birthday-hat-4"></div>
+            <div className="birthday-hat birthday-hat-5"></div>
+            <div className="birthday-hat birthday-hat-6"></div>
+            <div className="confetti-piece confetti-1"></div>
+            <div className="confetti-piece confetti-2"></div>
+            <div className="confetti-piece confetti-3"></div>
+            <div className="confetti-piece confetti-4"></div>
+            <div className="confetti-piece confetti-5"></div>
+            <div className="confetti-piece confetti-6"></div>
+            <div className="confetti-piece confetti-7"></div>
+            <div className="confetti-piece confetti-8"></div>
             <div className="celebration-text">Phase {unlockedPhase} Unlocked!</div>
           </div>
         </div>

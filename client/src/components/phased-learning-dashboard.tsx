@@ -106,8 +106,54 @@ export function PhasedLearningDashboard() {
     window.location.href = `/learn?phase=${phaseId}&mode=daily`;
   };
 
+  // Phase celebration detection
+  useEffect(() => {
+    const lastPhase = localStorage.getItem('lastPhase');
+    const currentPhaseId = (currentPhaseData as any)?.currentPhase?.id;
+    
+    if (lastPhase && currentPhaseId && parseInt(lastPhase) < currentPhaseId) {
+      setShowCelebration(true);
+    }
+    
+    if (currentPhaseId) {
+      localStorage.setItem('lastPhase', currentPhaseId.toString());
+    }
+  }, [currentPhaseData]);
+
+  useEffect(() => {
+    if (showCelebration) {
+      const timer = setTimeout(() => {
+        setShowCelebration(false);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [showCelebration]);
+
   return (
     <div className="space-y-6">
+      {/* Candy Crush Style Celebration Fireworks */}
+      {showCelebration && (
+        <div className="fixed inset-0 z-50 pointer-events-none">
+          <div className="candy-crush-celebration">
+            <div className="firework firework-1"></div>
+            <div className="firework firework-2"></div>
+            <div className="firework firework-3"></div>
+            <div className="firework firework-4"></div>
+            <div className="firework firework-5"></div>
+            <div className="firework firework-6"></div>
+            <div className="sparkle sparkle-1"></div>
+            <div className="sparkle sparkle-2"></div>
+            <div className="sparkle sparkle-3"></div>
+            <div className="sparkle sparkle-4"></div>
+            <div className="sparkle sparkle-5"></div>
+            <div className="sparkle sparkle-6"></div>
+            <div className="sparkle sparkle-7"></div>
+            <div className="sparkle sparkle-8"></div>
+            <div className="celebration-text">Phase Unlocked!</div>
+          </div>
+        </div>
+      )}
+
       {/* Notifications Banner */}
       {notifications.length > 0 && (
         <Card className="border-orange-200 bg-orange-50 dark:bg-orange-950/20">

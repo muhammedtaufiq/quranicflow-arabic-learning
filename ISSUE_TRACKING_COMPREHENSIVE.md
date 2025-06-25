@@ -350,8 +350,29 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 **Status**: ✅ RESOLVED - Daily Challenge now serves vocabulary appropriate to user's selected phase
 **Files Modified**: `server/routes.ts` (updated daily challenge to use phase-specific vocabulary filtering)
 
-*Total Issues Tracked: 30*
-*Resolved: 30 | Pending: 0*
+**ISSUE #31 - Spaced Review Not Using Phase Vocabulary**
+**Problem**: Spaced Review always shows foundational words regardless of selected phase
+**Root Cause**: Review endpoint not checking globalSelectedPhase for phase-specific vocabulary
+**Solution**: Updated review system to use phase-specific vocabulary when no user progress exists
+**Status**: ✅ RESOLVED - Spaced Review now serves vocabulary appropriate to user's selected phase
+**Files Modified**: `server/routes.ts` (updated review endpoint to use phase-specific filtering)
+
+**ISSUE #32 - Page Scroll Position on Navigation**
+**Problem**: Start Learning button navigates to bottom of learn page instead of top
+**Root Cause**: No scroll reset when navigating to learn page
+**Solution**: Added scroll to top on Start Learning button click
+**Status**: ✅ RESOLVED - Learn page now opens at the top for better user experience
+**Files Modified**: `client/src/pages/dashboard.tsx` (added scroll reset to Start Learning button)
+
+**ISSUE #33 - Intrusive Celebration Modal**
+**Problem**: Phase unlock celebration shows blocking modal card that covers entire screen
+**Root Cause**: Modal design blocks user interaction and doesn't match Candy Crush celebratory style
+**Solution**: Replaced modal with full-screen Candy Crush-style fireworks that fade away without blocking
+**Status**: ✅ RESOLVED - Celebration now shows colorful fireworks across entire screen that fade naturally
+**Files Modified**: `client/src/components/phased-learning-dashboard.tsx`, `client/src/index.css` (new fireworks animation system)
+
+*Total Issues Tracked: 33*
+*Resolved: 33 | Pending: 0*
 
 ## DEPLOYMENT READINESS CHECKLIST ✅
 

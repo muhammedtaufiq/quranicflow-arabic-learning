@@ -524,12 +524,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const wordProgress = await storage.getUserWordsForReview(userId);
       
       if (wordProgress.length === 0) {
-        // If no review words, provide previously seen words for reinforcement
-        const allWords = await storage.getWords(300);
-        const reviewCandidates = allWords.filter(word => 
-          word.difficulty <= 3 && // Earlier difficulty words for review
-          ['divine', 'attributes', 'pronouns', 'verbs', 'particles'].includes(word.category)
-        ).slice(0, 15);
+        // Get current phase for phase-specific review words
+        const selectedPhase = globalSelectedPhase || 1;
+        const phaseData = LEARNING_PHASES.find(p => p.id === selectedPhase);
+        
+        const allWords = await storage.getWords(500);
+        let reviewCandidates;
+        
+        if (phaseData) {
+          // Use phase-specific vocabulary for review
+          reviewCandidates = allWords.filter(word => 
+            phaseData.vocabularyIds.includes(word.id) &&
+            word.difficulty <= 3 // Earlier difficulty words for review
+          ).slice(0, 15);
+          
+          console.log(`Spaced review: Found ${reviewCandidates.length} words from Phase ${selectedPhase} (${phaseData.name})`);
+        } else {
+          // Fallback to foundational categories
+          reviewCandidates = allWords.filter(word => 
+            word.difficulty <= 3 && 
+            ['divine', 'attributes', 'pronouns', 'verbs', 'particles'].includes(word.category)
+          ).slice(0, 15);
+          
+          console.log(`Spaced review: Using fallback categories, ${reviewCandidates.length} words`);
+        }
         
         res.json({ words: reviewCandidates });
       } else {

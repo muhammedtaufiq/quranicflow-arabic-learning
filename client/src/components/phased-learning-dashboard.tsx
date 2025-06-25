@@ -16,7 +16,7 @@ interface AnalyticsData {
   };
 }
 
-const MOCK_USER_ID = 1;
+// Using authenticated user data
 
 interface LearningPhase {
   id: number;
@@ -73,20 +73,22 @@ export function PhasedLearningDashboard() {
 
   // Fetch learning analytics
   const { data: analyticsData } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}/learning-analytics`],
+    queryKey: [`/api/user/${user?.id}/learning-analytics`],
+    enabled: !!user?.id,
   });
 
   // Fetch daily lesson
   const { data: dailyLessonData } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}/daily-lesson`, selectedPhase],
-    queryFn: () => fetch(`/api/user/${MOCK_USER_ID}/daily-lesson?phase=${selectedPhase}`).then(res => res.json()),
+    queryKey: [`/api/user/${user?.id}/daily-lesson`, selectedPhase],
+    queryFn: () => fetch(`/api/user/${user?.id}/daily-lesson?phase=${selectedPhase}`).then(res => res.json()),
+    enabled: !!user?.id,
   });
 
   // Clear notifications mutation
   const clearNotificationsMutation = useMutation({
-    mutationFn: () => fetch(`/api/user/${MOCK_USER_ID}/clear-notifications`, { method: 'POST' }),
+    mutationFn: () => fetch(`/api/user/${user?.id}/clear-notifications`, { method: 'POST' }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/api/user/${MOCK_USER_ID}/notifications`] });
+      queryClient.invalidateQueries({ queryKey: [`/api/user/${user?.id}/notifications`] });
     },
   });
 

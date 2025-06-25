@@ -388,7 +388,7 @@ export default function Learn() {
             words={words || []}
             type={selectedType}
             onComplete={handleBackToSelection}
-            userId={MOCK_USER_ID}
+            userId={user?.id}
           />
         </main>
 

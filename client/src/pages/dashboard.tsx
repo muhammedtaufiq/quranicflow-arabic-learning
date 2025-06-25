@@ -9,15 +9,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/use-auth";
 import { Star, Brain, Clock, Trophy, Crown, Calendar, BookOpen, Info, Target, BookOpen as BookIcon } from "lucide-react";
 import { Link } from "wouter";
 
-// Mock user data - in a real app this would come from authentication
-const MOCK_USER_ID = 1;
+// Using authenticated user data
 
 export default function Dashboard() {
+  const { user } = useAuth();
   const { data: userData, isLoading: userLoading } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}`],
+    queryKey: [`/api/user/${user?.id}`],
+    enabled: !!user?.id,
   });
 
   const { data: challengesData, isLoading: challengesLoading } = useQuery({

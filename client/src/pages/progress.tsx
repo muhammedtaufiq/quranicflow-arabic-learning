@@ -6,23 +6,24 @@ import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import { Trophy, BookOpen, Clock, Award, TrendingUp } from "lucide-react";
 
-// Mock user data - in a real app this would come from authentication
-const MOCK_USER_ID = 1;
-
 export default function Progress() {
+  const { user } = useAuth();
   const { data: userData } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}`],
+    queryKey: [`/api/user/${user?.id}`],
+    enabled: !!user?.id,
   });
 
   const { data: completionsData } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}/completions`],
+    queryKey: [`/api/user/${user?.id}/completions`],
+    enabled: !!user?.id,
   });
 
   const { data: chapterProgressData } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}/chapter-progress`],
+    queryKey: [`/api/user/${user?.id}/chapter-progress`],
+    enabled: !!user?.id,
   });
 
-  const user = (userData as any)?.user;
+  const userProfile = (userData as any)?.user;
   const completions = (completionsData as any)?.completions || [];
   const chapterProgress = (chapterProgressData as any)?.progressList || [];
   
@@ -135,7 +136,7 @@ export default function Progress() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ChapterCompletionList userId={MOCK_USER_ID} />
+            <ChapterCompletionList userId={user?.id} />
           </CardContent>
         </Card>
       </main>

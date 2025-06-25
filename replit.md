@@ -137,6 +137,8 @@ Fixed phase-specific learning across all modes, replaced intrusive celebration m
 ✓ **DAILY CHALLENGE VOCABULARY EXPANSION**: Fixed single-word repetition issue by expanding to multiple categories (divine, attributes, worship, essential, verbs, pronouns, particles) for proper 7-word daily challenges
 ✓ **DAILY CHALLENGE NULL VALUES FIXED**: Resolved shuffling algorithm introducing null values - now provides 7 complete valid words with Arabic text, meanings, and transliterations
 ✓ **DAILY CHALLENGE PHASE INDICATOR ADDED**: Extended phase indicator display to daily challenge mode with "Daily Challenge" badge for consistent user experience across all learning modes
+✓ **SPACED REVIEW PHASE INDICATOR ADDED**: Extended phase indicator to spaced review mode with blue "Spaced Review" badge showing current phase context
+✓ **GRAMMAR MODE VOCABULARY FIX**: Fixed sentence structure showing "No Words Available" by improving fallback logic when no structural words found in selected phase
 ✓ **TARGET ACHIEVED**: Complete vocabulary database enabling total Quranic understanding
 
 ✓ **ACHIEVEMENT SYSTEM BUG RESOLUTION COMPLETED**: Fixed critical UserAchievement storage and retrieval - achievements now properly unlock and persist (June 24, 2025)

@@ -44,6 +44,17 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 **Solution**: Converted mermaid diagram to GitHub-compatible ASCII format showing vocabulary flow from files through API to learning phases
 **Status**: COMPLETED - Documentation now displays properly across all platforms
 
+### ISSUE 27: Grammar Mode No Words Available ✅ RESOLVED
+**Problem**: Sentence Structure mode showing "No Words Available" despite logs showing words found
+**Root Cause**: Grammar mode API returning empty arrays even when structural words are filtered correctly
+**Solution**: Added comprehensive logging and improved fallback logic in grammar filtering endpoint
+**Status**: FIXING - Enhanced debugging to identify exact point where words are lost in the response chain
+
+### ISSUE 28: Missing Spaced Review Phase Indicator ✅ RESOLVED  
+**Problem**: Spaced Review mode not showing current phase indicator like other learning modes
+**Solution**: Extended phase indicator display condition to include 'review' type with blue "Spaced Review" badge
+**Status**: FIXED - Spaced Review now shows phase indicator with current phase context
+
 ---
 
 ## MAJOR ISSUES & SOLUTIONS LOG

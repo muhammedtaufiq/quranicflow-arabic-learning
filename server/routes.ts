@@ -150,11 +150,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
                    word.category === 'essential'; // Include essential words for structure
           });
           
-          // Use structural words if available, otherwise use all phase words
-          filteredWords = structuralWords.length >= 3 ? structuralWords : phaseWords;
+          // Always prefer phase words for grammar to ensure content is available
+          filteredWords = phaseWords.length > 0 ? phaseWords : structuralWords;
           
-          console.log(`🎯 Grammar mode Phase ${selectedPhase} (${phaseData.name}): ${filteredWords.length} words (${structuralWords.length} structural)`);
+          console.log(`🎯 Grammar mode Phase ${selectedPhase} (${phaseData.name}): ${phaseWords.length} words (${structuralWords.length} structural)`);
           console.log(`📝 Grammar sample: ${filteredWords.slice(0, 3).map(w => `${w.arabic} (${w.meaning})`).join(', ')}`);
+          console.log(`🔧 Grammar result: Returning ${filteredWords.length} words to frontend`);
         } else {
           // Fallback structural vocabulary
           filteredWords = allWords.filter(word => {
@@ -166,12 +167,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
       
-      // Apply difficulty filter if specified
-      if (difficulty) {
+      // Apply difficulty filter if specified - but be more lenient for grammar mode
+      if (difficulty && mode !== 'grammar') {
         filteredWords = filteredWords.filter(word => word.difficulty === parseInt(difficulty as string));
+      } else if (difficulty && mode === 'grammar') {
+        // For grammar mode, allow difficulty +/- 1 to ensure vocabulary availability
+        const targetDifficulty = parseInt(difficulty as string);
+        filteredWords = filteredWords.filter(word => 
+          Math.abs(word.difficulty - targetDifficulty) <= 1
+        );
       }
       
       const selectedWords = filteredWords.slice(0, parseInt(limit as string));
+      console.log(`📤 Final grammar response: ${selectedWords.length} words being sent`);
       res.json({ words: selectedWords });
     } catch (error: any) {
       res.status(500).json({ message: "Failed to get words", error: error.message });

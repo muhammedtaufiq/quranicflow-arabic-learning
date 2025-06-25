@@ -340,7 +340,7 @@ export default function Learn() {
             </Button>
             
             {/* Phase Indicator for Learning Modes */}
-            {(selectedType === 'words' || selectedType === 'grammar') && currentPhaseId && (
+            {(selectedType === 'words' || selectedType === 'grammar' || selectedType === 'daily') && currentPhaseId && (
               <Card className="bg-gradient-to-r from-teal-50 to-emerald-50 border-teal-200 mb-4">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
@@ -356,10 +356,17 @@ export default function Learn() {
                           Grammar Structure
                         </Badge>
                       )}
+                      {selectedType === 'daily' && (
+                        <Badge className="bg-orange-100 text-orange-700 text-xs">
+                          Daily Challenge
+                        </Badge>
+                      )}
                     </div>
                     <div className="text-xs text-teal-600">
                       {selectedType === 'grammar' 
                         ? 'Sentence patterns and structural vocabulary'
+                        : selectedType === 'daily'
+                        ? '7 words from divine, worship, and essential categories'
                         : (userPhaseData as any)?.currentPhase?.description || 'Loading vocabulary set...'
                       }
                     </div>

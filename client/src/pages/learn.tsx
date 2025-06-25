@@ -51,8 +51,8 @@ export default function Learn() {
   }, [currentPhaseId, refetchWords, selectedType, typeFromUrl]);
 
   const { data: reviewData } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}/review`],
-    enabled: Boolean(selectedType === 'review' || typeFromUrl === 'review')
+    queryKey: [`/api/user/${user?.id}/review`],
+    enabled: Boolean((selectedType === 'review' || typeFromUrl === 'review') && user?.id)
   });
 
   const { data: dailyChallengeData } = useQuery({

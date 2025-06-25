@@ -106,7 +106,7 @@ export const LEARNING_PHASES: LearningPhase[] = [
     description: "Complete vocabulary mastery with complex expressions",
     minWordsToUnlock: 80,
     maxDailyWords: 15,
-    vocabularyIds: Array.from({length: 633}, (_, i) => i + 76), // Remaining words including Phase 7
+    vocabularyIds: Array.from({length: 1085}, (_, i) => i + 76), // Remaining words to complete 1500 total
     focusAreas: ["Advanced Grammar", "Rhetoric", "Poetry", "Scholarly Terms"]
   }
 ];

@@ -55,6 +55,11 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 **Solution**: Extended phase indicator display condition to include 'review' type with blue "Spaced Review" badge
 **Status**: FIXED - Spaced Review now shows phase indicator with current phase context
 
+### ISSUE 29: Comprehensive About Page Documentation ✅ RESOLVED
+**Problem**: User requested complete coverage explanation and recent fixes be included in About page accessible via info icon
+**Solution**: Updated About page with comprehensive sections covering coverage metrics, recent improvements, development achievements, and academic foundation
+**Status**: COMPLETED - All information now accessible through info icon with detailed explanations of 89% coverage rationale and system improvements
+
 ---
 
 ## MAJOR ISSUES & SOLUTIONS LOG

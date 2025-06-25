@@ -46,9 +46,9 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 
 ### ISSUE 27: Grammar Mode No Words Available ✅ RESOLVED
 **Problem**: Sentence Structure mode showing "No Words Available" despite logs showing words found
-**Root Cause**: Grammar mode API returning empty arrays even when structural words are filtered correctly
-**Solution**: Added comprehensive logging and improved fallback logic in grammar filtering endpoint
-**Status**: FIXING - Enhanced debugging to identify exact point where words are lost in the response chain
+**Root Cause**: Strict difficulty filter removing all grammar vocabulary even when structural words were found
+**Solution**: Modified difficulty filtering to be more lenient for grammar mode (allows difficulty +/- 1) and improved phase word selection logic
+**Status**: FIXED - Grammar mode now successfully loads vocabulary with phase-specific content and shows proper phase indicators
 
 ### ISSUE 28: Missing Spaced Review Phase Indicator ✅ RESOLVED  
 **Problem**: Spaced Review mode not showing current phase indicator like other learning modes

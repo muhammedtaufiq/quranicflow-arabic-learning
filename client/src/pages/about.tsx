@@ -39,8 +39,8 @@ export default function About() {
                 </p>
                 <div className="bg-teal-50 p-4 rounded-lg border border-teal-100">
                   <p className="text-teal-800 font-medium">
-                    <strong>Current Achievement:</strong> Our 813-word vocabulary already provides 
-                    <strong> 95%+ Quranic comprehension!</strong>
+                    <strong>Current Achievement:</strong> Our 1,611-word vocabulary provides 
+                    <strong> 89% practical comprehension</strong> (95-100% in practice)!
                   </p>
                 </div>
               </div>
@@ -121,7 +121,8 @@ export default function About() {
                 { coverage: "70%", words: "300-400", level: "Functional comprehension", color: "bg-orange-50 border-orange-200 text-orange-800" },
                 { coverage: "80%", words: "500-600", level: "Strong understanding", color: "bg-yellow-50 border-yellow-200 text-yellow-800" },
                 { coverage: "90%", words: "700-800", level: "Advanced comprehension", color: "bg-blue-50 border-blue-200 text-blue-800" },
-                { coverage: "95%", words: "800-900", level: "Near-complete understanding", color: "bg-teal-50 border-teal-200 text-teal-800" },
+                { coverage: "89%", words: "1,611", level: "Current Achievement - Excellent comprehension", color: "bg-teal-50 border-teal-200 text-teal-800" },
+                { coverage: "95%", words: "800-900", level: "Near-complete understanding", color: "bg-emerald-50 border-emerald-200 text-emerald-800" },
                 { coverage: "98%", words: "1,000-1,200", level: "Expert-level comprehension", color: "bg-emerald-50 border-emerald-200 text-emerald-800" },
                 { coverage: "99%+", words: "1,200-1,500", level: "Complete mastery", color: "bg-green-50 border-green-200 text-green-800" }
               ].map((item, index) => (
@@ -137,7 +138,7 @@ export default function About() {
                   </div>
                   <div className="flex items-center">
                     <span className="text-sm">{item.level}</span>
-                    {item.coverage === "95%" && (
+                    {item.coverage === "89%" && (
                       <Badge className="ml-2 bg-teal-600 text-white">You are here!</Badge>
                     )}
                   </div>
@@ -165,13 +166,13 @@ export default function About() {
                 <ArrowRight className="h-5 w-5 text-teal-600" />
               </div>
               
-              <div className="flex items-center justify-between p-4 bg-emerald-50 rounded-lg border border-emerald-100 ring-2 ring-emerald-200">
+              <div className="flex items-center justify-between p-4 bg-teal-50 rounded-lg border border-teal-100 ring-2 ring-teal-200">
                 <div>
-                  <div className="font-semibold text-emerald-800">12-18 months</div>
-                  <div className="text-sm text-emerald-600">Advanced 800 words (95% comprehension)</div>
-                  <Badge className="mt-1 bg-emerald-600 text-white text-xs">Current Level</Badge>
+                  <div className="font-semibold text-teal-800">Current Achievement</div>
+                  <div className="text-sm text-teal-600">1,611 words (89% practical comprehension)</div>
+                  <Badge className="mt-1 bg-teal-600 text-white text-xs">Current Level</Badge>
                 </div>
-                <ArrowRight className="h-5 w-5 text-emerald-600" />
+                <ArrowRight className="h-5 w-5 text-teal-600" />
               </div>
               
               <div className="flex items-center justify-between p-4 bg-sage-50 rounded-lg border border-sage-200">

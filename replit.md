@@ -140,7 +140,7 @@ Fixed phase-specific learning across all modes, replaced intrusive celebration m
 ✓ **SPACED REVIEW PHASE INDICATOR ADDED**: Extended phase indicator to spaced review mode with blue "Spaced Review" badge showing current phase context
 ✓ **GRAMMAR MODE VOCABULARY FIX**: Fixed sentence structure showing "No Words Available" by resolving overly strict difficulty filtering that removed all vocabulary
 ✓ **COMPLETE PHASE INDICATOR COVERAGE**: All learning modes (Daily Challenge, Spaced Review, Grammar Structure, Word Discovery) now show phase indicators with appropriate badges and descriptions
-✓ **COMPREHENSIVE ABOUT PAGE UPDATED**: Added complete coverage explanation, recent fixes summary, development achievements, and academic foundation documentation accessible via info icon
+✓ **COMPREHENSIVE ABOUT PAGE UPDATED**: Added complete coverage explanation, recent fixes summary, development achievements, and academic foundation documentation accessible via info icon with accurate 1,611-word status and 89% coverage display
 ✓ **TARGET ACHIEVED**: Complete vocabulary database enabling total Quranic understanding
 
 ✓ **ACHIEVEMENT SYSTEM BUG RESOLUTION COMPLETED**: Fixed critical UserAchievement storage and retrieval - achievements now properly unlock and persist (June 24, 2025)

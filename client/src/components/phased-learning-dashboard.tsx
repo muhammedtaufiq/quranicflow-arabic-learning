@@ -5,10 +5,6 @@ import { Progress } from "@/components/ui/progress";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { BookOpen, Target, Clock, Award, Bell, Brain, TrendingUp } from "lucide-react";
 import { useState } from "react";
-interface Notification {
-  type: "warning" | "celebration" | "milestone";
-  message: string;
-}
 
 interface AnalyticsData {
   totalWordsLearned?: number;
@@ -330,34 +326,34 @@ export function PhasedLearningDashboard() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               <div>
                 <div className="text-lg font-semibold text-green-600">
-                  {String((analyticsData as AnalyticsData)?.totalWordsLearned || 0)}
+                  {(analyticsData as any)?.totalWordsLearned || 0}
                 </div>
                 <div className="text-xs text-slate-600">Words Mastered</div>
               </div>
               <div>
                 <div className="text-lg font-semibold text-orange-600">
-                  {String((analyticsData as AnalyticsData)?.strugglingWordsCount || 0)}
+                  {(analyticsData as any)?.strugglingWordsCount || 0}
                 </div>
                 <div className="text-xs text-slate-600">Need Review</div>
               </div>
               <div>
                 <div className="text-lg font-semibold text-blue-600">
-                  {String((analyticsData as AnalyticsData)?.reviewQueueSize || 0)}
+                  {(analyticsData as any)?.reviewQueueSize || 0}
                 </div>
                 <div className="text-xs text-slate-600">In Queue</div>
               </div>
               <div>
                 <div className="text-lg font-semibold text-purple-600">
-                  {String((analyticsData as AnalyticsData)?.learningPattern?.averageSessionLength || 0)}m
+                  {(analyticsData as any)?.learningPattern?.averageSessionLength || 0}m
                 </div>
                 <div className="text-xs text-slate-600">Avg Session</div>
               </div>
             </div>
 
-            {(analyticsData as AnalyticsData)?.learningPattern?.bestTimeOfDay && (
+            {(analyticsData as any)?.learningPattern?.bestTimeOfDay && (
               <div className="mt-4 p-3 bg-purple-50 rounded-lg">
                 <div className="text-sm font-medium text-purple-800">
-                  Optimal Learning Time: {(analyticsData as AnalyticsData)?.learningPattern?.bestTimeOfDay}
+                  Optimal Learning Time: {(analyticsData as any).learningPattern.bestTimeOfDay}
                 </div>
                 <div className="text-xs text-purple-600">
                   Based on your learning patterns

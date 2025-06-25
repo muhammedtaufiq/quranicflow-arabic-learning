@@ -343,8 +343,15 @@ QuranicFlow is an Arabic learning platform focused on authentic Quranic vocabula
 **Status**: ✅ RESOLVED - Learning sessions now properly refresh vocabulary when user switches phases
 **Files Modified**: `client/src/pages/learn.tsx` (added phase-based key and session reset logic)
 
-*Total Issues Tracked: 29*
-*Resolved: 29 | Pending: 0*
+**ISSUE #30 - Daily Challenge Ignoring Phase Selection**
+**Problem**: Daily Challenge always shows same foundational vocabulary regardless of selected phase
+**Root Cause**: Daily challenge endpoint not using globalSelectedPhase variable or phase-specific vocabulary selection
+**Solution**: Modified daily challenge to use current phase vocabulary and focus areas for targeted learning
+**Status**: ✅ RESOLVED - Daily Challenge now serves vocabulary appropriate to user's selected phase
+**Files Modified**: `server/routes.ts` (updated daily challenge to use phase-specific vocabulary filtering)
+
+*Total Issues Tracked: 30*
+*Resolved: 30 | Pending: 0*
 
 ## DEPLOYMENT READINESS CHECKLIST ✅
 

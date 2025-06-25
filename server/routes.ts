@@ -598,30 +598,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = parseInt(req.params.userId);
       
-      // Get user's current level to determine appropriate difficulty
+      // Get user's current level and phase
       const user = await storage.getUser(userId);
       const userLevel = user?.level || 1;
       
-      // DAILY CHALLENGE: Focus on high-frequency, essential vocabulary for daily consistency
-      // Select words from core categories: divine attributes, basic verbs, common nouns
-      const allWords = await storage.getWords(300);
-      const challengeCategories = ['divine', 'attributes', 'verbs', 'essential', 'pronouns', 'worship'];
+      // Get current phase for phase-specific vocabulary
+      const selectedPhase = globalSelectedPhase || 1;
+      const phaseData = LEARNING_PHASES.find(p => p.id === selectedPhase);
       
-      let challengeWords = allWords.filter(word => 
-        challengeCategories.includes(word.category) && 
-        word.difficulty <= Math.min(userLevel + 1, 5) // Appropriate difficulty
-      );
+      // DAILY CHALLENGE: Use phase-specific vocabulary for targeted learning
+      const allWords = await storage.getWords(500);
+      let challengeWords;
       
-      // If not enough high-frequency words, include medium frequency
-      if (challengeWords.length < 7) {
+      if (phaseData) {
+        // Filter words based on phase vocabulary IDs
         challengeWords = allWords.filter(word => 
-          challengeCategories.includes(word.category) && 
-          word.frequency > 20 && // Medium frequency words
+          phaseData.vocabularyIds.includes(word.id) &&
           word.difficulty <= Math.min(userLevel + 1, 5)
         );
+        
+        console.log(`Daily challenge: Found ${challengeWords.length} words from Phase ${selectedPhase} (${phaseData.name})`);
+      } else {
+        // Fallback to foundational categories if phase not found
+        const challengeCategories = ['divine', 'attributes', 'verbs', 'essential', 'pronouns', 'worship'];
+        challengeWords = allWords.filter(word => 
+          challengeCategories.includes(word.category) && 
+          word.difficulty <= Math.min(userLevel + 1, 5)
+        );
+        
+        console.log(`Daily challenge: Found ${challengeWords.length} words in fallback categories:`, challengeCategories);
       }
       
-      console.log(`Daily challenge: Found ${challengeWords.length} words in categories:`, challengeCategories);
+      // If not enough words from phase, expand selection
+      if (challengeWords.length < 7 && phaseData) {
+        const expandedWords = allWords.filter(word => 
+          phaseData.focusAreas.some(area => 
+            word.category.toLowerCase().includes(area.toLowerCase()) ||
+            area.toLowerCase().includes(word.category.toLowerCase())
+          ) && word.difficulty <= Math.min(userLevel + 1, 5)
+        );
+        challengeWords = [...challengeWords, ...expandedWords].slice(0, 15);
+        console.log(`Daily challenge: Expanded to ${challengeWords.length} words using focus areas:`, phaseData.focusAreas);
+      }
       
       // Add seed for consistent daily challenge (same words for same day) but different from previous days
       const today = new Date();

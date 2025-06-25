@@ -110,16 +110,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             phaseData.vocabularyIds.includes(word.id)
           );
           
-          // If no phase-specific words found, fall back to sequential range-based selection
-          if (filteredWords.length === 0) {
-            const startIndex = (selectedPhase - 1) * 50; // Each phase gets 50 words
-            const endIndex = startIndex + 50;
-            filteredWords = allWords.slice(startIndex, endIndex);
-            console.log(`📦 Phase ${selectedPhase} fallback: Using words ${startIndex}-${endIndex} (${filteredWords.length} words)`);
-          }
-          
-          console.log(`🎯 Phase ${selectedPhase} (${phaseData.name}) serving: ${filteredWords.length} words`);
-          console.log(`📝 Sample vocabulary: ${filteredWords.slice(0, 3).map(w => `${w.arabic} (${w.meaning})`).join(', ')}`);
+          console.log(`🎯 Phase ${selectedPhase} (${phaseData.name}) filtering: ${filteredWords.length} words from phase vocabulary`);
+          console.log(`📝 Sample words: ${filteredWords.slice(0, 3).map(w => `${w.arabic} (${w.meaning})`).join(', ')}`);
         } else {
           // Fallback to foundational vocabulary if phase not found
           const targetDifficulty = difficulty ? parseInt(difficulty as string) : 1;
@@ -140,16 +132,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         if (phaseData) {
           // Get phase-specific vocabulary and prioritize structural words
-          let phaseWords = allWords.filter(word => 
+          const phaseWords = allWords.filter(word => 
             phaseData.vocabularyIds.includes(word.id)
           );
-          
-          // Fallback to sequential selection if no phase words found
-          if (phaseWords.length === 0) {
-            const startIndex = (selectedPhase - 1) * 50;
-            const endIndex = startIndex + 50;
-            phaseWords = allWords.slice(startIndex, endIndex);
-          }
           
           // For grammar mode, prioritize structural elements within phase vocabulary
           const structuralWords = phaseWords.filter(word => {

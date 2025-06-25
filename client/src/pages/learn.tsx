@@ -34,13 +34,10 @@ export default function Learn() {
 
   const { data: wordsData } = useQuery({
     queryKey: [`/api/words`, currentPhaseId, 'learning'], // Include phase in key structure
-    queryFn: () => {
-      console.log('Fetching words for phase:', currentPhaseId);
-      return fetch(`/api/words?limit=12&difficulty=1&mode=learning&phase=${currentPhaseId}`, {
-        cache: 'no-cache',
-        headers: { 'Cache-Control': 'no-cache' }
-      }).then(res => res.json());
-    },
+    queryFn: () => fetch(`/api/words?limit=12&difficulty=1&mode=learning&phase=${currentPhaseId}`, {
+      cache: 'no-cache',
+      headers: { 'Cache-Control': 'no-cache' }
+    }).then(res => res.json()),
     enabled: Boolean((selectedType === 'words' || typeFromUrl === 'words') && currentPhaseId),
     staleTime: 0 // Always fetch fresh vocabulary when phase changes
   });
@@ -65,13 +62,10 @@ export default function Learn() {
 
   const { data: grammarData } = useQuery({
     queryKey: [`/api/words`, currentPhaseId, 'grammar'], // Phase-specific grammar vocabulary
-    queryFn: () => {
-      console.log('Fetching grammar words for phase:', currentPhaseId);
-      return fetch(`/api/words?limit=12&difficulty=1&mode=grammar&phase=${currentPhaseId}`, {
-        cache: 'no-cache',
-        headers: { 'Cache-Control': 'no-cache' }
-      }).then(res => res.json());
-    },
+    queryFn: () => fetch(`/api/words?limit=12&difficulty=1&mode=grammar&phase=${currentPhaseId}`, {
+      cache: 'no-cache',
+      headers: { 'Cache-Control': 'no-cache' }
+    }).then(res => res.json()),
     enabled: Boolean((selectedType === 'grammar' || typeFromUrl === 'grammar') && currentPhaseId),
     staleTime: 0
   });

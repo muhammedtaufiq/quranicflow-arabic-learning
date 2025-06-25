@@ -28,7 +28,7 @@ export default function Learn() {
     enabled: !!user?.id,
     refetchOnWindowFocus: true,
     staleTime: 5000, // Cache for 5 seconds for faster response
-    refetchInterval: 5000 // Check more frequently for phase changes
+    refetchInterval: 10000 // Check every 10 seconds for phase changes
   });
 
   const currentPhaseId = (userPhaseData as any)?.currentPhase?.id || 1;
@@ -56,8 +56,8 @@ export default function Learn() {
   });
 
   const { data: dailyChallengeData } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}/daily-challenge`],
-    enabled: Boolean(selectedType === 'daily' || typeFromUrl === 'daily')
+    queryKey: [`/api/user/${user?.id}/daily-challenge`],
+    enabled: Boolean((selectedType === 'daily' || typeFromUrl === 'daily') && user?.id)
   });
 
   // Get chapter from URL if chapter-specific learning

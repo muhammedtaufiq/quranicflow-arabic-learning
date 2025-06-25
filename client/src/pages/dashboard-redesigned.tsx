@@ -81,11 +81,12 @@ export default function DashboardRedesigned() {
   const chapterProgress = (chapterProgressData as any)?.progressList || [];
   const chapterStats = (chapterProgressData as any)?.chapterProgress || {};
 
-  // Transform technical stats into user-friendly visuals
-  const learningProgress = Math.min(100, ((currentUser?.xp || user?.xp || 0) / 1000) * 100);
-  const streakDays = currentUser?.streakDays || user?.streakDays || 0;
+  // Transform technical stats into user-friendly visuals  
+  const displayUser = currentUser || user;
+  const learningProgress = Math.min(100, ((displayUser?.xp || 0) / 1000) * 100);
+  const streakDays = displayUser?.streakDays || 0;
   const totalLearningPaths = Math.ceil((contentStats.totalWords || 1611) / 20); // 20 words per path
-  const unlockedPaths = Math.min(totalLearningPaths, Math.floor((user?.xp || 0) / 50) + 1);
+  const unlockedPaths = Math.min(totalLearningPaths, Math.floor((displayUser?.xp || 0) / 50) + 1);
   
   // Chapter completion stats
   const completedChapters = Object.values(chapterStats).filter((progress: any) => progress === 100).length;
@@ -211,7 +212,7 @@ export default function DashboardRedesigned() {
                 <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full px-3 py-1 shadow-lg border-2 border-white">
                   <div className="flex items-center space-x-1">
                     <Crown className="w-3 h-3 text-yellow-300" />
-                    <span className="text-xs font-bold text-white">{user?.level || 1}</span>
+                    <span className="text-xs font-bold text-white">{displayUser?.level || 1}</span>
                   </div>
                 </div>
               </div>

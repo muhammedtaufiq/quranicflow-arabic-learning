@@ -68,17 +68,17 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
     console.log('Generating', questionsToGenerate, 'questions from', validWords.length, 'unique words');
     
     const generatedQuestions: Question[] = extendedWords.map((word, index) => {
-      // Create wrong answers by shuffling other word meanings
-      const correctAnswer = showUrduTranslations && word.meaningUrdu ? word.meaningUrdu : word.meaning;
+      // Always use English meanings for answer options for better learning experience
+      const correctAnswer = word.meaning;
       const wrongAnswers = validWords
         .filter(w => w.id !== word.id)
-        .map(w => showUrduTranslations && w.meaningUrdu ? w.meaningUrdu : w.meaning)
+        .map(w => w.meaning)
         .slice(0, 3);
       
       // Ensure we have enough options
       while (wrongAnswers.length < 3 && wrongAnswers.length < validWords.length - 1) {
         const randomWord = validWords[Math.floor(Math.random() * validWords.length)];
-        const answer = showUrduTranslations && randomWord.meaningUrdu ? randomWord.meaningUrdu : randomWord.meaning;
+        const answer = randomWord.meaning;
         if (answer !== correctAnswer && !wrongAnswers.includes(answer)) {
           wrongAnswers.push(answer);
         }

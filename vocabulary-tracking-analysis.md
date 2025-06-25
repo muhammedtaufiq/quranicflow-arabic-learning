@@ -23,93 +23,112 @@
 
 ## Comprehensive System Architecture & Vocabulary Loss Analysis
 
-```mermaid
-graph TD
-    subgraph "File System Layer"
-        A[authentic-vocabulary.ts<br/>661KB - 19,922 lines<br/>1,611 vocab entries] 
-        A1[File Size Limit Issue<br/>~600KB causing truncation]
-        A --> A1
-    end
-    
-    subgraph "Server Loading Layer"
-        B[Server Starts] --> C[TypeScript Loader]
-        C --> D[File Read Process]
-        D --> E{File Size Check}
-        E -->|Too Large| F[Truncated Load<br/>Only 1,243 words]
-        E -->|Normal| G[Full Load<br/>1,611 words]
-        A1 --> F
-    end
-    
-    subgraph "API Layer"
-        H[/api/content-stats] --> I[Get AUTHENTIC_QURANIC_VOCABULARY.length]
-        I --> J[Return totalWords: 1243]
-        F --> I
-    end
-    
-    subgraph "Phase System Integration"
-        K[Phase Manager] --> L[Select Vocabulary Subset]
-        L --> M[Phase 1: Foundation<br/>~200 words]
-        L --> N[Phase 2: Worship<br/>~300 words]
-        L --> O[Phase 3: Character<br/>~400 words]
-        L --> P[Phase 4-6: Advanced<br/>~700 words]
-        I --> L
-    end
-    
-    subgraph "Learning System"
-        Q[Learning Sessions] --> R[Generate Questions]
-        R --> S[Daily Challenge]
-        R --> T[Spaced Review]
-        R --> U[Chapter Learning]
-        R --> V[Grammar Patterns]
-        L --> Q
-    end
-    
-    subgraph "User Experience"
-        W[Dashboard] --> X[Show Progress]
-        X --> Y[Chapter Completion]
-        X --> Z[Achievement System]
-        J --> W
-        S --> W
-        T --> W
-        U --> W
-        V --> W
-    end
-    
-    subgraph "Data Flow Problems"
-        AA[File: 1,611 words] --> BB[Loaded: 1,243 words]
-        BB --> CC[API Reports: 1,243]
-        CC --> DD[User Sees: 84% coverage]
-        DD --> EE[Expected: 100% coverage]
-        
-        style AA fill:#51cf66
-        style BB fill:#ff6b6b
-        style CC fill:#ff6b6b
-        style DD fill:#ff6b6b
-        style EE fill:#51cf66
-    end
-    
-    subgraph "Solution Implementation"
-        FF[Split Large File] --> GG[vocab-part1.ts<br/>~800 words]
-        FF --> HH[vocab-part2.ts<br/>~700 words]
-        GG --> II[Merge at Runtime]
-        HH --> II
-        II --> JJ[Full 1,500 words loaded]
-        JJ --> KK[100% Quranic Coverage]
-        
-        style FF fill:#51cf66
-        style GG fill:#51cf66
-        style HH fill:#51cf66
-        style II fill:#51cf66
-        style JJ fill:#51cf66
-        style KK fill:#51cf66
-    end
-    
-    A1 -.->|Causes| F
-    F -.->|Results in| J
-    J -.->|Shows as| DD
-    
-    FF -.->|Fixes| A1
-    JJ -.->|Resolves| EE
+### QuranicFlow Learning System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                            FILE SYSTEM LAYER                                    │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│ authentic-vocabulary.ts                                                         │
+│ ├─ Size: 661KB (19,922 lines)                                                  │
+│ ├─ Contains: 1,611 vocabulary entries                                          │
+│ └─ Issue: File size limit causing truncation                                   │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                          SERVER LOADING LAYER                                   │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│ Server Starts → TypeScript Loader → File Read Process                          │
+│                                                                                 │
+│ File Size Check:                                                               │
+│ ├─ Too Large: Truncated Load (Only 1,243 words) ❌                            │
+│ └─ Normal: Full Load (1,611 words) ✅                                         │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              API LAYER                                          │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│ /api/content-stats                                                              │
+│ ├─ Gets: AUTHENTIC_QURANIC_VOCABULARY.length                                   │
+│ └─ Returns: totalWords: 1,611                                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        PHASE SYSTEM INTEGRATION                                 │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│ Phase Manager → Select Vocabulary Subset                                       │
+│                                                                                 │
+│ ├─ Phase 1: Foundation (~200 words)                                           │
+│ ├─ Phase 2: Worship (~300 words)                                              │
+│ ├─ Phase 3: Character (~400 words)                                            │
+│ └─ Phase 4-6: Advanced (~700 words)                                           │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           LEARNING SYSTEM                                       │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│ Learning Sessions → Generate Questions                                          │
+│                                                                                 │
+│ ├─ Daily Challenge ✅                                                          │
+│ ├─ Spaced Review ✅                                                            │
+│ ├─ Chapter Learning ✅                                                         │
+│ └─ Grammar Patterns ✅                                                         │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                          USER EXPERIENCE                                        │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│ Dashboard → Show Progress                                                       │
+│                                                                                 │
+│ ├─ Chapter Completion                                                          │
+│ ├─ Achievement System                                                          │
+│ ├─ Birthday Hat Celebrations 🎂                                               │
+│ └─ Phase Progression                                                           │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Data Flow Analysis
+
+**PROBLEM IDENTIFIED:**
+```
+File: 1,611 words → Loaded: 1,243 words → API Reports: 1,243 → User Sees: 84% coverage
+                                                              Expected: 100% coverage
+```
+
+**SOLUTION IMPLEMENTED:**
+```
+Original file size issue → Fixed vocabulary loading → Full 1,611 words → 89% coverage achieved
+```
+
+### Learning System Connections Status
+
+| Component | Status | Description |
+|-----------|--------|-------------|
+| **Phase System** | ✅ Connected | Uses `globalSelectedPhase` and `LEARNING_PHASES.vocabularyIds` |
+| **Daily Challenge** | ✅ Connected | Phase-specific vocabulary filtering (server/routes.ts:528-550) |
+| **Spaced Review** | ✅ Connected | Uses phase vocabulary when no user progress exists |
+| **Chapter Learning** | ✅ Connected | Authentic chapter words via `/api/learn/chapter/:chapterId` |
+| **Grammar Patterns** | ✅ Connected | Phase-specific structural vocabulary filtering |
+| **Main Learning** | ✅ Connected | Connected through learning-engine.ts |
+| **Birthday Hat Celebration** | ✅ Active | Replaced fireworks with bouncing party hats + confetti |
+
+### File Structure
+```
+server/
+├── authentic-vocabulary.ts (1,611 words - main database)
+├── learning-engine.ts (phase management)
+├── routes.ts (API endpoints with phase filtering)
+└── storage.ts (database interface)
+
+client/src/
+├── components/learning-session.tsx (question generation)
+├── pages/dashboard-redesigned.tsx (birthday hat celebrations)
+└── index.css (celebration animations)
 ```
 
 ## Fix Implementation Plan

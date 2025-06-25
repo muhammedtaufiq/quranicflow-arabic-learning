@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/use-auth";
 import { Link } from "wouter";
 
-const MOCK_USER_ID = 1;
+
 
 export function NavigationHeader() {
   const { user, logoutMutation } = useAuth();
@@ -53,7 +53,11 @@ export function NavigationHeader() {
             {/* User Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="text-slate-600 hover:text-slate-700 hover:bg-slate-50">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="w-8 h-8 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white p-0"
+                >
                   <User className="w-4 h-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -64,7 +68,7 @@ export function NavigationHeader() {
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={handleLogout}
-                  className="flex items-center space-x-2 px-3 py-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+                  className="flex items-center space-x-2 px-3 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 cursor-pointer"
                 >
                   <LogOut className="w-4 h-4" />
                   <span>Sign Out</span>

@@ -6,16 +6,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/use-auth";
 import { ArrowLeft, Brain, Trophy, BookOpen, RotateCcw } from "lucide-react";
 import { useLocation } from "wouter";
-
-const MOCK_USER_ID = 1;
 
 export default function Learn() {
   const [location, navigate] = useLocation();
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [isLearning, setIsLearning] = useState(false);
   const [selectedChapterId, setSelectedChapterId] = useState<number | null>(null);
+  const { user } = useAuth();
 
   // Parse query parameters directly from location
   const urlParams = new URLSearchParams(location.split('?')[1] || '');
@@ -24,7 +24,8 @@ export default function Learn() {
 
   // Get current user's selected phase
   const { data: userPhaseData, refetch: refetchPhase } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}/current-phase`],
+    queryKey: [`/api/user/${user?.id}/current-phase`],
+    enabled: !!user?.id,
     refetchOnWindowFocus: true,
     staleTime: 5000, // Cache for 5 seconds for faster response
     refetchInterval: 5000 // Check more frequently for phase changes

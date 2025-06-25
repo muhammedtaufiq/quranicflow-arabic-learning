@@ -4,26 +4,27 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/use-auth";
 import { Star, BookOpen, Clock, Trophy, Heart, Flame, Target, Gift, Crown, Calendar, Zap, TreePine, Award, Info, Sparkles } from "lucide-react";
 import { Link } from "wouter";
 import { AdminSettings } from "@/components/admin-settings";
 import { ChapterCompletionBadge } from "@/components/chapter-completion-badge";
 import { useState, useEffect } from "react";
 
-// Mock user data - in a real app this would come from authentication
-const MOCK_USER_ID = 1;
-
 export default function DashboardRedesigned() {
   const [showPhaseUnlockAnimation, setShowPhaseUnlockAnimation] = useState(false);
   const [unlockedPhase, setUnlockedPhase] = useState<number | null>(null);
   const [lastKnownPhase, setLastKnownPhase] = useState<number | null>(null);
+  const { user } = useAuth();
 
   const { data: userData, isLoading: userLoading } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}`],
+    queryKey: [`/api/user/${user?.id}`],
+    enabled: !!user?.id,
   });
 
   const { data: challengesData, isLoading: challengesLoading } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}/challenges`],
+    queryKey: [`/api/user/${user?.id}/challenges`],
+    enabled: !!user?.id,
   });
 
   const { data: contentStatsData } = useQuery({
@@ -70,18 +71,19 @@ export default function DashboardRedesigned() {
   }
 
   const { data: chapterProgressData } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}/chapter-progress`],
+    queryKey: [`/api/user/${user?.id}/chapter-progress`],
+    enabled: !!user?.id,
   });
 
-  const user = (userData as any)?.user;
+  const currentUser = (userData as any)?.user;
   const challenges = (challengesData as any)?.challenges || [];
   const contentStats = (contentStatsData as any) || {};
   const chapterProgress = (chapterProgressData as any)?.progressList || [];
   const chapterStats = (chapterProgressData as any)?.chapterProgress || {};
 
   // Transform technical stats into user-friendly visuals
-  const learningProgress = Math.min(100, ((user?.xp || 0) / 1000) * 100);
-  const streakDays = user?.streakDays || 0;
+  const learningProgress = Math.min(100, ((currentUser?.xp || user?.xp || 0) / 1000) * 100);
+  const streakDays = currentUser?.streakDays || user?.streakDays || 0;
   const totalLearningPaths = Math.ceil((contentStats.totalWords || 1611) / 20); // 20 words per path
   const unlockedPaths = Math.min(totalLearningPaths, Math.floor((user?.xp || 0) / 50) + 1);
   

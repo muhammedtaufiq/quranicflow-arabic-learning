@@ -8,11 +8,13 @@ export const users = pgTable("users", {
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
   displayName: text("display_name").notNull(),
+  role: text("role").notNull().default("user"), // user, admin, moderator
   level: integer("level").notNull().default(1),
   xp: integer("xp").notNull().default(0),
   streakDays: integer("streak_days").notNull().default(0),
   lastActiveDate: timestamp("last_active_date").defaultNow(),
   comprehensionPercentage: integer("comprehension_percentage").notNull().default(0),
+  isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

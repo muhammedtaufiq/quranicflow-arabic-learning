@@ -75,9 +75,19 @@ export function setupAuth(app: Express) {
         return res.status(400).send("Username already exists");
       }
 
+      const existingEmail = await storage.getUserByEmail(req.body.email);
+      if (existingEmail) {
+        return res.status(400).send("Email already exists");
+      }
+
+      // New users get 'user' role by default, unless it's the first user (make them admin)
+      const allUsers = await storage.getAllUsers();
+      const role = allUsers.length === 0 ? 'admin' : 'user';
+
       const user = await storage.createUser({
         ...req.body,
         password: await hashPassword(req.body.password),
+        role,
       });
 
       req.login(user, (err) => {

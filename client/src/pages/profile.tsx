@@ -1,351 +1,231 @@
 import { NavigationHeader } from "@/components/navigation-header";
 import { BottomNavigation } from "@/components/bottom-navigation";
-import { ProgressCircle } from "@/components/progress-circle";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useAuth } from "@/hooks/use-auth";
 import { useQuery } from "@tanstack/react-query";
-import { 
-  User, 
-  Calendar, 
-  Clock, 
-  Brain, 
-  Trophy, 
-  Flame, 
-  Star,
-  Settings,
-  BookOpen,
-  Target,
-  Users,
-  Languages
-} from "lucide-react";
+import { apiRequest } from "@/lib/queryClient";
 import { useState } from "react";
-import { Switch } from "@/components/ui/switch";
-
-const MOCK_USER_ID = 1;
+import { User, Crown, Shield, Trash2, Users, Star, Calendar, Award } from "lucide-react";
 
 export default function Profile() {
-  const [showUrduTranslations, setShowUrduTranslations] = useState(() => {
-    const stored = localStorage.getItem('showUrduTranslations');
-    return stored !== null ? stored === 'true' : true; // Default to true for deployment testing
+  const { user, logoutMutation } = useAuth();
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  // Admin users list (only for admins)
+  const { data: adminData } = useQuery({
+    queryKey: ["/api/admin/users"],
+    enabled: user?.role === 'admin',
   });
 
-  const { data: userData } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}`],
-  });
-
-  const { data: achievementsData } = useQuery({
-    queryKey: [`/api/user/${MOCK_USER_ID}/achievements`],
-  });
-
-  const { data: leaderboardData } = useQuery({
-    queryKey: ["/api/leaderboard?limit=100"],
-  });
-
-  const handleUrduToggle = (checked: boolean) => {
-    setShowUrduTranslations(checked);
-    localStorage.setItem('showUrduTranslations', checked.toString());
+  const handleDeleteAccount = async () => {
+    if (!user) return;
+    
+    setDeleteLoading(true);
+    try {
+      await apiRequest("DELETE", `/api/user/${user.id}`);
+      logoutMutation.mutate();
+    } catch (error) {
+      console.error('Delete account failed:', error);
+    }
+    setDeleteLoading(false);
   };
 
-  const user = (userData as any)?.user;
-  const stats = (userData as any)?.stats;
-  const achievements = (achievementsData as any)?.achievements || [];
-  const leaderboard = (leaderboardData as any)?.leaderboard || [];
-  
-  const unlockedAchievements = achievements.filter((a: any) => a.unlocked);
-  const userRank = leaderboard.findIndex((u: any) => u.id === MOCK_USER_ID) + 1;
-  
-  const comprehensionPercentage = user?.comprehensionPercentage || 73;
-  const levelProgress = ((user?.xp || 0) % 1000) / 1000 * 100;
-
-  const profileStats = [
-    {
-      icon: <Brain className="w-5 h-5 text-primary" />,
-      label: "Words Learned",
-      value: stats?.learnedWordsCount || 0,
-      color: "text-primary"
-    },
-    {
-      icon: <Star className="w-5 h-5 text-accent" />,
-      label: "Total XP",
-      value: user?.xp || 0,
-      color: "text-accent"
-    },
-    {
-      icon: <Flame className="w-5 h-5 text-orange-500" />,
-      label: "Current Streak",
-      value: `${user?.streakDays || 0} days`,
-      color: "text-orange-500"
-    },
-    {
-      icon: <Trophy className="w-5 h-5 text-purple-600" />,
-      label: "Achievements",
-      value: unlockedAchievements.length,
-      color: "text-purple-600"
-    },
-    {
-      icon: <Target className="w-5 h-5 text-green-600" />,
-      label: "Level",
-      value: user?.level || 1,
-      color: "text-green-600"
-    },
-    {
-      icon: <BookOpen className="w-5 h-5 text-blue-600" />,
-      label: "Comprehension",
-      value: `${comprehensionPercentage}%`,
-      color: "text-blue-600"
+  const getRoleIcon = (role: string) => {
+    switch (role) {
+      case 'admin': return <Crown className="w-4 h-4 text-yellow-500" />;
+      case 'moderator': return <Shield className="w-4 h-4 text-blue-500" />;
+      default: return <User className="w-4 h-4 text-slate-500" />;
     }
-  ];
+  };
+
+  const getRoleBadge = (role: string) => {
+    switch (role) {
+      case 'admin': 
+        return <Badge className="bg-yellow-100 text-yellow-800 border-yellow-300">Admin</Badge>;
+      case 'moderator':
+        return <Badge className="bg-blue-100 text-blue-800 border-blue-300">Moderator</Badge>;
+      default:
+        return <Badge variant="secondary">User</Badge>;
+    }
+  };
+
+  if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/30 to-teal-50/20 safe-area-pb md:pb-0">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
       <NavigationHeader />
       
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        {/* Profile Header */}
-        <Card className="mb-8 shimmer-card hover-lift">
-          <CardContent className="p-8 mobile-compact">
-            <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+      <main className="px-4 pt-20 pb-20 space-y-6">
+        {/* Page Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-emerald-900 mb-2">Profile Settings</h1>
+          <p className="text-emerald-700">Manage your account and preferences</p>
+        </div>
+
+        {/* User Information */}
+        <Card className="card-tranquil">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              {getRoleIcon(user.role)}
+              <span>Account Information</span>
+              {getRoleBadge(user.role)}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium text-slate-600">Display Name</label>
+                <p className="text-slate-900 font-medium">{user.displayName}</p>
+              </div>
               
-              {/* Avatar */}
-              <div className="relative">
-                <div className="w-24 h-24 bg-gradient-primary rounded-full flex items-center justify-center text-white text-2xl font-bold">
-                  {user?.displayName?.charAt(0) || 'U'}
-                </div>
-                <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-accent rounded-full flex items-center justify-center text-white text-sm font-bold">
-                  {user?.level || 1}
-                </div>
+              <div>
+                <label className="text-sm font-medium text-slate-600">Username</label>
+                <p className="text-slate-900 font-medium">@{user.username}</p>
               </div>
-
-              {/* Profile Info */}
-              <div className="flex-1 text-center md:text-left">
-                <h1 className="text-2xl font-bold text-gray-900 mb-2 mobile-text-visible">
-                  {user?.displayName || 'Student'}
-                </h1>
-                <p className="text-gray-600 mb-4 mobile-text-visible">@{user?.username || 'student'}</p>
-                
-                <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-4">
-                  <Badge variant="secondary">Level {user?.level || 1}</Badge>
-                  <Badge variant="outline">{comprehensionPercentage}% Comprehension</Badge>
-                  {userRank > 0 && (
-                    <Badge variant="outline">#{userRank} on Leaderboard</Badge>
-                  )}
-                </div>
-
-                {/* Level Progress */}
-                <div className="mb-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-gray-600">Level Progress</span>
-                    <span className="text-sm font-medium text-gray-900">
-                      {(user?.xp || 0) % 1000}/1000 XP
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
-                      className="bg-gradient-primary h-2 rounded-full transition-all duration-300" 
-                      style={{ width: `${levelProgress}%` }}
-                    ></div>
-                  </div>
-                </div>
-
-                <Button variant="outline" size="sm">
-                  <Settings className="w-4 h-4 mr-2" />
-                  Edit Profile
-                </Button>
+              
+              <div>
+                <label className="text-sm font-medium text-slate-600">Email</label>
+                <p className="text-slate-900 font-medium">{user.email}</p>
               </div>
-
-              {/* Comprehension Circle */}
-              <div className="flex flex-col items-center">
-                <ProgressCircle percentage={comprehensionPercentage} size={80} />
-                <p className="text-xs text-gray-600 mt-2 text-center">
-                  Quranic<br/>Comprehension
+              
+              <div>
+                <label className="text-sm font-medium text-slate-600">Member Since</label>
+                <p className="text-slate-900 font-medium">
+                  {new Date(user.createdAt || '').toLocaleDateString()}
                 </p>
               </div>
             </div>
-          </CardContent>
-        </Card>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-          {profileStats.map((stat, index) => (
-            <Card key={index} className="shimmer-card hover-lift">
-              <CardContent className="p-4 text-center mobile-compact">
-                <div className="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center mx-auto mb-2">
-                  {stat.icon}
+            {/* Learning Stats */}
+            <div className="border-t border-slate-200 pt-4 mt-6">
+              <h3 className="font-semibold text-slate-800 mb-3">Learning Progress</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <div className="flex items-center justify-center w-12 h-12 bg-emerald-100 rounded-lg mx-auto mb-2">
+                    <Crown className="w-6 h-6 text-emerald-600" />
+                  </div>
+                  <div className="text-lg font-bold text-slate-900">Level {user.level}</div>
+                  <div className="text-xs text-slate-600">Current Level</div>
                 </div>
-                <div className={`text-lg font-bold ${stat.color}`}>{stat.value}</div>
-                <div className="text-xs text-gray-600 mobile-text-visible">{stat.label}</div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Language Preferences */}
-        <Card className="mb-8 shimmer-card hover-lift">
-          <CardContent className="p-6 mobile-compact">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-              <Languages className="w-5 h-5 mr-2 text-primary" />
-              Language Preferences
-            </h2>
-            
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">
-                    Show Urdu Translations
-                  </p>
-                  <p className="text-xs text-gray-600">
-                    Display Urdu meanings alongside English for supported vocabulary
-                  </p>
+                
+                <div className="text-center">
+                  <div className="flex items-center justify-center w-12 h-12 bg-yellow-100 rounded-lg mx-auto mb-2">
+                    <Star className="w-6 h-6 text-yellow-600" />
+                  </div>
+                  <div className="text-lg font-bold text-slate-900">{user.xp}</div>
+                  <div className="text-xs text-slate-600">Total XP</div>
                 </div>
-                <Switch
-                  checked={showUrduTranslations}
-                  onCheckedChange={handleUrduToggle}
-                />
+                
+                <div className="text-center">
+                  <div className="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-lg mx-auto mb-2">
+                    <Calendar className="w-6 h-6 text-orange-600" />
+                  </div>
+                  <div className="text-lg font-bold text-slate-900">{user.streakDays}</div>
+                  <div className="text-xs text-slate-600">Day Streak</div>
+                </div>
+                
+                <div className="text-center">
+                  <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg mx-auto mb-2">
+                    <Award className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div className="text-lg font-bold text-slate-900">{user.comprehensionPercentage}%</div>
+                  <div className="text-xs text-slate-600">Comprehension</div>
+                </div>
               </div>
-              
-              {showUrduTranslations && (
-                <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                  <p className="text-xs text-blue-700">
-                    <strong>اردو ترجمہ فعال ہے</strong> - Urdu translations are now enabled for supported vocabulary words. 
-                    This feature helps Urdu-speaking learners better understand Quranic Arabic.
-                  </p>
-                </div>
-              )}
             </div>
           </CardContent>
         </Card>
 
-        {/* Recent Activity */}
-        <Card className="mb-8">
-          <CardContent className="p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Learning Journey</h2>
-            
-            <div className="space-y-4">
-              <div className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
-                <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Calendar className="w-5 h-5 text-primary" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">
-                    Joined QuranicFlow
-                  </p>
-                  <p className="text-xs text-gray-600">
-                    {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Recently'}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
-                <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
-                  <Clock className="w-5 h-5 text-accent" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">
-                    Last Active
-                  </p>
-                  <p className="text-xs text-gray-600">
-                    {user?.lastActiveDate ? new Date(user.lastActiveDate).toLocaleDateString() : 'Today'}
-                  </p>
+        {/* Admin Panel */}
+        {user.role === 'admin' && adminData && (
+          <Card className="card-tranquil">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Users className="w-5 h-5 text-blue-600" />
+                <span>User Management</span>
+                <Badge className="bg-blue-100 text-blue-800">Admin Only</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <p className="text-sm text-slate-600 mb-4">
+                  Total Users: {(adminData as any)?.users?.length || 0}
+                </p>
+                
+                <div className="space-y-2 max-h-48 overflow-y-auto">
+                  {(adminData as any)?.users?.map((adminUser: any) => (
+                    <div key={adminUser.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        {getRoleIcon(adminUser.role)}
+                        <div>
+                          <p className="font-medium text-slate-900">{adminUser.displayName}</p>
+                          <p className="text-sm text-slate-600">@{adminUser.username} • Level {adminUser.level}</p>
+                        </div>
+                      </div>
+                      {getRoleBadge(adminUser.role)}
+                    </div>
+                  ))}
                 </div>
               </div>
+            </CardContent>
+          </Card>
+        )}
 
-              {unlockedAchievements.length > 0 && (
-                <div className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
-                  <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                    <Trophy className="w-5 h-5 text-purple-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">
-                      Latest Achievement
-                    </p>
-                    <p className="text-xs text-gray-600">
-                      {unlockedAchievements[unlockedAchievements.length - 1]?.name}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Account Actions */}
+        <Card className="card-tranquil">
+          <CardHeader>
+            <CardTitle className="text-red-700">Danger Zone</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Alert>
+              <Trash2 className="h-4 w-4" />
+              <AlertDescription>
+                Deleting your account is permanent and cannot be undone. All your progress, achievements, and data will be lost.
+              </AlertDescription>
+            </Alert>
 
-        {/* Family Learning Section */}
-        <Card className="mb-8">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900 flex items-center space-x-2">
-                <Users className="w-5 h-5" />
-                <span>Family Learning</span>
-              </h2>
+            {!showDeleteConfirm ? (
               <Button 
-                variant="outline" 
-                size="sm"
-                onClick={() => window.location.href = '/family'}
+                variant="destructive" 
+                onClick={() => setShowDeleteConfirm(true)}
+                className="w-full md:w-auto"
               >
-                Manage Family
+                <Trash2 className="w-4 h-4 mr-2" />
+                Delete My Account
               </Button>
-            </div>
-            
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Users className="w-6 h-6 text-primary" />
+            ) : (
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-red-800">
+                  Are you absolutely sure? This action cannot be undone.
+                </p>
+                <div className="flex space-x-3">
+                  <Button 
+                    variant="destructive" 
+                    onClick={handleDeleteAccount}
+                    disabled={deleteLoading}
+                    className="flex-1 md:flex-none"
+                  >
+                    {deleteLoading ? "Deleting..." : "Yes, Delete Account"}
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setShowDeleteConfirm(false)}
+                    className="flex-1 md:flex-none"
+                  >
+                    Cancel
+                  </Button>
                 </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">
-                    Learn Arabic Together
-                  </p>
-                  <p className="text-xs text-gray-600 mt-1">
-                    Create or join a family group to track progress together, set group challenges, and motivate each other in your Quranic Arabic journey.
-                  </p>
-                </div>
-                <Button 
-                  size="sm"
-                  onClick={() => window.location.href = '/family'}
-                >
-                  Get Started
-                </Button>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Learning Preferences */}
-        <Card>
-          <CardContent className="p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Learning Preferences</h2>
-            
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-900">Daily Goal</p>
-                  <p className="text-xs text-gray-600">Learn 10 new words per day</p>
-                </div>
-                <Button variant="outline" size="sm">Edit</Button>
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-900">Difficulty Level</p>
-                  <p className="text-xs text-gray-600">Adaptive based on performance</p>
-                </div>
-                <Button variant="outline" size="sm">Edit</Button>
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-900">Notifications</p>
-                  <p className="text-xs text-gray-600">Daily reminders enabled</p>
-                </div>
-                <Button variant="outline" size="sm">Edit</Button>
-              </div>
-            </div>
+            )}
           </CardContent>
         </Card>
       </main>
 
-      <BottomNavigation currentPage="profile" />
+      <BottomNavigation />
     </div>
   );
 }

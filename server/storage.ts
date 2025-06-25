@@ -24,6 +24,8 @@ export interface IStorage {
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, updates: Partial<User>): Promise<User | undefined>;
+  deleteUser(id: number): Promise<boolean>;
+  getAllUsers(): Promise<User[]>;
   
   // Word operations
   getWords(limit?: number, difficulty?: number): Promise<Word[]>;
@@ -121,14 +123,35 @@ export class MemStorage implements IStorage {
       email: "demo@quranicflow.com", 
       password: "demo123",
       displayName: "Demo Student",
+      role: "user",
       level: 2,
       xp: 450,
       streakDays: 3,
       lastActiveDate: new Date(),
       comprehensionPercentage: 73,
+      isActive: true,
       createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // 7 days ago
     };
+    
+    // Create an admin user
+    const adminUser: User = {
+      id: 2,
+      username: "admin",
+      email: "admin@quranicflow.com",
+      password: "admin123",
+      displayName: "Admin User",
+      role: "admin",
+      level: 5,
+      xp: 2500,
+      streakDays: 30,
+      lastActiveDate: new Date(),
+      comprehensionPercentage: 95,
+      isActive: true,
+      createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) // 30 days ago
+    };
     this.users.set(1, demoUser);
+    this.users.set(2, adminUser);
+    this.currentUserId = 3; // Next user will have ID 3
 
     // Initialize comprehensive word progress for demo user (words due for review)
     const sampleProgress = [
@@ -274,6 +297,23 @@ export class MemStorage implements IStorage {
     const updatedUser = { ...user, ...updates };
     this.users.set(id, updatedUser);
     return updatedUser;
+  }
+
+  async deleteUser(id: number): Promise<boolean> {
+    // Don't allow deletion of admin accounts (ID 1 and 2)
+    if (id <= 2) return false;
+    
+    // Mark user as inactive instead of deleting to preserve data integrity
+    const user = this.users.get(id);
+    if (!user) return false;
+    
+    const deactivatedUser = { ...user, isActive: false };
+    this.users.set(id, deactivatedUser);
+    return true;
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return Array.from(this.users.values()).filter(user => user.isActive);
   }
 
   // Word operations

@@ -17,6 +17,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // Setup authentication system
   setupAuth(app);
+
+  // User management routes (admin only)
+  app.get("/api/admin/users", async (req, res) => {
+    try {
+      // Check if user is admin
+      if (!req.isAuthenticated() || (req.user as any)?.role !== 'admin') {
+        return res.status(403).json({ message: "Admin access required" });
+      }
+      
+      const users = await storage.getAllUsers();
+      const safeUsers = users.map(user => ({ ...user, password: undefined }));
+      res.json({ users: safeUsers });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get users", error: error.message });
+    }
+  });
+
+  app.delete("/api/user/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const currentUser = req.user as any;
+      
+      // Users can delete their own account, or admins can delete any account
+      if (!req.isAuthenticated() || (currentUser.id !== userId && currentUser.role !== 'admin')) {
+        return res.status(403).json({ message: "Permission denied" });
+      }
+      
+      const success = await storage.deleteUser(userId);
+      if (!success) {
+        return res.status(400).json({ message: "Cannot delete this account" });
+      }
+      
+      // If user deleted their own account, logout
+      if (currentUser.id === userId) {
+        req.logout((err) => {
+          if (err) console.error('Logout error:', err);
+        });
+      }
+      
+      res.json({ message: "Account deleted successfully" });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to delete account", error: error.message });
+    }
+  });
   
   // Legacy authentication routes (keeping for compatibility)
   app.post("/api/auth/register", async (req, res) => {

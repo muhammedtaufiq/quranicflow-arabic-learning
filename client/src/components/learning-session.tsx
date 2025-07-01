@@ -271,6 +271,33 @@ export function LearningSession({ words, type, onComplete, userId }: LearningSes
                 </span>
               )}
             </motion.div>
+            
+            {/* Quranic Verse Examples for Sentence Structure - Show for daily challenge and chapter learning */}
+            {(type === 'daily' || type === 'chapters') && currentQuestion.word.examples && currentQuestion.word.examples.length > 0 && (
+              <motion.div
+                className="mt-6 p-4 bg-white/10 rounded-lg backdrop-blur-sm"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <div className="text-center">
+                  <h4 className="text-white/90 text-sm font-medium mb-3">📖 Quranic Usage Example</h4>
+                  <div 
+                    className="text-white text-lg font-medium mb-2"
+                    style={{ 
+                      fontFamily: "'Amiri', 'Arabic Typesetting', 'Traditional Arabic', 'Times New Roman', serif",
+                      lineHeight: "1.8"
+                    }}
+                    dir="rtl"
+                  >
+                    {currentQuestion.word.examples[0]}
+                  </div>
+                  <p className="text-white/70 text-xs">
+                    See how <span className="text-white font-medium">{currentQuestion.word.arabic}</span> is used in context
+                  </p>
+                </div>
+              </motion.div>
+            )}
           </div>
 
           {/* Answer Options */}

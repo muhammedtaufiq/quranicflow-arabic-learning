@@ -68,41 +68,41 @@ export default function Learn() {
 
 
 
-  const { data: grammarData, refetch: refetchGrammar } = useQuery({
-    queryKey: [`/api/words`, currentPhaseId, 'grammar'], // Phase-specific grammar vocabulary
-    queryFn: () => fetch(`/api/words?limit=12&difficulty=1&mode=grammar&phase=${currentPhaseId}`, {
+  const { data: enhancedDailyData, refetch: refetchEnhancedDaily } = useQuery({
+    queryKey: [`/api/user/${user?.id}/enhanced-daily-challenge`], // Enhanced daily with sentence structure
+    queryFn: () => fetch(`/api/user/${user?.id}/enhanced-daily-challenge`, {
       cache: 'no-cache',
       headers: { 'Cache-Control': 'no-cache' }
     }).then(res => res.json()),
-    enabled: Boolean((selectedType === 'grammar' || typeFromUrl === 'grammar') && currentPhaseId),
+    enabled: Boolean((selectedType === 'daily' || typeFromUrl === 'daily') && user?.id),
     staleTime: 0
   });
 
-  // Trigger grammar vocabulary refresh when phase changes
+  // Trigger enhanced daily refresh when needed
   useEffect(() => {
-    if (currentPhaseId && (selectedType === 'grammar' || typeFromUrl === 'grammar')) {
-      refetchGrammar();
+    if (user?.id && (selectedType === 'daily' || typeFromUrl === 'daily')) {
+      refetchEnhancedDaily();
     }
-  }, [currentPhaseId, refetchGrammar, selectedType, typeFromUrl]);
+  }, [user?.id, refetchEnhancedDaily, selectedType, typeFromUrl]);
 
   const learningTypes = [
     {
       id: 'daily',
       title: '🎯 Daily Word Challenge',
-      description: 'Automated daily learning path - no chapter selection needed',
+      description: 'Comprehensive daily learning: vocabulary + sentence structure with Quranic verse examples',
       icon: <Trophy className="w-6 h-6 text-white" />,
-      badge: 'Daily Challenge',
+      badge: 'Complete Learning',
       badgeColor: 'bg-orange-500 text-white font-bold shadow-lg',
-      xpReward: 60,
-      duration: '~12 minutes',
+      xpReward: 75,
+      duration: '~15 minutes',
       recommended: true
     },
     {
       id: 'words',
-      title: '🧠 Word Discovery',
-      description: 'Learn new high-frequency Quranic words',
+      title: '🧠 Focused Vocabulary',
+      description: 'Pure vocabulary practice - focus only on word meanings without sentence structure',
       icon: <Brain className="w-6 h-6 text-white" />,
-      badge: 'New Words',
+      badge: 'Words Only',
       badgeColor: 'bg-green-500 text-white font-bold shadow-lg',
       xpReward: 50,
       duration: '~10 minutes'
@@ -114,16 +114,6 @@ export default function Learn() {
       icon: <BookOpen className="w-6 h-6 text-white" />,
       badge: 'Chapters',
       badgeColor: 'bg-blue-500 text-white font-bold shadow-lg',
-      xpReward: 75,
-      duration: '~15 minutes'
-    },
-    {
-      id: 'grammar',
-      title: '⚡ Sentence Structure',
-      description: 'Learn Arabic word order and grammar patterns from Quranic examples',
-      icon: <Trophy className="w-6 h-6 text-white" />,
-      badge: 'Grammar',
-      badgeColor: 'bg-purple-500 text-white font-bold shadow-lg',
       xpReward: 75,
       duration: '~15 minutes'
     },
@@ -275,18 +265,12 @@ export default function Learn() {
       words = (reviewData as any)?.words;
       isDataLoading = !reviewData && (selectedType === 'review' || typeFromUrl === 'review');
     } else if (selectedType === 'daily') {
-      words = (dailyChallengeData as any)?.words;
-      isDataLoading = !dailyChallengeData && (selectedType === 'daily' || typeFromUrl === 'daily');
+      words = (enhancedDailyData as any)?.words;
+      isDataLoading = !enhancedDailyData && (selectedType === 'daily' || typeFromUrl === 'daily');
     } else if (selectedType === 'chapters') {
       // For chapters, use words from specific chapter
       words = (chapterWordsData as any)?.words;
       isDataLoading = !chapterWordsData && selectedType === 'chapters' && !!chapterFromUrl;
-      
-
-    } else if (selectedType === 'grammar') {
-      // For grammar, use grammar pattern words
-      words = (grammarData as any)?.words;
-      isDataLoading = !grammarData && (selectedType === 'grammar' || typeFromUrl === 'grammar');
     } else {
       words = (wordsData as any)?.words;
       isDataLoading = !wordsData && (selectedType === 'words' || typeFromUrl === 'words');
@@ -341,7 +325,7 @@ export default function Learn() {
             </Button>
             
             {/* Phase Indicator for Learning Modes */}
-            {(selectedType === 'words' || selectedType === 'grammar' || selectedType === 'daily' || selectedType === 'review') && currentPhaseId && (
+            {(selectedType === 'words' || selectedType === 'daily' || selectedType === 'review') && currentPhaseId && (
               <Card className="bg-gradient-to-r from-teal-50 to-emerald-50 border-teal-200 mb-4">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
@@ -352,14 +336,9 @@ export default function Learn() {
                       <span className="text-sm font-medium text-teal-800">
                         {(userPhaseData as any)?.currentPhase?.name || `Phase ${currentPhaseId}`}
                       </span>
-                      {selectedType === 'grammar' && (
-                        <Badge className="bg-purple-100 text-purple-700 text-xs">
-                          Grammar Structure
-                        </Badge>
-                      )}
                       {selectedType === 'daily' && (
                         <Badge className="bg-orange-100 text-orange-700 text-xs">
-                          Daily Challenge
+                          Complete Learning
                         </Badge>
                       )}
                       {selectedType === 'review' && (
@@ -369,10 +348,8 @@ export default function Learn() {
                       )}
                     </div>
                     <div className="text-xs text-teal-600">
-                      {selectedType === 'grammar' 
-                        ? 'Sentence patterns and structural vocabulary'
-                        : selectedType === 'daily'
-                        ? '7 words from divine, worship, and essential categories'
+                      {selectedType === 'daily'
+                        ? 'Vocabulary + sentence structure with Quranic verse examples'
                         : selectedType === 'review'
                         ? 'Previously learned words due for review'
                         : (userPhaseData as any)?.currentPhase?.description || 'Loading vocabulary set...'
@@ -388,7 +365,7 @@ export default function Learn() {
             words={words || []}
             type={selectedType}
             onComplete={handleBackToSelection}
-            userId={user?.id}
+            userId={user?.id || 0}
           />
         </main>
 

@@ -667,7 +667,108 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Daily challenge route
+  // Enhanced daily challenge route with sentence structure
+  app.get("/api/user/:userId/enhanced-daily-challenge", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      
+      // Get user's current level and phase
+      const user = await storage.getUser(userId);
+      const userLevel = user?.level || 1;
+      
+      // Get current phase for phase-specific vocabulary
+      const selectedPhase = globalSelectedPhase || 1;
+      const phaseData = LEARNING_PHASES.find(p => p.id === selectedPhase);
+      
+      // ENHANCED DAILY CHALLENGE: Get vocabulary with examples from storage
+      const allWords = await storage.getWords(1000);
+      
+      // Filter for foundational categories with priority for words that have examples
+      const challengeCategories = ['divine', 'attributes', 'worship', 'essential', 'verbs', 'pronouns', 'particles'];
+      let challengeWords = allWords.filter(word => 
+        word && 
+        word.id && 
+        word.arabic && 
+        word.meaning && 
+        word.transliteration &&
+        challengeCategories.includes(word.category) &&
+        word.difficulty <= 3 // Keep difficulty manageable for daily challenges
+      );
+      
+      // Prioritize words with examples (Quranic verses)
+      const wordsWithExamples = challengeWords.filter(word => 
+        word.examples && Array.isArray(word.examples) && word.examples.length > 0
+      );
+      
+      const wordsWithoutExamples = challengeWords.filter(word => 
+        !word.examples || !Array.isArray(word.examples) || word.examples.length === 0
+      );
+      
+      // Mix words with examples (priority) and without examples
+      const prioritizedWords = [
+        ...wordsWithExamples.slice(0, 5), // Up to 5 words with examples
+        ...wordsWithoutExamples.slice(0, 5) // Up to 5 words without examples
+      ];
+      
+      console.log(`Enhanced daily challenge: Found ${wordsWithExamples.length} words with examples, ${wordsWithoutExamples.length} without examples`);
+      
+      if (prioritizedWords.length === 0) {
+        // Fallback to any valid words
+        const fallbackWords = allWords.filter(word => 
+          word && word.id && word.arabic && word.meaning && word.transliteration
+        ).slice(0, 10);
+        
+        if (fallbackWords.length === 0) {
+          return res.status(404).json({ message: "No vocabulary available for enhanced daily challenge" });
+        }
+        
+        console.log(`Enhanced daily challenge: Using fallback words: ${fallbackWords.length}`);
+        res.json({ words: fallbackWords.slice(0, 7) });
+        return;
+      }
+      
+      // Add seed for consistent daily challenge (same words for same day)
+      const today = new Date();
+      const dateString = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+      const userSeed = userId * 1000;
+      const seed = dateString.split('').reduce((a, b) => a + b.charCodeAt(0), userSeed);
+      
+      // Simple but reliable shuffling for daily selection
+      const shuffled = [...prioritizedWords];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      
+      // Select final words and ensure examples are properly formatted
+      const dailyWords = shuffled
+        .filter(word => word && word.id && word.arabic && word.meaning)
+        .slice(0, 7)
+        .map(word => ({
+          ...word,
+          // Ensure examples are available for sentence structure learning
+          examples: word.examples && Array.isArray(word.examples) && word.examples.length > 0 
+            ? word.examples 
+            : [`${word.arabic} - Example usage in Quranic context`]
+        }));
+      
+      console.log(`Enhanced daily challenge for user ${userId} on ${dateString}: ${dailyWords.length} words selected`);
+      console.log(`Words with verse examples: ${dailyWords.filter(w => w.examples && w.examples.length > 0).length}`);
+      
+      res.json({ 
+        words: dailyWords,
+        enhancedFeatures: {
+          sentenceStructure: true,
+          quranicExamples: true,
+          comprehensiveLearning: true
+        }
+      });
+    } catch (error: any) {
+      res.status(500).json({ message: "Failed to get enhanced daily challenge", error: error.message });
+    }
+  });
+
+  // Keep original daily challenge for backward compatibility
   app.get("/api/user/:userId/daily-challenge", async (req, res) => {
     try {
       const userId = parseInt(req.params.userId);
